@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NASCO Salmon Growth — Sample Progress</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="page-header">
+    <div class="page-header-inner">
+      <div>
+        <h1>NASCO Salmon Growth</h1>
+        <p class="subtitle">Scale-sample progress by river · project 132668</p>
+      </div>
+      <div class="updated" id="updated">Loading…</div>
+    </div>
+  </header>
+
+  <main>
+    <section class="controls" aria-label="Filters">
+      <div class="control-group" role="group" aria-label="Age class">
+        <span class="control-label">Age class</span>
+        <div class="segmented" id="swToggle">
+          <button type="button" data-sw="combined" class="active" aria-pressed="true">Combined</button>
+          <button type="button" data-sw="sw1" aria-pressed="false">1SW</button>
+          <button type="button" data-sw="sw2" aria-pressed="false">2SW</button>
+        </div>
+      </div>
+      <div class="control-group" role="group" aria-label="Year range">
+        <span class="control-label">Years</span>
+        <div class="segmented" id="yearToggle">
+          <button type="button" data-range="10" class="active" aria-pressed="true">Last 10 years</button>
+          <button type="button" data-range="5" aria-pressed="false">Last 5 years</button>
+          <button type="button" data-range="all" aria-pressed="false">All years</button>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="riverSort">Sort rivers by</label>
+        <select id="riverSort">
+          <option value="name">Name (A–Z)</option>
+          <option value="pctAsc">% complete (lowest first)</option>
+          <option value="pctDesc">% complete (highest first)</option>
+          <option value="requiredDesc">Required (most first)</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="stat-tiles" aria-label="Totals" id="statTiles">
+      <div class="stat-tile">
+        <span class="stat-label">Candidate samples</span>
+        <span class="stat-value" id="statRequired">–</span>
+      </div>
+      <div class="stat-tile">
+        <span class="stat-label">Scales imaged</span>
+        <span class="stat-value" id="statAnalyzed">–</span>
+      </div>
+      <div class="stat-tile stat-tile-accent">
+        <span class="stat-label">% imaged</span>
+        <span class="stat-value" id="statPct">–</span>
+      </div>
+      <div class="stat-tile">
+        <span class="stat-label">Rivers</span>
+        <span class="stat-value" id="statRivers">–</span>
+      </div>
+    </section>
+
+    <section class="panel" aria-label="Progress by year">
+      <h2>Samples by year</h2>
+      <div class="chart-wrap">
+        <canvas id="yearChart" height="220" role="img" aria-label="Bar chart of required versus imaged samples per year"></canvas>
+      </div>
+    </section>
+
+    <section class="panel" aria-label="Progress by river">
+      <h2>Progress by river</h2>
+      <div class="table-wrap">
+        <table id="riverTable">
+          <thead>
+            <tr>
+              <th scope="col">River</th>
+              <th scope="col" class="num">Required</th>
+              <th scope="col" class="num">Imaged</th>
+              <th scope="col" class="num">%</th>
+              <th scope="col" class="bar-col">Progress</th>
+            </tr>
+          </thead>
+          <tbody id="riverTableBody">
+            <tr><td colspan="5" class="loading-row">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <p class="footnote">
+      <strong>Required</strong> = fish selected as scale-sample candidates for that river/year
+      (up to 15 per river per year for 1SW, per the NASCO sampling design).
+      <strong>Imaged</strong> = candidates with a scale image on file (<code>Bilde_skjell</code>).
+      Many older images predate this project (imaging under NASCO project 132668 begins
+      October 2026); this view tracks total coverage, not only new NASCO imaging.
+      Data refreshes daily from the project's source spreadsheet.
+    </p>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

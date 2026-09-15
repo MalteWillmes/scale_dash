@@ -1,0 +1,6820 @@
+{
+  "generatedAt": "2026-09-15T20:22:39Z",
+  "years": [
+    1925,
+    1926,
+    1932,
+    1935,
+    1936,
+    1937,
+    1938,
+    1939,
+    1940,
+    1941,
+    1942,
+    1943,
+    1944,
+    1946,
+    1947,
+    1948,
+    1949,
+    1952,
+    1955,
+    1959,
+    1960,
+    1961,
+    1962,
+    1963,
+    1964,
+    1965,
+    1966,
+    1967,
+    1968,
+    1969,
+    1970,
+    1971,
+    1972,
+    1973,
+    1974,
+    1975,
+    1976,
+    1977,
+    1978,
+    1979,
+    1980,
+    1981,
+    1982,
+    1983,
+    1984,
+    1985,
+    1986,
+    1987,
+    1988,
+    1989,
+    1990,
+    1991,
+    1992,
+    1993,
+    1994,
+    1995,
+    1996,
+    1997,
+    1998,
+    1999,
+    2000,
+    2001,
+    2002,
+    2003,
+    2004,
+    2005,
+    2006,
+    2007,
+    2008,
+    2009,
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "rivers": [
+    {
+      "name": "Buksnesvassdraget (Elv fra Teinvatnet)",
+      "watershedId": "178.7Z",
+      "byYear": {
+        "2011": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2012": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2013": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 11,
+          "sw2Analyzed": 0
+        },
+        "2014": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2015": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2016": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2017": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2018": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2019": {
+          "sw1Required": 13,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2020": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2021": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 13,
+          "sw2Analyzed": 0
+        },
+        "2022": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2023": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 14,
+          "sw2Analyzed": 0
+        },
+        "2024": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2025": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 223,
+        "sw1Analyzed": 0,
+        "sw2Required": 218,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Divielva",
+      "watershedId": "196.Z",
+      "byYear": {
+        "2013": {
+          "sw1Required": 1,
+          "sw1Analyzed": 0,
+          "sw2Required": 1,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 1,
+        "sw1Analyzed": 0,
+        "sw2Required": 1,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Eira",
+      "watershedId": "104.Z",
+      "byYear": {
+        "1925": {
+          "sw1Required": 1,
+          "sw1Analyzed": 1,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "1987": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1988": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 7,
+          "sw2Analyzed": 0
+        },
+        "1989": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1990": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1991": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 3,
+          "sw2Analyzed": 0
+        },
+        "1992": {
+          "sw1Required": 7,
+          "sw1Analyzed": 0,
+          "sw2Required": 8,
+          "sw2Analyzed": 0
+        },
+        "1993": {
+          "sw1Required": 2,
+          "sw1Analyzed": 0,
+          "sw2Required": 1,
+          "sw2Analyzed": 0
+        },
+        "1994": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 1,
+          "sw2Analyzed": 0
+        },
+        "1995": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1996": {
+          "sw1Required": 3,
+          "sw1Analyzed": 0,
+          "sw2Required": 13,
+          "sw2Analyzed": 0
+        },
+        "1997": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 1,
+          "sw2Analyzed": 0
+        },
+        "1998": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 3,
+          "sw2Analyzed": 0
+        },
+        "1999": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 14,
+          "sw2Analyzed": 0
+        },
+        "2000": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 11,
+          "sw2Analyzed": 0
+        },
+        "2001": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2002": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2003": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2004": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2005": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2006": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2007": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2008": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2009": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2010": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2011": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2012": {
+          "sw1Required": 10,
+          "sw1Analyzed": 10,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2013": {
+          "sw1Required": 10,
+          "sw1Analyzed": 10,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2014": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2015": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2016": {
+          "sw1Required": 4,
+          "sw1Analyzed": 4,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2017": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2018": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2019": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2020": {
+          "sw1Required": 4,
+          "sw1Analyzed": 0,
+          "sw2Required": 14,
+          "sw2Analyzed": 0
+        },
+        "2021": {
+          "sw1Required": 11,
+          "sw1Analyzed": 0,
+          "sw2Required": 3,
+          "sw2Analyzed": 0
+        },
+        "2022": {
+          "sw1Required": 7,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2023": {
+          "sw1Required": 1,
+          "sw1Analyzed": 0,
+          "sw2Required": 3,
+          "sw2Analyzed": 0
+        },
+        "2024": {
+          "sw1Required": 4,
+          "sw1Analyzed": 0,
+          "sw2Required": 2,
+          "sw2Analyzed": 0
+        },
+        "2025": {
+          "sw1Required": 4,
+          "sw1Analyzed": 0,
+          "sw2Required": 1,
+          "sw2Analyzed": 0
+        },
+        "1926": {
+          "sw1Required": 0,
+          "sw1Analyzed": 0,
+          "sw2Required": 2,
+          "sw2Analyzed": 2
+        }
+      },
+      "totals": {
+        "sw1Required": 473,
+        "sw1Analyzed": 115,
+        "sw2Required": 462,
+        "sw2Analyzed": 152
+      }
+    },
+    {
+      "name": "Enningdalselva",
+      "watershedId": "001.1Z",
+      "byYear": {
+        "1990": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 6,
+          "sw2Analyzed": 0
+        },
+        "1996": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1997": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1998": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1999": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2000": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2001": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2002": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2004": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2005": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2006": {
+          "sw1Required": 9,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2007": {
+          "sw1Required": 10,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2008": {
+          "sw1Required": 6,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2009": {
+          "sw1Required": 5,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2010": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2011": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2012": {
+          "sw1Required": 12,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2013": {
+          "sw1Required": 8,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2014": {
+          "sw1Required": 3,
+          "sw1Analyzed": 0,
+          "sw2Required": 6,
+          "sw2Analyzed": 0
+        },
+        "2015": {
+          "sw1Required": 12,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2016": {
+          "sw1Required": 5,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2017": {
+          "sw1Required": 4,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2018": {
+          "sw1Required": 1,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "2020": {
+          "sw1Required": 2,
+          "sw1Analyzed": 0,
+          "sw2Required": 10,
+          "sw2Analyzed": 0
+        },
+        "2022": {
+          "sw1Required": 3,
+          "sw1Analyzed": 0,
+          "sw2Required": 2,
+          "sw2Analyzed": 0
+        },
+        "2024": {
+          "sw1Required": 2,
+          "sw1Analyzed": 0,
+          "sw2Required": 12,
+          "sw2Analyzed": 0
+        },
+        "2025": {
+          "sw1Required": 1,
+          "sw1Analyzed": 0,
+          "sw2Required": 1,
+          "sw2Analyzed": 0
+        },
+        "2019": {
+          "sw1Required": 0,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2021": {
+          "sw1Required": 0,
+          "sw1Analyzed": 0,
+          "sw2Required": 10,
+          "sw2Analyzed": 0
+        },
+        "2023": {
+          "sw1Required": 0,
+          "sw1Analyzed": 0,
+          "sw2Required": 1,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 263,
+        "sw1Analyzed": 0,
+        "sw2Required": 372,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Espedalselva",
+      "watershedId": "030.4Z",
+      "byYear": {
+        "1998": {
+          "sw1Required": 3,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "1999": {
+          "sw1Required": 12,
+          "sw1Analyzed": 0,
+          "sw2Required": 6,
+          "sw2Analyzed": 0
+        },
+        "2000": {
+          "sw1Required": 11,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "2001": {
+          "sw1Required": 10,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2025": {
+          "sw1Required": 0,
+          "sw1Analyzed": 0,
+          "sw2Required": 1,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 36,
+        "sw1Analyzed": 0,
+        "sw2Required": 40,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Etneelva",
+      "watershedId": "041.Z",
+      "byYear": {
+        "1989": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1990": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 14,
+          "sw2Analyzed": 0
+        },
+        "1991": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1992": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1993": {
+          "sw1Required": 14,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1994": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 5,
+          "sw2Analyzed": 0
+        },
+        "1997": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 0,
+          "sw2Analyzed": 0
+        },
+        "1998": {
+          "sw1Required": 13,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1999": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 8,
+          "sw2Analyzed": 0
+        },
+        "2000": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2001": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2002": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 7,
+          "sw2Analyzed": 0
+        },
+        "2004": {
+          "sw1Required": 7,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2005": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 12,
+          "sw2Analyzed": 0
+        },
+        "2006": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2007": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2008": {
+          "sw1Required": 3,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2009": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 13,
+          "sw2Analyzed": 0
+        },
+        "2010": {
+          "sw1Required": 5,
+          "sw1Analyzed": 0,
+          "sw2Required": 13,
+          "sw2Analyzed": 0
+        },
+        "2011": {
+          "sw1Required": 2,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2012": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2017": {
+          "sw1Required": 0,
+          "sw1Analyzed": 0,
+          "sw2Required": 1,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 269,
+        "sw1Analyzed": 0,
+        "sw2Required": 268,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Etneelva/Sørelva",
+      "watershedId": "041.Z",
+      "byYear": {
+        "1995": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 11,
+          "sw2Analyzed": 0
+        },
+        "1996": {
+          "sw1Required": 7,
+          "sw1Analyzed": 0,
+          "sw2Required": 8,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 22,
+        "sw1Analyzed": 0,
+        "sw2Required": 19,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Figgjo",
+      "watershedId": "028.Z",
+      "byYear": {
+        "1989": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1990": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1991": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1992": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1993": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1994": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1995": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1996": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2007": {
+          "sw1Required": 8,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2009": {
+          "sw1Required": 1,
+          "sw1Analyzed": 0,
+          "sw2Required": 0,
+          "sw2Analyzed": 0
+        },
+        "2012": {
+          "sw1Required": 11,
+          "sw1Analyzed": 0,
+          "sw2Required": 14,
+          "sw2Analyzed": 0
+        },
+        "2013": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2014": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2015": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2016": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2017": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2018": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2019": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2020": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2021": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 13,
+          "sw2Analyzed": 0
+        },
+        "2022": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2023": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2024": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2025": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 14,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 335,
+        "sw1Analyzed": 0,
+        "sw2Required": 341,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Gaula i Sunnfjord (Gaularvassdraget)",
+      "watershedId": "083.Z",
+      "byYear": {
+        "1989": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1990": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1991": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1992": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1993": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1994": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1995": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1996": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1997": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1998": {
+          "sw1Required": 2,
+          "sw1Analyzed": 0,
+          "sw2Required": 11,
+          "sw2Analyzed": 0
+        },
+        "1999": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2000": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2001": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2002": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2004": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2005": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2006": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2007": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2008": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2009": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2010": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2011": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2012": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2013": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2014": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2015": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2016": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2017": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2018": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2019": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2020": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2021": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2022": {
+          "sw1Required": 10,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2023": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2024": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2025": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 522,
+        "sw1Analyzed": 0,
+        "sw2Required": 536,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Gloppenelva (Breimsvassdraget) i Gloppen",
+      "watershedId": "087.Z",
+      "byYear": {
+        "1989": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 14,
+          "sw2Analyzed": 0
+        },
+        "1990": {
+          "sw1Required": 7,
+          "sw1Analyzed": 0,
+          "sw2Required": 8,
+          "sw2Analyzed": 0
+        },
+        "1991": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1992": {
+          "sw1Required": 8,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1993": {
+          "sw1Required": 2,
+          "sw1Analyzed": 0,
+          "sw2Required": 2,
+          "sw2Analyzed": 0
+        },
+        "1994": {
+          "sw1Required": 7,
+          "sw1Analyzed": 0,
+          "sw2Required": 6,
+          "sw2Analyzed": 0
+        },
+        "1995": {
+          "sw1Required": 13,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1997": {
+          "sw1Required": 3,
+          "sw1Analyzed": 0,
+          "sw2Required": 7,
+          "sw2Analyzed": 0
+        },
+        "2000": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2001": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1996": {
+          "sw1Required": 0,
+          "sw1Analyzed": 0,
+          "sw2Required": 4,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 100,
+        "sw1Analyzed": 0,
+        "sw2Required": 116,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Gårdselvvassdraget (Gårdselva)",
+      "watershedId": "178.6Z",
+      "byYear": {
+        "1990": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 6,
+          "sw2Analyzed": 0
+        },
+        "1991": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 13,
+          "sw2Analyzed": 0
+        },
+        "1992": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1993": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1994": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 4,
+          "sw2Analyzed": 0
+        },
+        "1995": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 7,
+          "sw2Analyzed": 0
+        },
+        "1996": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 0,
+          "sw2Analyzed": 0
+        },
+        "1997": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1998": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 3,
+          "sw2Analyzed": 0
+        },
+        "2000": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2001": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 8,
+          "sw2Analyzed": 0
+        },
+        "2004": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 0,
+          "sw2Analyzed": 0
+        },
+        "2005": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 10,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 195,
+        "sw1Analyzed": 0,
+        "sw2Required": 111,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Kongsfjordelva",
+      "watershedId": "236.Z",
+      "byYear": {
+        "1990": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1991": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1992": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1993": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 10,
+          "sw2Analyzed": 0
+        },
+        "1997": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1998": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1999": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 4,
+          "sw2Analyzed": 0
+        },
+        "2000": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2001": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2003": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 5,
+          "sw2Analyzed": 0
+        },
+        "2004": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2009": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2011": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2012": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2013": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2014": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2015": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2016": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2017": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2018": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2019": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2020": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2021": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2022": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2023": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2024": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 12,
+          "sw2Analyzed": 0
+        },
+        "2025": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 5,
+          "sw2Analyzed": 0
+        },
+        "2026": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 420,
+        "sw1Analyzed": 0,
+        "sw2Required": 381,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Kvænangselva",
+      "watershedId": "209.Z",
+      "byYear": {
+        "1990": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 7,
+          "sw2Analyzed": 0
+        },
+        "1991": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 0,
+          "sw2Analyzed": 0
+        },
+        "1992": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 11,
+          "sw2Analyzed": 0
+        },
+        "1993": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 1,
+          "sw2Analyzed": 0
+        },
+        "1995": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 7,
+          "sw2Analyzed": 0
+        },
+        "1996": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "2005": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "2006": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2007": {
+          "sw1Required": 11,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2010": {
+          "sw1Required": 2,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2011": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 14,
+          "sw2Analyzed": 0
+        },
+        "2012": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2013": {
+          "sw1Required": 11,
+          "sw1Analyzed": 0,
+          "sw2Required": 4,
+          "sw2Analyzed": 0
+        },
+        "2014": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 4,
+          "sw2Analyzed": 0
+        },
+        "2015": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 8,
+          "sw2Analyzed": 0
+        },
+        "2016": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2017": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "2018": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2019": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 12,
+          "sw2Analyzed": 0
+        },
+        "2020": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2021": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 7,
+          "sw2Analyzed": 0
+        },
+        "2022": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 11,
+          "sw2Analyzed": 0
+        },
+        "2023": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2024": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2025": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 7,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 354,
+        "sw1Analyzed": 0,
+        "sw2Required": 255,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Laukhellevassdraget (Lakselva fra Trollbuvatnet)",
+      "watershedId": "194.Z",
+      "byYear": {
+        "1989": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1990": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1991": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1992": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1993": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1995": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 5,
+          "sw2Analyzed": 0
+        },
+        "1996": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 6,
+          "sw2Analyzed": 0
+        },
+        "1997": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 10,
+          "sw2Analyzed": 0
+        },
+        "1998": {
+          "sw1Required": 13,
+          "sw1Analyzed": 0,
+          "sw2Required": 4,
+          "sw2Analyzed": 0
+        },
+        "1999": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 4,
+          "sw2Analyzed": 0
+        },
+        "2000": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2001": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 12,
+          "sw2Analyzed": 0
+        },
+        "2002": {
+          "sw1Required": 9,
+          "sw1Analyzed": 0,
+          "sw2Required": 8,
+          "sw2Analyzed": 0
+        },
+        "2003": {
+          "sw1Required": 11,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "2004": {
+          "sw1Required": 10,
+          "sw1Analyzed": 0,
+          "sw2Required": 6,
+          "sw2Analyzed": 0
+        },
+        "2005": {
+          "sw1Required": 10,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "2006": {
+          "sw1Required": 9,
+          "sw1Analyzed": 0,
+          "sw2Required": 2,
+          "sw2Analyzed": 0
+        },
+        "2008": {
+          "sw1Required": 14,
+          "sw1Analyzed": 0,
+          "sw2Required": 6,
+          "sw2Analyzed": 0
+        },
+        "2010": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 13,
+          "sw2Analyzed": 0
+        },
+        "2012": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2013": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 14,
+          "sw2Analyzed": 0
+        },
+        "2015": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 13,
+          "sw2Analyzed": 0
+        },
+        "2016": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2017": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2019": {
+          "sw1Required": 8,
+          "sw1Analyzed": 0,
+          "sw2Required": 6,
+          "sw2Analyzed": 0
+        },
+        "2020": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 13,
+          "sw2Analyzed": 0
+        },
+        "2021": {
+          "sw1Required": 3,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2022": {
+          "sw1Required": 9,
+          "sw1Analyzed": 0,
+          "sw2Required": 2,
+          "sw2Analyzed": 0
+        },
+        "2023": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 3,
+          "sw2Analyzed": 0
+        },
+        "2024": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 2,
+          "sw2Analyzed": 0
+        },
+        "2025": {
+          "sw1Required": 3,
+          "sw1Analyzed": 0,
+          "sw2Required": 11,
+          "sw2Analyzed": 0
+        },
+        "2007": {
+          "sw1Required": 0,
+          "sw1Analyzed": 0,
+          "sw2Required": 3,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 399,
+        "sw1Analyzed": 0,
+        "sw2Required": 311,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Lærdalselva",
+      "watershedId": "073.Z",
+      "byYear": {
+        "1978": {
+          "sw1Required": 13,
+          "sw1Analyzed": 0,
+          "sw2Required": 14,
+          "sw2Analyzed": 0
+        },
+        "1989": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1990": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1991": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1992": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1993": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1994": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1995": {
+          "sw1Required": 5,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1996": {
+          "sw1Required": 1,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2013": {
+          "sw1Required": 3,
+          "sw1Analyzed": 0,
+          "sw2Required": 2,
+          "sw2Analyzed": 0
+        },
+        "2014": {
+          "sw1Required": 3,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2015": {
+          "sw1Required": 14,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2017": {
+          "sw1Required": 4,
+          "sw1Analyzed": 0,
+          "sw2Required": 4,
+          "sw2Analyzed": 0
+        },
+        "2018": {
+          "sw1Required": 2,
+          "sw1Analyzed": 0,
+          "sw2Required": 5,
+          "sw2Analyzed": 0
+        },
+        "2019": {
+          "sw1Required": 6,
+          "sw1Analyzed": 0,
+          "sw2Required": 0,
+          "sw2Analyzed": 0
+        },
+        "2020": {
+          "sw1Required": 3,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1977": {
+          "sw1Required": 0,
+          "sw1Analyzed": 0,
+          "sw2Required": 13,
+          "sw2Analyzed": 0
+        },
+        "2006": {
+          "sw1Required": 0,
+          "sw1Analyzed": 0,
+          "sw2Required": 1,
+          "sw2Analyzed": 0
+        },
+        "2016": {
+          "sw1Required": 0,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 144,
+        "sw1Analyzed": 0,
+        "sw2Required": 219,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Målselvvassdraget (hele vassdraget)",
+      "watershedId": "196.Z",
+      "byYear": {
+        "1989": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1990": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1991": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 7,
+          "sw2Analyzed": 0
+        },
+        "1992": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1993": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 10,
+          "sw2Analyzed": 0
+        },
+        "1995": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 11,
+          "sw2Analyzed": 0
+        },
+        "1996": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "1997": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 6,
+          "sw2Analyzed": 0
+        },
+        "1998": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 0,
+          "sw2Analyzed": 0
+        },
+        "1999": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2000": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 4,
+          "sw2Analyzed": 0
+        },
+        "2001": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2002": {
+          "sw1Required": 6,
+          "sw1Analyzed": 0,
+          "sw2Required": 3,
+          "sw2Analyzed": 0
+        },
+        "2003": {
+          "sw1Required": 8,
+          "sw1Analyzed": 0,
+          "sw2Required": 3,
+          "sw2Analyzed": 0
+        },
+        "2005": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2008": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2009": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2010": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2011": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 13,
+          "sw2Analyzed": 0
+        },
+        "2012": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 14,
+          "sw2Analyzed": 0
+        },
+        "2013": {
+          "sw1Required": 14,
+          "sw1Analyzed": 0,
+          "sw2Required": 14,
+          "sw2Analyzed": 0
+        },
+        "2014": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2015": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2016": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2017": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2018": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2019": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2020": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2021": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2022": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2023": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2024": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2025": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 478,
+        "sw1Analyzed": 0,
+        "sw2Required": 409,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Namsen (hele vassdraget)",
+      "watershedId": "139.Z",
+      "byYear": {
+        "1977": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "1978": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "1984": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "1985": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "1986": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "1987": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "1988": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "1989": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "1990": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "1991": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "1992": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "1993": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "1994": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "1995": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "1996": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "1997": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 12,
+          "sw2Analyzed": 8
+        },
+        "1998": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "1999": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2000": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2001": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2002": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2003": {
+          "sw1Required": 15,
+          "sw1Analyzed": 5,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2004": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2005": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2006": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2007": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2008": {
+          "sw1Required": 15,
+          "sw1Analyzed": 1,
+          "sw2Required": 15,
+          "sw2Analyzed": 1
+        },
+        "2009": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2010": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2011": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2012": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2013": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2014": {
+          "sw1Required": 15,
+          "sw1Analyzed": 6,
+          "sw2Required": 15,
+          "sw2Analyzed": 3
+        },
+        "2015": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2016": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2017": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2018": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2019": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2020": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2021": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2022": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2023": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2024": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2025": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 660,
+        "sw1Analyzed": 312,
+        "sw2Required": 657,
+        "sw2Analyzed": 297
+      }
+    },
+    {
+      "name": "Nausta",
+      "watershedId": "084.7Z",
+      "byYear": {
+        "1989": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1990": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1995": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 12,
+          "sw2Analyzed": 0
+        },
+        "1996": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1997": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 2,
+          "sw2Analyzed": 0
+        },
+        "1998": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1999": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2000": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2001": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2002": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2003": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2004": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2005": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2006": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2007": {
+          "sw1Required": 7,
+          "sw1Analyzed": 0,
+          "sw2Required": 12,
+          "sw2Analyzed": 0
+        },
+        "2008": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2009": {
+          "sw1Required": 10,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2010": {
+          "sw1Required": 11,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2011": {
+          "sw1Required": 9,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2012": {
+          "sw1Required": 12,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2013": {
+          "sw1Required": 8,
+          "sw1Analyzed": 0,
+          "sw2Required": 8,
+          "sw2Analyzed": 0
+        },
+        "2014": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2015": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2016": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2017": {
+          "sw1Required": 12,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2018": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 11,
+          "sw2Analyzed": 0
+        },
+        "2019": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 12,
+          "sw2Analyzed": 0
+        },
+        "2020": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2021": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2022": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2023": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2025": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "2024": {
+          "sw1Required": 0,
+          "sw1Analyzed": 0,
+          "sw2Required": 2,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 444,
+        "sw1Analyzed": 0,
+        "sw2Required": 443,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Neidenelva",
+      "watershedId": "244.Z",
+      "byYear": {
+        "1989": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1990": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1991": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1992": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1995": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1996": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 10,
+          "sw2Analyzed": 0
+        },
+        "1997": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1998": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 5,
+          "sw2Analyzed": 0
+        },
+        "1999": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2000": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2001": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2002": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2003": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2004": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2005": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2006": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2007": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2008": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2009": {
+          "sw1Required": 13,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2011": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2012": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2013": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2016": {
+          "sw1Required": 9,
+          "sw1Analyzed": 0,
+          "sw2Required": 6,
+          "sw2Analyzed": 0
+        },
+        "2023": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2024": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2025": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2010": {
+          "sw1Required": 0,
+          "sw1Analyzed": 0,
+          "sw2Required": 13,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 382,
+        "sw1Analyzed": 0,
+        "sw2Required": 379,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Nidelva (Arendalsvassdraget)",
+      "watershedId": "019.Z",
+      "byYear": {
+        "1995": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 6,
+          "sw2Analyzed": 0
+        },
+        "1996": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 4,
+          "sw2Analyzed": 0
+        },
+        "1997": {
+          "sw1Required": 8,
+          "sw1Analyzed": 0,
+          "sw2Required": 8,
+          "sw2Analyzed": 0
+        },
+        "1998": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 8,
+          "sw2Analyzed": 0
+        },
+        "1999": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 11,
+          "sw2Analyzed": 0
+        },
+        "2000": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2001": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2002": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 14,
+          "sw2Analyzed": 0
+        },
+        "2003": {
+          "sw1Required": 2,
+          "sw1Analyzed": 0,
+          "sw2Required": 0,
+          "sw2Analyzed": 0
+        },
+        "2004": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2005": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 7,
+          "sw2Analyzed": 0
+        },
+        "2006": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2007": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2008": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2009": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2010": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2011": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2012": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2013": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 13,
+          "sw2Analyzed": 0
+        },
+        "2014": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2015": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2016": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2017": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2018": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2019": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2020": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2021": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2022": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2023": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2024": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2025": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 445,
+        "sw1Analyzed": 0,
+        "sw2Required": 401,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Numedalslågen",
+      "watershedId": "015.Z",
+      "byYear": {
+        "1989": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1990": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 1
+        },
+        "1991": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "1992": {
+          "sw1Required": 14,
+          "sw1Analyzed": 14,
+          "sw2Required": 0,
+          "sw2Analyzed": 0
+        },
+        "1993": {
+          "sw1Required": 9,
+          "sw1Analyzed": 9,
+          "sw2Required": 9,
+          "sw2Analyzed": 9
+        },
+        "1996": {
+          "sw1Required": 4,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 10
+        },
+        "1997": {
+          "sw1Required": 6,
+          "sw1Analyzed": 0,
+          "sw2Required": 10,
+          "sw2Analyzed": 0
+        },
+        "1998": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1999": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2000": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 8
+        },
+        "2001": {
+          "sw1Required": 15,
+          "sw1Analyzed": 7,
+          "sw2Required": 15,
+          "sw2Analyzed": 14
+        },
+        "2002": {
+          "sw1Required": 15,
+          "sw1Analyzed": 4,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2003": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2004": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2005": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 14
+        },
+        "2006": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2007": {
+          "sw1Required": 12,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2008": {
+          "sw1Required": 5,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 8
+        },
+        "2009": {
+          "sw1Required": 7,
+          "sw1Analyzed": 3,
+          "sw2Required": 15,
+          "sw2Analyzed": 5
+        },
+        "2010": {
+          "sw1Required": 15,
+          "sw1Analyzed": 7,
+          "sw2Required": 15,
+          "sw2Analyzed": 11
+        },
+        "2011": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2012": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2013": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2014": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2015": {
+          "sw1Required": 15,
+          "sw1Analyzed": 1,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2016": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2017": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2018": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2019": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2020": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2021": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2022": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2023": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2024": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2025": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 477,
+        "sw1Analyzed": 105,
+        "sw2Required": 499,
+        "sw2Analyzed": 140
+      }
+    },
+    {
+      "name": "Orkla (hele vassdraget)",
+      "watershedId": "121.Z",
+      "byYear": {
+        "1989": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1990": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1991": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 7,
+          "sw2Analyzed": 0
+        },
+        "1993": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1994": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1995": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1996": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1997": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1998": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1999": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2000": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2001": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2002": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2003": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2004": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2005": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2006": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2007": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2008": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2009": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2010": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2011": {
+          "sw1Required": 13,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2012": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 7,
+          "sw2Analyzed": 0
+        },
+        "2013": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 12,
+          "sw2Analyzed": 0
+        },
+        "2014": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2015": {
+          "sw1Required": 14,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2016": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2017": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2018": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2019": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2020": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2021": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2022": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2023": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2024": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2025": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 2,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 537,
+        "sw1Analyzed": 0,
+        "sw2Required": 508,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Oselva i Os",
+      "watershedId": "055.7Z",
+      "byYear": {
+        "1989": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 4,
+          "sw2Analyzed": 0
+        },
+        "1990": {
+          "sw1Required": 5,
+          "sw1Analyzed": 0,
+          "sw2Required": 8,
+          "sw2Analyzed": 0
+        },
+        "1991": {
+          "sw1Required": 2,
+          "sw1Analyzed": 0,
+          "sw2Required": 5,
+          "sw2Analyzed": 0
+        },
+        "1992": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 5,
+          "sw2Analyzed": 0
+        },
+        "1993": {
+          "sw1Required": 9,
+          "sw1Analyzed": 0,
+          "sw2Required": 1,
+          "sw2Analyzed": 0
+        },
+        "1994": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "1995": {
+          "sw1Required": 1,
+          "sw1Analyzed": 0,
+          "sw2Required": 0,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 62,
+        "sw1Analyzed": 0,
+        "sw2Required": 32,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Otra",
+      "watershedId": "021.Z",
+      "byYear": {
+        "2014": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2015": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 5,
+          "sw2Analyzed": 0
+        },
+        "2016": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 5,
+          "sw2Analyzed": 0
+        },
+        "2017": {
+          "sw1Required": 10,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "2018": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2019": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2020": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2021": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2022": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2023": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2024": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2025": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 12,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 175,
+        "sw1Analyzed": 0,
+        "sw2Required": 151,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Reisavassdraget",
+      "watershedId": "208.Z",
+      "byYear": {
+        "1989": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 2,
+          "sw2Analyzed": 0
+        },
+        "1990": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1991": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1992": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 13,
+          "sw2Analyzed": 0
+        },
+        "1993": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 12,
+          "sw2Analyzed": 0
+        },
+        "1994": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 3,
+          "sw2Analyzed": 0
+        },
+        "1996": {
+          "sw1Required": 11,
+          "sw1Analyzed": 0,
+          "sw2Required": 1,
+          "sw2Analyzed": 0
+        },
+        "1997": {
+          "sw1Required": 10,
+          "sw1Analyzed": 0,
+          "sw2Required": 1,
+          "sw2Analyzed": 0
+        },
+        "1998": {
+          "sw1Required": 11,
+          "sw1Analyzed": 0,
+          "sw2Required": 3,
+          "sw2Analyzed": 0
+        },
+        "1999": {
+          "sw1Required": 10,
+          "sw1Analyzed": 0,
+          "sw2Required": 2,
+          "sw2Analyzed": 0
+        },
+        "2003": {
+          "sw1Required": 6,
+          "sw1Analyzed": 0,
+          "sw2Required": 2,
+          "sw2Analyzed": 0
+        },
+        "2005": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 5,
+          "sw2Analyzed": 0
+        },
+        "2006": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2007": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2008": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 4,
+          "sw2Analyzed": 0
+        },
+        "2009": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 12,
+          "sw2Analyzed": 0
+        },
+        "2010": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2011": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2012": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2013": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 14,
+          "sw2Analyzed": 0
+        },
+        "2014": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 13,
+          "sw2Analyzed": 0
+        },
+        "2015": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2016": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2017": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 11,
+          "sw2Analyzed": 0
+        },
+        "2018": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 7,
+          "sw2Analyzed": 0
+        },
+        "2019": {
+          "sw1Required": 9,
+          "sw1Analyzed": 0,
+          "sw2Required": 10,
+          "sw2Analyzed": 0
+        },
+        "2020": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 6,
+          "sw2Analyzed": 0
+        },
+        "2021": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 11,
+          "sw2Analyzed": 0
+        },
+        "2022": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 8,
+          "sw2Analyzed": 0
+        },
+        "2023": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 10,
+          "sw2Analyzed": 0
+        },
+        "2024": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "2025": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 4,
+          "sw2Analyzed": 0
+        },
+        "2002": {
+          "sw1Required": 0,
+          "sw1Analyzed": 0,
+          "sw2Required": 1,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 447,
+        "sw1Analyzed": 0,
+        "sw2Required": 299,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Repparfjordelva",
+      "watershedId": "213.Z",
+      "byYear": {
+        "1935": {
+          "sw1Required": 5,
+          "sw1Analyzed": 5,
+          "sw2Required": 4,
+          "sw2Analyzed": 4
+        },
+        "1936": {
+          "sw1Required": 10,
+          "sw1Analyzed": 10,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "1937": {
+          "sw1Required": 10,
+          "sw1Analyzed": 10,
+          "sw2Required": 15,
+          "sw2Analyzed": 10
+        },
+        "1938": {
+          "sw1Required": 10,
+          "sw1Analyzed": 10,
+          "sw2Required": 7,
+          "sw2Analyzed": 0
+        },
+        "1940": {
+          "sw1Required": 3,
+          "sw1Analyzed": 3,
+          "sw2Required": 1,
+          "sw2Analyzed": 0
+        },
+        "1942": {
+          "sw1Required": 4,
+          "sw1Analyzed": 3,
+          "sw2Required": 10,
+          "sw2Analyzed": 0
+        },
+        "1943": {
+          "sw1Required": 4,
+          "sw1Analyzed": 4,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "1944": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1946": {
+          "sw1Required": 11,
+          "sw1Analyzed": 11,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1947": {
+          "sw1Required": 4,
+          "sw1Analyzed": 4,
+          "sw2Required": 5,
+          "sw2Analyzed": 0
+        },
+        "1948": {
+          "sw1Required": 2,
+          "sw1Analyzed": 2,
+          "sw2Required": 10,
+          "sw2Analyzed": 0
+        },
+        "1955": {
+          "sw1Required": 3,
+          "sw1Analyzed": 3,
+          "sw2Required": 6,
+          "sw2Analyzed": 6
+        },
+        "1959": {
+          "sw1Required": 11,
+          "sw1Analyzed": 11,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "1960": {
+          "sw1Required": 10,
+          "sw1Analyzed": 6,
+          "sw2Required": 5,
+          "sw2Analyzed": 5
+        },
+        "1961": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 3,
+          "sw2Analyzed": 3
+        },
+        "1962": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 4,
+          "sw2Analyzed": 0
+        },
+        "1963": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1964": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1965": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1966": {
+          "sw1Required": 8,
+          "sw1Analyzed": 8,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1967": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 1,
+          "sw2Analyzed": 0
+        },
+        "1968": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 14,
+          "sw2Analyzed": 0
+        },
+        "1969": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1970": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 6,
+          "sw2Analyzed": 0
+        },
+        "1971": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 12,
+          "sw2Analyzed": 0
+        },
+        "1972": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 4,
+          "sw2Analyzed": 0
+        },
+        "1973": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1974": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1975": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1976": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1977": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1978": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "1979": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1980": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 12,
+          "sw2Analyzed": 0
+        },
+        "1981": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "1982": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "1983": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 12
+        },
+        "1984": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "1985": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 13,
+          "sw2Analyzed": 10
+        },
+        "1986": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "1987": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 7,
+          "sw2Analyzed": 7
+        },
+        "1988": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 11,
+          "sw2Analyzed": 7
+        },
+        "1989": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "1990": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "1991": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "1992": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "1993": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "1994": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1995": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 6,
+          "sw2Analyzed": 0
+        },
+        "1996": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1997": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1998": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1999": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2000": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2001": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2002": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2003": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2004": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2005": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2006": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2007": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2008": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2009": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2010": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2011": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2012": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2013": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2014": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2015": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2016": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2017": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2018": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2019": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2020": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2021": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2022": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2023": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2024": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2025": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2026": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1932": {
+          "sw1Required": 0,
+          "sw1Analyzed": 0,
+          "sw2Required": 5,
+          "sw2Analyzed": 5
+        },
+        "1939": {
+          "sw1Required": 0,
+          "sw1Analyzed": 0,
+          "sw2Required": 7,
+          "sw2Analyzed": 0
+        },
+        "1941": {
+          "sw1Required": 0,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "1949": {
+          "sw1Required": 0,
+          "sw1Analyzed": 0,
+          "sw2Required": 1,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 1085,
+        "sw1Analyzed": 960,
+        "sw2Required": 1051,
+        "sw2Analyzed": 504
+      }
+    },
+    {
+      "name": "Roksdalsvassdraget (Åelva)",
+      "watershedId": "186.2Z",
+      "byYear": {
+        "1990": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 7,
+          "sw2Analyzed": 0
+        },
+        "1991": {
+          "sw1Required": 7,
+          "sw1Analyzed": 0,
+          "sw2Required": 1,
+          "sw2Analyzed": 0
+        },
+        "1992": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 5,
+          "sw2Analyzed": 0
+        },
+        "1993": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 1,
+          "sw2Analyzed": 0
+        },
+        "1994": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 5,
+          "sw2Analyzed": 0
+        },
+        "1995": {
+          "sw1Required": 6,
+          "sw1Analyzed": 0,
+          "sw2Required": 4,
+          "sw2Analyzed": 0
+        },
+        "1996": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 7,
+          "sw2Analyzed": 0
+        },
+        "1997": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 12,
+          "sw2Analyzed": 0
+        },
+        "1998": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 4,
+          "sw2Analyzed": 0
+        },
+        "1999": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2000": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2001": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 11,
+          "sw2Analyzed": 0
+        },
+        "2002": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2003": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 4,
+          "sw2Analyzed": 0
+        },
+        "2004": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2005": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 5,
+          "sw2Analyzed": 0
+        },
+        "2006": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2007": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2008": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2009": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2010": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2011": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2012": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2013": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2014": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2015": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2016": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2017": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2018": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2019": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2020": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 14,
+          "sw2Analyzed": 0
+        },
+        "2021": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2022": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2023": {
+          "sw1Required": 12,
+          "sw1Analyzed": 0,
+          "sw2Required": 2,
+          "sw2Analyzed": 0
+        },
+        "2024": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 14,
+          "sw2Analyzed": 0
+        },
+        "2025": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 520,
+        "sw1Analyzed": 0,
+        "sw2Required": 405,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Saltdalsvassdraget",
+      "watershedId": "163.Z",
+      "byYear": {
+        "1974": {
+          "sw1Required": 1,
+          "sw1Analyzed": 0,
+          "sw2Required": 0,
+          "sw2Analyzed": 0
+        },
+        "1975": {
+          "sw1Required": 3,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "1976": {
+          "sw1Required": 5,
+          "sw1Analyzed": 0,
+          "sw2Required": 8,
+          "sw2Analyzed": 0
+        },
+        "1977": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1978": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1979": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 12,
+          "sw2Analyzed": 0
+        },
+        "1980": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1981": {
+          "sw1Required": 14,
+          "sw1Analyzed": 0,
+          "sw2Required": 13,
+          "sw2Analyzed": 0
+        },
+        "1982": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 13,
+          "sw2Analyzed": 0
+        },
+        "1983": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1984": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 12,
+          "sw2Analyzed": 0
+        },
+        "1985": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1986": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1987": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1988": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 7,
+          "sw2Analyzed": 0
+        },
+        "1989": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1990": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1991": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1992": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 11,
+          "sw2Analyzed": 0
+        },
+        "1993": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 10,
+          "sw2Analyzed": 0
+        },
+        "1994": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 5,
+          "sw2Analyzed": 0
+        },
+        "1995": {
+          "sw1Required": 2,
+          "sw1Analyzed": 0,
+          "sw2Required": 0,
+          "sw2Analyzed": 0
+        },
+        "1996": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 0,
+          "sw2Analyzed": 0
+        },
+        "1998": {
+          "sw1Required": 9,
+          "sw1Analyzed": 0,
+          "sw2Required": 1,
+          "sw2Analyzed": 0
+        },
+        "1999": {
+          "sw1Required": 6,
+          "sw1Analyzed": 0,
+          "sw2Required": 2,
+          "sw2Analyzed": 0
+        },
+        "2000": {
+          "sw1Required": 2,
+          "sw1Analyzed": 0,
+          "sw2Required": 0,
+          "sw2Analyzed": 0
+        },
+        "2001": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2002": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2003": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2004": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "2005": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 10,
+          "sw2Analyzed": 0
+        },
+        "2006": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2007": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2008": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2009": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2010": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2011": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2012": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2013": {
+          "sw1Required": 8,
+          "sw1Analyzed": 8,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2014": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2015": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2016": {
+          "sw1Required": 3,
+          "sw1Analyzed": 3,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2017": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2018": {
+          "sw1Required": 15,
+          "sw1Analyzed": 15,
+          "sw2Required": 15,
+          "sw2Analyzed": 15
+        },
+        "2019": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2020": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 6,
+          "sw2Analyzed": 0
+        },
+        "2021": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 4,
+          "sw2Analyzed": 0
+        },
+        "2022": {
+          "sw1Required": 4,
+          "sw1Analyzed": 0,
+          "sw2Required": 0,
+          "sw2Analyzed": 0
+        },
+        "2025": {
+          "sw1Required": 2,
+          "sw1Analyzed": 0,
+          "sw2Required": 0,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 614,
+        "sw1Analyzed": 116,
+        "sw2Required": 537,
+        "sw2Analyzed": 135
+      }
+    },
+    {
+      "name": "Skienselva",
+      "watershedId": "016.Z",
+      "byYear": {
+        "1989": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1990": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1991": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1992": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1993": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1995": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 12,
+          "sw2Analyzed": 0
+        },
+        "1996": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1997": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1998": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1999": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2000": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2001": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2002": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 8,
+          "sw2Analyzed": 0
+        },
+        "2003": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2004": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2005": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2006": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2007": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2008": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2009": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2010": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2011": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2012": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2013": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2014": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2015": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2016": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2017": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2018": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2019": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2020": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2021": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2022": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2023": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2024": {
+          "sw1Required": 9,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2025": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 8,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 534,
+        "sw1Analyzed": 0,
+        "sw2Required": 523,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Stabburselva i Porsanger",
+      "watershedId": "223.Z",
+      "byYear": {
+        "1952": {
+          "sw1Required": 5,
+          "sw1Analyzed": 0,
+          "sw2Required": 2,
+          "sw2Analyzed": 0
+        },
+        "2005": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 4,
+          "sw2Analyzed": 0
+        },
+        "2006": {
+          "sw1Required": 5,
+          "sw1Analyzed": 0,
+          "sw2Required": 0,
+          "sw2Analyzed": 0
+        },
+        "2007": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2008": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 14,
+          "sw2Analyzed": 0
+        },
+        "2009": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 12,
+          "sw2Analyzed": 0
+        },
+        "2010": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2011": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 11,
+          "sw2Analyzed": 0
+        },
+        "2012": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 12,
+          "sw2Analyzed": 0
+        },
+        "2013": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 8,
+          "sw2Analyzed": 0
+        },
+        "2014": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 6,
+          "sw2Analyzed": 0
+        },
+        "2015": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2016": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2017": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "2018": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 13,
+          "sw2Analyzed": 0
+        },
+        "2019": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2020": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 3,
+          "sw2Analyzed": 0
+        },
+        "2021": {
+          "sw1Required": 14,
+          "sw1Analyzed": 0,
+          "sw2Required": 7,
+          "sw2Analyzed": 0
+        },
+        "2022": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 14,
+          "sw2Analyzed": 0
+        },
+        "2023": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 4,
+          "sw2Analyzed": 0
+        },
+        "2024": {
+          "sw1Required": 11,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "2025": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 8,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 305,
+        "sw1Analyzed": 0,
+        "sw2Required": 211,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Surna",
+      "watershedId": "112.Z",
+      "byYear": {
+        "1977": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 8,
+          "sw2Analyzed": 0
+        },
+        "1978": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 6,
+          "sw2Analyzed": 0
+        },
+        "1989": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1996": {
+          "sw1Required": 4,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1998": {
+          "sw1Required": 8,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "1999": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "2000": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2001": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2002": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2003": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2004": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2005": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2006": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2007": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2008": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2009": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2010": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2011": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2012": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2013": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2014": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2015": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2016": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2017": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2018": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2019": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2020": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2021": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2022": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2023": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2024": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2025": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 11,
+          "sw2Analyzed": 0
+        },
+        "1990": {
+          "sw1Required": 0,
+          "sw1Analyzed": 0,
+          "sw2Required": 3,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 462,
+        "sw1Analyzed": 0,
+        "sw2Required": 451,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Sylteelva/Moaelva",
+      "watershedId": "107.3Z",
+      "byYear": {
+        "1989": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "1990": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 8,
+          "sw2Analyzed": 0
+        },
+        "1991": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 2,
+          "sw2Analyzed": 0
+        },
+        "1993": {
+          "sw1Required": 2,
+          "sw1Analyzed": 0,
+          "sw2Required": 1,
+          "sw2Analyzed": 0
+        },
+        "1994": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 0,
+          "sw2Analyzed": 0
+        },
+        "1995": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 7,
+          "sw2Analyzed": 0
+        },
+        "1996": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 5,
+          "sw2Analyzed": 0
+        },
+        "1997": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 1,
+          "sw2Analyzed": 0
+        },
+        "1998": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 4,
+          "sw2Analyzed": 0
+        },
+        "1999": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 2,
+          "sw2Analyzed": 0
+        },
+        "2000": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2001": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2002": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 6,
+          "sw2Analyzed": 0
+        },
+        "2003": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 6,
+          "sw2Analyzed": 0
+        },
+        "2004": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 10,
+          "sw2Analyzed": 0
+        },
+        "2005": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 10,
+          "sw2Analyzed": 0
+        },
+        "2006": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 10,
+          "sw2Analyzed": 0
+        },
+        "2007": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 8,
+          "sw2Analyzed": 0
+        },
+        "2008": {
+          "sw1Required": 14,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2009": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2010": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2011": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2012": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2013": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2014": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2015": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2016": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2017": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2018": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2019": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2020": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2021": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2022": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2023": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2024": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "2025": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 526,
+        "sw1Analyzed": 0,
+        "sw2Required": 383,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Varpavassdraget",
+      "watershedId": "170.5Z",
+      "byYear": {
+        "2000": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2001": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2002": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 5,
+          "sw2Analyzed": 0
+        },
+        "2003": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 13,
+          "sw2Analyzed": 0
+        },
+        "2004": {
+          "sw1Required": 9,
+          "sw1Analyzed": 0,
+          "sw2Required": 8,
+          "sw2Analyzed": 0
+        },
+        "2005": {
+          "sw1Required": 4,
+          "sw1Analyzed": 0,
+          "sw2Required": 6,
+          "sw2Analyzed": 0
+        },
+        "2006": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 1,
+          "sw2Analyzed": 0
+        },
+        "2008": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2009": {
+          "sw1Required": 5,
+          "sw1Analyzed": 0,
+          "sw2Required": 2,
+          "sw2Analyzed": 0
+        },
+        "2010": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2011": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2012": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2013": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2014": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2015": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2016": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2017": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2018": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2019": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2020": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2021": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2022": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2023": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2024": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2025": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 348,
+        "sw1Analyzed": 0,
+        "sw2Required": 320,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Vestre Jakobselv",
+      "watershedId": "240.Z",
+      "byYear": {
+        "1989": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 1,
+          "sw2Analyzed": 0
+        },
+        "1990": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 7,
+          "sw2Analyzed": 0
+        },
+        "1991": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1992": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 11,
+          "sw2Analyzed": 0
+        },
+        "1993": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 13,
+          "sw2Analyzed": 0
+        },
+        "1995": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 12,
+          "sw2Analyzed": 0
+        },
+        "1996": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "1997": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1998": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 14,
+          "sw2Analyzed": 0
+        },
+        "1999": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2000": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2001": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2002": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2003": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2004": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2005": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2006": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2007": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2008": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2009": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2010": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2011": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2012": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2013": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2014": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2015": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2016": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2017": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2018": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2019": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2020": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2021": {
+          "sw1Required": 9,
+          "sw1Analyzed": 0,
+          "sw2Required": 5,
+          "sw2Analyzed": 0
+        },
+        "2022": {
+          "sw1Required": 10,
+          "sw1Analyzed": 0,
+          "sw2Required": 7,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 484,
+        "sw1Analyzed": 0,
+        "sw2Required": 439,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Vikedalselva i Vindafjord",
+      "watershedId": "038.Z",
+      "byYear": {
+        "1990": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 2,
+          "sw2Analyzed": 0
+        },
+        "1992": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1995": {
+          "sw1Required": 7,
+          "sw1Analyzed": 0,
+          "sw2Required": 4,
+          "sw2Analyzed": 0
+        },
+        "1997": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1998": {
+          "sw1Required": 14,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1999": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 5,
+          "sw2Analyzed": 0
+        },
+        "2000": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2001": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2003": {
+          "sw1Required": 12,
+          "sw1Analyzed": 0,
+          "sw2Required": 7,
+          "sw2Analyzed": 0
+        },
+        "2004": {
+          "sw1Required": 5,
+          "sw1Analyzed": 0,
+          "sw2Required": 13,
+          "sw2Analyzed": 0
+        },
+        "2005": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2006": {
+          "sw1Required": 9,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2007": {
+          "sw1Required": 8,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2008": {
+          "sw1Required": 5,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2009": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 13,
+          "sw2Analyzed": 0
+        },
+        "2010": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "2011": {
+          "sw1Required": 7,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2012": {
+          "sw1Required": 9,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2013": {
+          "sw1Required": 7,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2014": {
+          "sw1Required": 10,
+          "sw1Analyzed": 0,
+          "sw2Required": 11,
+          "sw2Analyzed": 0
+        },
+        "2015": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "2016": {
+          "sw1Required": 1,
+          "sw1Analyzed": 0,
+          "sw2Required": 6,
+          "sw2Analyzed": 0
+        },
+        "2017": {
+          "sw1Required": 12,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2018": {
+          "sw1Required": 8,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2019": {
+          "sw1Required": 8,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2020": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2021": {
+          "sw1Required": 11,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2022": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2023": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2024": {
+          "sw1Required": 9,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2025": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 352,
+        "sw1Analyzed": 0,
+        "sw2Required": 394,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Åelva (Åbjøra) i Bindal",
+      "watershedId": "144.Z",
+      "byYear": {
+        "1989": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1990": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1991": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "1992": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1995": {
+          "sw1Required": 8,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "1997": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 6,
+          "sw2Analyzed": 0
+        },
+        "1998": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1999": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2000": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2001": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "2004": {
+          "sw1Required": 14,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2005": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 13,
+          "sw2Analyzed": 0
+        },
+        "2006": {
+          "sw1Required": 11,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2007": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2008": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2009": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2010": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2011": {
+          "sw1Required": 13,
+          "sw1Analyzed": 0,
+          "sw2Required": 3,
+          "sw2Analyzed": 0
+        },
+        "2012": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2013": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2014": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2015": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2016": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2017": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2018": {
+          "sw1Required": 14,
+          "sw1Analyzed": 0,
+          "sw2Required": 14,
+          "sw2Analyzed": 0
+        },
+        "2019": {
+          "sw1Required": 4,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2020": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 13,
+          "sw2Analyzed": 0
+        },
+        "2021": {
+          "sw1Required": 9,
+          "sw1Analyzed": 0,
+          "sw2Required": 8,
+          "sw2Analyzed": 0
+        },
+        "2022": {
+          "sw1Required": 2,
+          "sw1Analyzed": 0,
+          "sw2Required": 4,
+          "sw2Analyzed": 0
+        },
+        "2023": {
+          "sw1Required": 8,
+          "sw1Analyzed": 0,
+          "sw2Required": 2,
+          "sw2Analyzed": 0
+        },
+        "2024": {
+          "sw1Required": 10,
+          "sw1Analyzed": 0,
+          "sw2Required": 3,
+          "sw2Analyzed": 0
+        },
+        "2025": {
+          "sw1Required": 6,
+          "sw1Analyzed": 0,
+          "sw2Required": 6,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 414,
+        "sw1Analyzed": 0,
+        "sw2Required": 384,
+        "sw2Analyzed": 0
+      }
+    },
+    {
+      "name": "Ørstaelva (Storelva)",
+      "watershedId": "095.Z",
+      "byYear": {
+        "1989": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 14,
+          "sw2Analyzed": 0
+        },
+        "1990": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 14,
+          "sw2Analyzed": 0
+        },
+        "1991": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 4,
+          "sw2Analyzed": 0
+        },
+        "1992": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 7,
+          "sw2Analyzed": 0
+        },
+        "1993": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 9,
+          "sw2Analyzed": 0
+        },
+        "1994": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 5,
+          "sw2Analyzed": 0
+        },
+        "1995": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "1997": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 1,
+          "sw2Analyzed": 0
+        },
+        "1998": {
+          "sw1Required": 4,
+          "sw1Analyzed": 0,
+          "sw2Required": 0,
+          "sw2Analyzed": 0
+        },
+        "1999": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 1,
+          "sw2Analyzed": 0
+        },
+        "2000": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 8,
+          "sw2Analyzed": 0
+        },
+        "2001": {
+          "sw1Required": 12,
+          "sw1Analyzed": 0,
+          "sw2Required": 1,
+          "sw2Analyzed": 0
+        },
+        "2003": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 3,
+          "sw2Analyzed": 0
+        },
+        "2004": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 7,
+          "sw2Analyzed": 0
+        },
+        "2005": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 12,
+          "sw2Analyzed": 0
+        },
+        "2006": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2008": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2009": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 7,
+          "sw2Analyzed": 0
+        },
+        "2010": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2011": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2012": {
+          "sw1Required": 1,
+          "sw1Analyzed": 0,
+          "sw2Required": 1,
+          "sw2Analyzed": 0
+        },
+        "2013": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2014": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2015": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2016": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2017": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2018": {
+          "sw1Required": 6,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2019": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2020": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2021": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2022": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2023": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2024": {
+          "sw1Required": 11,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        },
+        "2025": {
+          "sw1Required": 15,
+          "sw1Analyzed": 0,
+          "sw2Required": 15,
+          "sw2Analyzed": 0
+        }
+      },
+      "totals": {
+        "sw1Required": 469,
+        "sw1Analyzed": 0,
+        "sw2Required": 364,
+        "sw2Analyzed": 0
+      }
+    }
+  ],
+  "totals": {
+    "sw1Required": 13976,
+    "sw1Analyzed": 1608,
+    "sw2Required": 12890,
+    "sw2Analyzed": 1228
+  }
+}
