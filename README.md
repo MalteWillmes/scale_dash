@@ -28,6 +28,12 @@ samples beyond that target ("excess").
 
 ## Definitions used in this dashboard
 
+Rivers are grouped by `Vassdragsnr_hovedvassdrag` (the canonical watershed id),
+not by the free-text `Objektnavn` — a couple of watersheds are recorded under
+more than one `Objektnavn` spelling (e.g. "Etneelva" / "Etneelva/Sørelva"),
+which would otherwise split one river into two rows. The name shown is just
+the most common `Objektnavn` seen for that watershed id.
+
 Each river/year has a candidate pool of up to 15 randomly-selected fish (the
 NASCO sampling design). Of those, only **10 per river per year** actually need
 imaging — the rest are kept in reserve in case of poor scale quality. `imaged`

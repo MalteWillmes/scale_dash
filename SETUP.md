@@ -118,7 +118,7 @@ function parseRows(csvText) {
     const watershed = row[idx["Vassdragsnr_hovedvassdrag"]] || "";
     const year = parseInt(row[idx["Feltaar"]], 10);
     const hasImage = (row[idx["Bilde_skjell"]] || "").trim() !== "";
-    if (!river || !year) continue;
+    if (!river || !year || !watershed.trim()) continue;
     rows.push({ river: river.trim(), watershed: watershed.trim(), year, hasImage });
   }
   return rows;
@@ -139,55 +139,73 @@ function emptyFields() {
 // Mirrors scripts/build_summary.py's aggregate() exactly, so a manual regenerate
 // and this automated path always agree on shape.
 //
-// Required = min(target, candidate pool size) for that river/year.
+// Grouped by Vassdragsnr_hovedvassdrag (watershed id), not Objektnavn -- a
+// couple of watersheds are recorded under more than one Objektnavn spelling,
+// which would otherwise split one river into two rows. The displayed name is
+// the most common Objektnavn seen for that watershed id (ties broken
+// alphabetically).
+//
+// Required = min(target, candidate pool size) for that watershed/year.
 // Analyzed = min(imaged count, required) -- imaged candidates counted toward the target.
 // Excess   = max(0, imaged count - required) -- already-imaged candidates beyond the target.
 function aggregate(rows1sw, rows2sw) {
-  const rivers = {}; // name -> { name, watershedId, byYear: { year: {...} } }
+  const watersheds = {}; // watershed id -> { watershedId, nameCounts, byYear: { year: {...} } }
   const allYears = new Set();
 
   function add(rows, swKey) {
     const target = PER_YEAR_TARGET[swKey];
-    // Group first: required/analyzed/excess depend on the whole river+year pool.
-    const groups = {}; // "river||watershed||year" -> [hasImage, ...]
+    // Group first: required/analyzed/excess depend on the whole watershed+year pool.
+    const groups = {}; // "watershed||year" -> [{river, hasImage}, ...]
     rows.forEach(({ river, watershed, year, hasImage }) => {
-      const gKey = river + "||" + watershed + "||" + year;
-      if (!groups[gKey]) groups[gKey] = { river, watershed, year, images: [] };
-      groups[gKey].images.push(hasImage);
+      const gKey = watershed + "||" + year;
+      if (!groups[gKey]) groups[gKey] = { watershed, year, entries: [] };
+      groups[gKey].entries.push({ river, hasImage });
     });
 
-    Object.values(groups).forEach(({ river, watershed, year, images }) => {
+    Object.values(groups).forEach(({ watershed, year, entries }) => {
       allYears.add(year);
-      if (!rivers[river]) rivers[river] = { name: river, watershedId: watershed, byYear: {} };
-      const entry = rivers[river];
-      if (!entry.watershedId && watershed) entry.watershedId = watershed;
+      if (!watersheds[watershed]) {
+        watersheds[watershed] = { watershedId: watershed, nameCounts: {}, byYear: {} };
+      }
+      const wsEntry = watersheds[watershed];
+      entries.forEach(({ river }) => {
+        wsEntry.nameCounts[river] = (wsEntry.nameCounts[river] || 0) + 1;
+      });
       const key = String(year);
-      if (!entry.byYear[key]) entry.byYear[key] = emptyFields();
+      if (!wsEntry.byYear[key]) wsEntry.byYear[key] = emptyFields();
 
-      const candidateCount = images.length;
-      const imagedCount = images.filter(Boolean).length;
+      const candidateCount = entries.length;
+      const imagedCount = entries.filter((e) => e.hasImage).length;
       const required = Math.min(target, candidateCount);
       const analyzed = Math.min(imagedCount, required);
       const excess = Math.max(0, imagedCount - required);
 
-      entry.byYear[key][swKey + "Required"] += required;
-      entry.byYear[key][swKey + "Analyzed"] += analyzed;
-      entry.byYear[key][swKey + "Excess"] += excess;
+      wsEntry.byYear[key][swKey + "Required"] += required;
+      wsEntry.byYear[key][swKey + "Analyzed"] += analyzed;
+      wsEntry.byYear[key][swKey + "Excess"] += excess;
     });
   }
 
   add(rows1sw, "sw1");
   add(rows2sw, "sw2");
 
+  function bestName(nameCounts) {
+    return Object.entries(nameCounts).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0][0];
+  }
+
   const totals = emptyFields();
-  const riverList = Object.values(rivers).map((river) => {
+  const riverList = Object.values(watersheds).map((wsEntry) => {
     const riverTotals = emptyFields();
-    Object.values(river.byYear).forEach((yr) => {
+    Object.values(wsEntry.byYear).forEach((yr) => {
       FIELDS.forEach((k) => { riverTotals[k] += yr[k]; });
     });
     FIELDS.forEach((k) => { totals[k] += riverTotals[k]; });
-    river.totals = riverTotals;
-    return river;
+    return {
+      name: bestName(wsEntry.nameCounts),
+      watershedId: wsEntry.watershedId,
+      byYear: wsEntry.byYear,
+      totals: riverTotals,
+    };
   });
   riverList.sort((a, b) => a.name.localeCompare(b.name));
 

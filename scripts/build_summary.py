@@ -6,6 +6,11 @@ Builds data/summary.json from the two NASCO scale-sample source files
 Usage:
     python scripts/build_summary.py <path_to_1SW.xlsx> <path_to_2SW.xlsx> [output_path]
 
+Rivers are grouped by Vassdragsnr_hovedvassdrag (the canonical watershed id),
+not by the free-text Objektnavn -- a couple of watersheds are recorded under
+more than one Objektnavn spelling, which would otherwise split one river into
+two rows. The displayed name is just the most common Objektnavn for that id.
+
 Each river/year has a candidate pool of up to 15 randomly-selected fish (per
 the NASCO sampling design), of which only PER_YEAR_TARGET actually need to be
 imaged for that river/year -- the rest are kept in reserve in case of poor
@@ -27,7 +32,7 @@ always produce the identical JSON shape.
 """
 import json
 import sys
-from collections import defaultdict
+from collections import Counter, defaultdict
 from datetime import datetime, timezone
 
 import openpyxl
@@ -55,9 +60,9 @@ def load_rows(path):
         watershed = r[idx["Vassdragsnr_hovedvassdrag"]]
         year = r[idx["Feltaar"]]
         has_image = r[idx["Bilde_skjell"]] not in (None, "")
-        if river is None or year is None:
+        if river is None or year is None or watershed is None or str(watershed).strip() == "":
             continue
-        rows.append((str(river), str(watershed) if watershed is not None else "", int(year), has_image))
+        rows.append((str(river), str(watershed), int(year), has_image))
     return rows
 
 
@@ -65,26 +70,34 @@ FIELDS = ["sw1Required", "sw1Analyzed", "sw1Excess", "sw2Required", "sw2Analyzed
 
 
 def aggregate(rows_1sw, rows_2sw):
-    rivers = {}  # name -> {watershedId, byYear: {year: {...}}}
+    # Grouped by Vassdragsnr_hovedvassdrag (the canonical watershed/main-river
+    # id), not by Objektnavn -- some watersheds are recorded under more than
+    # one Objektnavn spelling (e.g. "041.Z" appears as both "Etneelva" and
+    # "Etneelva/Sørelva"), which would otherwise fragment one river into
+    # multiple rows. The displayed name is the most common Objektnavn seen
+    # for that watershed id (ties broken alphabetically).
+    watersheds = {}  # watershed id -> {watershedId, nameCounts, byYear: {year: {...}}}
     all_years = set()
 
     def add(rows, sw_key):
         target = PER_YEAR_TARGET[sw_key]
         # Group first: required/analyzed/excess depend on the whole
-        # river+year candidate pool, not on individual rows.
-        groups = defaultdict(list)  # (river, watershed, year) -> [has_image, ...]
+        # watershed+year candidate pool, not on individual rows.
+        groups = defaultdict(list)  # (watershed, year) -> [(river_name, has_image), ...]
         for river, watershed, year, has_image in rows:
-            groups[(river, watershed, year)].append(has_image)
+            groups[(watershed, year)].append((river, has_image))
 
-        for (river, watershed, year), images in groups.items():
+        for (watershed, year), entries in groups.items():
             all_years.add(year)
-            entry = rivers.setdefault(river, {"name": river, "watershedId": watershed, "byYear": {}})
-            if not entry["watershedId"] and watershed:
-                entry["watershedId"] = watershed
-            yr = entry["byYear"].setdefault(str(year), {k: 0 for k in FIELDS})
+            ws_entry = watersheds.setdefault(
+                watershed, {"watershedId": watershed, "nameCounts": Counter(), "byYear": {}}
+            )
+            for name, _ in entries:
+                ws_entry["nameCounts"][name] += 1
+            yr = ws_entry["byYear"].setdefault(str(year), {k: 0 for k in FIELDS})
 
-            candidate_count = len(images)
-            imaged_count = sum(1 for img in images if img)
+            candidate_count = len(entries)
+            imaged_count = sum(1 for _, img in entries if img)
             required = min(target, candidate_count)
             analyzed = min(imaged_count, required)
             excess = max(0, imaged_count - required)
@@ -98,15 +111,20 @@ def aggregate(rows_1sw, rows_2sw):
 
     totals = {k: 0 for k in FIELDS}
     river_list = []
-    for river in rivers.values():
+    for ws_entry in watersheds.values():
+        best_name = sorted(ws_entry["nameCounts"].items(), key=lambda kv: (-kv[1], kv[0]))[0][0]
         river_totals = {k: 0 for k in FIELDS}
-        for yr in river["byYear"].values():
+        for yr in ws_entry["byYear"].values():
             for k in river_totals:
                 river_totals[k] += yr[k]
-        river["totals"] = river_totals
         for k in totals:
             totals[k] += river_totals[k]
-        river_list.append(river)
+        river_list.append({
+            "name": best_name,
+            "watershedId": ws_entry["watershedId"],
+            "byYear": ws_entry["byYear"],
+            "totals": river_totals,
+        })
 
     river_list.sort(key=lambda r: r["name"])
 

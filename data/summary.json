@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-16T08:17:40Z",
+  "generatedAt": "2026-09-16T08:26:12Z",
   "years": [
     1925,
     1926,
@@ -220,28 +220,6 @@
         "sw1Analyzed": 0,
         "sw1Excess": 0,
         "sw2Required": 150,
-        "sw2Analyzed": 0,
-        "sw2Excess": 0
-      }
-    },
-    {
-      "name": "Divielva",
-      "watershedId": "196.Z",
-      "byYear": {
-        "2013": {
-          "sw1Required": 1,
-          "sw1Analyzed": 0,
-          "sw1Excess": 0,
-          "sw2Required": 1,
-          "sw2Analyzed": 0,
-          "sw2Excess": 0
-        }
-      },
-      "totals": {
-        "sw1Required": 1,
-        "sw1Analyzed": 0,
-        "sw1Excess": 0,
-        "sw2Required": 1,
         "sw2Analyzed": 0,
         "sw2Excess": 0
       }
@@ -948,6 +926,22 @@
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
+        "1995": {
+          "sw1Required": 10,
+          "sw1Analyzed": 0,
+          "sw1Excess": 0,
+          "sw2Required": 10,
+          "sw2Analyzed": 0,
+          "sw2Excess": 0
+        },
+        "1996": {
+          "sw1Required": 7,
+          "sw1Analyzed": 0,
+          "sw1Excess": 0,
+          "sw2Required": 8,
+          "sw2Analyzed": 0,
+          "sw2Excess": 0
+        },
         "1997": {
           "sw1Required": 10,
           "sw1Analyzed": 0,
@@ -1078,40 +1072,10 @@
         }
       },
       "totals": {
-        "sw1Required": 187,
+        "sw1Required": 204,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
-        "sw2Required": 191,
-        "sw2Analyzed": 0,
-        "sw2Excess": 0
-      }
-    },
-    {
-      "name": "Etneelva/Sørelva",
-      "watershedId": "041.Z",
-      "byYear": {
-        "1995": {
-          "sw1Required": 10,
-          "sw1Analyzed": 0,
-          "sw1Excess": 0,
-          "sw2Required": 10,
-          "sw2Analyzed": 0,
-          "sw2Excess": 0
-        },
-        "1996": {
-          "sw1Required": 7,
-          "sw1Analyzed": 0,
-          "sw1Excess": 0,
-          "sw2Required": 8,
-          "sw2Analyzed": 0,
-          "sw2Excess": 0
-        }
-      },
-      "totals": {
-        "sw1Required": 17,
-        "sw1Analyzed": 0,
-        "sw1Excess": 0,
-        "sw2Required": 18,
+        "sw2Required": 209,
         "sw2Analyzed": 0,
         "sw2Excess": 0
       }
@@ -8978,10 +8942,10 @@
     }
   ],
   "totals": {
-    "sw1Required": 9664,
+    "sw1Required": 9663,
     "sw1Analyzed": 1127,
     "sw1Excess": 481,
-    "sw2Required": 9183,
+    "sw2Required": 9182,
     "sw2Analyzed": 862,
     "sw2Excess": 366
   }
