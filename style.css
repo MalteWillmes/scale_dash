@@ -66,8 +66,23 @@ body {
   gap: 12px;
 }
 
-.brand-mark {
+.brand-mark-chip {
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.brand-mark {
+  display: block;
+  width: 34px;
+  height: 34px;
+  object-fit: cover;
 }
 
 h1 {
