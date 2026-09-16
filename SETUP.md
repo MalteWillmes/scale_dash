@@ -124,37 +124,68 @@ function parseRows(csvText) {
   return rows;
 }
 
+// Per-river, per-year imaging target. The candidate pool is usually larger
+// (up to 15) -- the remainder are reserve fish. Must match PER_YEAR_TARGET
+// in scripts/build_summary.py.
+const PER_YEAR_TARGET = { sw1: 10, sw2: 10 };
+const FIELDS = ["sw1Required", "sw1Analyzed", "sw1Excess", "sw2Required", "sw2Analyzed", "sw2Excess"];
+
+function emptyFields() {
+  const o = {};
+  FIELDS.forEach((k) => { o[k] = 0; });
+  return o;
+}
+
 // Mirrors scripts/build_summary.py's aggregate() exactly, so a manual regenerate
 // and this automated path always agree on shape.
+//
+// Required = min(target, candidate pool size) for that river/year.
+// Analyzed = min(imaged count, required) -- imaged candidates counted toward the target.
+// Excess   = max(0, imaged count - required) -- already-imaged candidates beyond the target.
 function aggregate(rows1sw, rows2sw) {
   const rivers = {}; // name -> { name, watershedId, byYear: { year: {...} } }
   const allYears = new Set();
 
   function add(rows, swKey) {
+    const target = PER_YEAR_TARGET[swKey];
+    // Group first: required/analyzed/excess depend on the whole river+year pool.
+    const groups = {}; // "river||watershed||year" -> [hasImage, ...]
     rows.forEach(({ river, watershed, year, hasImage }) => {
+      const gKey = river + "||" + watershed + "||" + year;
+      if (!groups[gKey]) groups[gKey] = { river, watershed, year, images: [] };
+      groups[gKey].images.push(hasImage);
+    });
+
+    Object.values(groups).forEach(({ river, watershed, year, images }) => {
       allYears.add(year);
       if (!rivers[river]) rivers[river] = { name: river, watershedId: watershed, byYear: {} };
       const entry = rivers[river];
       if (!entry.watershedId && watershed) entry.watershedId = watershed;
       const key = String(year);
-      if (!entry.byYear[key]) {
-        entry.byYear[key] = { sw1Required: 0, sw1Analyzed: 0, sw2Required: 0, sw2Analyzed: 0 };
-      }
-      entry.byYear[key][swKey + "Required"] += 1;
-      if (hasImage) entry.byYear[key][swKey + "Analyzed"] += 1;
+      if (!entry.byYear[key]) entry.byYear[key] = emptyFields();
+
+      const candidateCount = images.length;
+      const imagedCount = images.filter(Boolean).length;
+      const required = Math.min(target, candidateCount);
+      const analyzed = Math.min(imagedCount, required);
+      const excess = Math.max(0, imagedCount - required);
+
+      entry.byYear[key][swKey + "Required"] += required;
+      entry.byYear[key][swKey + "Analyzed"] += analyzed;
+      entry.byYear[key][swKey + "Excess"] += excess;
     });
   }
 
   add(rows1sw, "sw1");
   add(rows2sw, "sw2");
 
-  const totals = { sw1Required: 0, sw1Analyzed: 0, sw2Required: 0, sw2Analyzed: 0 };
+  const totals = emptyFields();
   const riverList = Object.values(rivers).map((river) => {
-    const riverTotals = { sw1Required: 0, sw1Analyzed: 0, sw2Required: 0, sw2Analyzed: 0 };
+    const riverTotals = emptyFields();
     Object.values(river.byYear).forEach((yr) => {
-      Object.keys(riverTotals).forEach((k) => { riverTotals[k] += yr[k]; });
+      FIELDS.forEach((k) => { riverTotals[k] += yr[k]; });
     });
-    Object.keys(totals).forEach((k) => { totals[k] += riverTotals[k]; });
+    FIELDS.forEach((k) => { totals[k] += riverTotals[k]; });
     river.totals = riverTotals;
     return river;
   });

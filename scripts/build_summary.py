@@ -6,10 +6,20 @@ Builds data/summary.json from the two NASCO scale-sample source files
 Usage:
     python scripts/build_summary.py <path_to_1SW.xlsx> <path_to_2SW.xlsx> [output_path]
 
-"Required" = a candidate row selected for a river/year (the up-to-15 fish
-per river/year the project randomly selects).
-"Analyzed" = a candidate row where Bilde_skjell (the scale image filename)
-is filled in, i.e. the scale has actually been imaged.
+Each river/year has a candidate pool of up to 15 randomly-selected fish (per
+the NASCO sampling design), of which only PER_YEAR_TARGET actually need to be
+imaged for that river/year -- the rest are kept in reserve in case of poor
+scale quality.
+
+"Required"  = min(PER_YEAR_TARGET, candidate pool size) for that river/year --
+              the imaging target, capped by however many candidates exist.
+"Analyzed"  = however many of those already-imaged candidates count toward
+              the target, i.e. min(imaged count, required).
+"Excess"    = already-imaged candidates beyond the target (imaged count minus
+              required, floored at 0) -- extra coverage that isn't needed to
+              hit the target but exists anyway.
+Required + Analyzed always describes a 0-100% target; Excess is reported
+separately and is never part of that percentage.
 
 This same logic is meant to be re-implemented by the daily refresh pipeline
 (see SETUP.md) so a manual re-run of this script and the automated pipeline
@@ -23,6 +33,11 @@ from datetime import datetime, timezone
 import openpyxl
 
 REQUIRED_COLUMNS = ["Objektnavn", "Vassdragsnr_hovedvassdrag", "Feltaar", "Bilde_skjell"]
+
+# Per-river, per-year imaging target. The candidate pool itself is usually
+# larger (up to 15) -- the remainder are reserve fish kept in case of poor
+# scale quality. Confirmed with the project lead: 10 for both age classes.
+PER_YEAR_TARGET = {"sw1": 10, "sw2": 10}
 
 
 def load_rows(path):
@@ -46,31 +61,45 @@ def load_rows(path):
     return rows
 
 
+FIELDS = ["sw1Required", "sw1Analyzed", "sw1Excess", "sw2Required", "sw2Analyzed", "sw2Excess"]
+
+
 def aggregate(rows_1sw, rows_2sw):
     rivers = {}  # name -> {watershedId, byYear: {year: {...}}}
     all_years = set()
 
     def add(rows, sw_key):
+        target = PER_YEAR_TARGET[sw_key]
+        # Group first: required/analyzed/excess depend on the whole
+        # river+year candidate pool, not on individual rows.
+        groups = defaultdict(list)  # (river, watershed, year) -> [has_image, ...]
         for river, watershed, year, has_image in rows:
+            groups[(river, watershed, year)].append(has_image)
+
+        for (river, watershed, year), images in groups.items():
             all_years.add(year)
             entry = rivers.setdefault(river, {"name": river, "watershedId": watershed, "byYear": {}})
             if not entry["watershedId"] and watershed:
                 entry["watershedId"] = watershed
-            yr = entry["byYear"].setdefault(
-                str(year),
-                {"sw1Required": 0, "sw1Analyzed": 0, "sw2Required": 0, "sw2Analyzed": 0},
-            )
-            yr[f"{sw_key}Required"] += 1
-            if has_image:
-                yr[f"{sw_key}Analyzed"] += 1
+            yr = entry["byYear"].setdefault(str(year), {k: 0 for k in FIELDS})
+
+            candidate_count = len(images)
+            imaged_count = sum(1 for img in images if img)
+            required = min(target, candidate_count)
+            analyzed = min(imaged_count, required)
+            excess = max(0, imaged_count - required)
+
+            yr[f"{sw_key}Required"] += required
+            yr[f"{sw_key}Analyzed"] += analyzed
+            yr[f"{sw_key}Excess"] += excess
 
     add(rows_1sw, "sw1")
     add(rows_2sw, "sw2")
 
-    totals = {"sw1Required": 0, "sw1Analyzed": 0, "sw2Required": 0, "sw2Analyzed": 0}
+    totals = {k: 0 for k in FIELDS}
     river_list = []
     for river in rivers.values():
-        river_totals = {"sw1Required": 0, "sw1Analyzed": 0, "sw2Required": 0, "sw2Analyzed": 0}
+        river_totals = {k: 0 for k in FIELDS}
         for yr in river["byYear"].values():
             for k in river_totals:
                 river_totals[k] += yr[k]

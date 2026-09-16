@@ -13,6 +13,7 @@
     statRequired: document.getElementById("statRequired"),
     statAnalyzed: document.getElementById("statAnalyzed"),
     statPct: document.getElementById("statPct"),
+    statExcess: document.getElementById("statExcess"),
     statRivers: document.getElementById("statRivers"),
     tableBody: document.getElementById("riverTableBody"),
     swToggle: document.getElementById("swToggle"),
@@ -23,9 +24,13 @@
   let yearChart = null;
 
   function swKeys() {
-    if (state.sw === "sw1") return { req: ["sw1Required"], an: ["sw1Analyzed"] };
-    if (state.sw === "sw2") return { req: ["sw2Required"], an: ["sw2Analyzed"] };
-    return { req: ["sw1Required", "sw2Required"], an: ["sw1Analyzed", "sw2Analyzed"] };
+    if (state.sw === "sw1") return { req: ["sw1Required"], an: ["sw1Analyzed"], ex: ["sw1Excess"] };
+    if (state.sw === "sw2") return { req: ["sw2Required"], an: ["sw2Analyzed"], ex: ["sw2Excess"] };
+    return {
+      req: ["sw1Required", "sw2Required"],
+      an: ["sw1Analyzed", "sw2Analyzed"],
+      ex: ["sw1Excess", "sw2Excess"],
+    };
   }
 
   function selectedYears() {
@@ -40,16 +45,18 @@
   }
 
   function riverAggregate(river, years) {
-    const { req, an } = swKeys();
+    const { req, an, ex } = swKeys();
     let required = 0;
     let analyzed = 0;
+    let excess = 0;
     for (const y of years) {
       const entry = river.byYear[String(y)];
       if (!entry) continue;
       required += sumFor(entry, req);
       analyzed += sumFor(entry, an);
+      excess += sumFor(entry, ex);
     }
-    return { required, analyzed };
+    return { required, analyzed, excess };
   }
 
   function fmtPct(analyzed, required) {
@@ -59,23 +66,26 @@
 
   function render() {
     const years = selectedYears();
-    const { req, an } = swKeys();
+    const { req, an, ex } = swKeys();
 
     let totalRequired = 0;
     let totalAnalyzed = 0;
+    let totalExcess = 0;
     const riverRows = [];
 
     for (const river of state.data.rivers) {
-      const { required, analyzed } = riverAggregate(river, years);
+      const { required, analyzed, excess } = riverAggregate(river, years);
       if (required === 0) continue; // river has no candidates in this range/class
       totalRequired += required;
       totalAnalyzed += analyzed;
-      riverRows.push({ name: river.name, required, analyzed });
+      totalExcess += excess;
+      riverRows.push({ name: river.name, required, analyzed, excess });
     }
 
     els.statRequired.textContent = totalRequired.toLocaleString();
     els.statAnalyzed.textContent = totalAnalyzed.toLocaleString();
     els.statPct.textContent = fmtPct(totalAnalyzed, totalRequired);
+    els.statExcess.textContent = totalExcess.toLocaleString();
     els.statRivers.textContent = riverRows.length;
     els.updated.textContent = "Data as of " + formatTimestamp(state.data.generatedAt);
 
@@ -91,12 +101,12 @@
     });
 
     renderTable(riverRows);
-    renderYearChart(years, req, an);
+    renderYearChart(years, req, an, ex);
   }
 
   function renderTable(rows) {
     if (!rows.length) {
-      els.tableBody.innerHTML = '<tr><td colspan="5" class="empty-row">No samples in this range.</td></tr>';
+      els.tableBody.innerHTML = '<tr><td colspan="6" class="empty-row">No samples in this range.</td></tr>';
       return;
     }
     els.tableBody.innerHTML = rows.map((r) => {
@@ -111,29 +121,35 @@
             <div class="bar-fill" style="width:${pct}%"></div>
           </div>
         </td>
+        <td class="num">${r.excess ? r.excess.toLocaleString() : "–"}</td>
       </tr>`;
     }).join("");
   }
 
-  function renderYearChart(years, reqKeys, anKeys) {
+  function renderYearChart(years, reqKeys, anKeys, exKeys) {
     const required = [];
     const analyzed = [];
+    const excess = [];
     for (const y of years) {
       let reqSum = 0;
       let anSum = 0;
+      let exSum = 0;
       for (const river of state.data.rivers) {
         const entry = river.byYear[String(y)];
         if (!entry) continue;
         reqSum += sumFor(entry, reqKeys);
         anSum += sumFor(entry, anKeys);
+        exSum += sumFor(entry, exKeys);
       }
       required.push(reqSum);
       analyzed.push(anSum);
+      excess.push(exSum);
     }
 
     const style = getComputedStyle(document.documentElement);
     const requiredColor = style.getPropertyValue("--required-bar").trim();
     const analyzedColor = style.getPropertyValue("--fill-good").trim();
+    const excessColor = style.getPropertyValue("--excess-color").trim();
     const textColor = style.getPropertyValue("--text-secondary").trim();
     const gridColor = style.getPropertyValue("--gridline").trim();
 
@@ -143,8 +159,9 @@
       data: {
         labels: years.map(String),
         datasets: [
-          { label: "Required", data: required, backgroundColor: requiredColor, borderRadius: 3, maxBarThickness: 22 },
-          { label: "Imaged", data: analyzed, backgroundColor: analyzedColor, borderRadius: 3, maxBarThickness: 22 },
+          { label: "Required", data: required, backgroundColor: requiredColor, borderRadius: 3, maxBarThickness: 18 },
+          { label: "Imaged", data: analyzed, backgroundColor: analyzedColor, borderRadius: 3, maxBarThickness: 18 },
+          { label: "Excess", data: excess, backgroundColor: excessColor, borderRadius: 3, maxBarThickness: 18 },
         ],
       },
       options: {
@@ -225,7 +242,7 @@
     } catch (err) {
       els.updated.textContent = "Failed to load data";
       els.tableBody.innerHTML =
-        '<tr><td colspan="5" class="empty-row">Could not load data/summary.json. ' + escapeHtml(String(err)) + "</td></tr>";
+        '<tr><td colspan="6" class="empty-row">Could not load data/summary.json. ' + escapeHtml(String(err)) + "</td></tr>";
       console.error(err);
     }
   }

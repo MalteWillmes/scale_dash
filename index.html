@@ -48,16 +48,20 @@
 
     <section class="stat-tiles" aria-label="Totals" id="statTiles">
       <div class="stat-tile">
-        <span class="stat-label">Candidate samples</span>
+        <span class="stat-label">Required (target)</span>
         <span class="stat-value" id="statRequired">–</span>
       </div>
       <div class="stat-tile">
-        <span class="stat-label">Scales imaged</span>
+        <span class="stat-label">Imaged (of target)</span>
         <span class="stat-value" id="statAnalyzed">–</span>
       </div>
       <div class="stat-tile stat-tile-accent">
-        <span class="stat-label">% imaged</span>
+        <span class="stat-label">% of target imaged</span>
         <span class="stat-value" id="statPct">–</span>
+      </div>
+      <div class="stat-tile stat-tile-excess">
+        <span class="stat-label">Excess (beyond target)</span>
+        <span class="stat-value" id="statExcess">–</span>
       </div>
       <div class="stat-tile">
         <span class="stat-label">Rivers</span>
@@ -83,22 +87,25 @@
               <th scope="col" class="num">Imaged</th>
               <th scope="col" class="num">%</th>
               <th scope="col" class="bar-col">Progress</th>
+              <th scope="col" class="num">Excess</th>
             </tr>
           </thead>
           <tbody id="riverTableBody">
-            <tr><td colspan="5" class="loading-row">Loading…</td></tr>
+            <tr><td colspan="6" class="loading-row">Loading…</td></tr>
           </tbody>
         </table>
       </div>
     </section>
 
     <p class="footnote">
-      <strong>Required</strong> = fish selected as scale-sample candidates for that river/year
-      (up to 15 per river per year for 1SW, per the NASCO sampling design).
-      <strong>Imaged</strong> = candidates with a scale image on file (<code>Bilde_skjell</code>).
-      Many older images predate this project (imaging under NASCO project 132668 begins
-      October 2026); this view tracks total coverage, not only new NASCO imaging.
-      Data refreshes daily from the project's source spreadsheet.
+      Each river/year has a candidate pool of up to 15 randomly-selected fish, of which
+      <strong>10 need imaging</strong> (the rest are kept in reserve for poor scale quality).
+      <strong>Required</strong> = that target, capped by however many candidates exist.
+      <strong>Imaged</strong> = candidates with a scale image on file (<code>Bilde_skjell</code>) counted
+      toward the target. <strong>Excess</strong> = already-imaged candidates beyond the target —
+      extra coverage that isn't needed to hit 100% but exists anyway. Many images predate this
+      project (imaging under NASCO project 132668 begins October 2026); this view tracks total
+      coverage, not only new NASCO imaging. Data refreshes daily from the project's source spreadsheet.
     </p>
   </main>
 

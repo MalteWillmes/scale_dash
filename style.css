@@ -12,6 +12,7 @@
   --fill-good: #0ca30c;
   --required-bar: #898781;
   --accent-tint: #cde2fb;
+  --excess-color: #2a78d6;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -29,6 +30,7 @@
     --fill-good: #0ca30c;
     --required-bar: #6b6a64;
     --accent-tint: #184f95;
+    --excess-color: #3987e5;
   }
 }
 
@@ -145,7 +147,7 @@ select#riverSort {
 
 .stat-tiles {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 12px;
   margin-bottom: 24px;
 }
@@ -161,6 +163,7 @@ select#riverSort {
 }
 
 .stat-tile-accent .stat-value { color: var(--fill-good); }
+.stat-tile-excess .stat-value { color: var(--excess-color); }
 
 .stat-label {
   font-size: 0.75rem;
@@ -255,10 +258,5 @@ tbody tr:last-child td { border-bottom: none; }
 }
 
 @media (max-width: 720px) {
-  .stat-tiles { grid-template-columns: repeat(2, 1fr); }
   .bar-col { width: 100px; }
-}
-
-@media (max-width: 480px) {
-  .stat-tiles { grid-template-columns: 1fr 1fr; }
 }

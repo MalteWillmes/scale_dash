@@ -1,9 +1,9 @@
 # NASCO Salmon Growth — Sample Progress Dashboard
 
 A small static dashboard tracking scale-sample progress by river for NINA project
-132668 ("NASCO: Salmon growth"). Shows, per river and year, how many fish were
-selected as scale-sample candidates ("required") versus how many already have a
-scale image on file ("imaged").
+132668 ("NASCO: Salmon growth"). Shows, per river and year, progress toward the
+project's imaging target ("required" vs. "imaged") plus any already-imaged
+samples beyond that target ("excess").
 
 **Live (unlisted) URL:** https://maltewillmes.github.io/scale_dash/
 
@@ -28,15 +28,30 @@ scale image on file ("imaged").
 
 ## Definitions used in this dashboard
 
-- **Required** — a fish selected as a scale-sample candidate for that river/year
-  (the NASCO design randomly selects up to 15 1SW and up to 10 2SW fish per
-  river per year).
-- **Imaged** — a candidate row where `Bilde_skjell` (the scale image filename)
-  is filled in. Many of these images predate this project — NASCO's own imaging
-  (task: "Image scale samples") starts October 2026 — so this tracks *total*
-  photographic coverage, not only new NASCO-funded imaging. If you'd rather track
-  only new project imaging once that starts, that needs a cutoff date or a
-  separate flag in the source data — not available yet.
+Each river/year has a candidate pool of up to 15 randomly-selected fish (the
+NASCO sampling design). Of those, only **10 per river per year** actually need
+imaging — the rest are kept in reserve in case of poor scale quality. `imaged`
+below means a candidate row where `Bilde_skjell` (the scale image filename) is
+filled in.
+
+- **Required** — `min(10, candidate pool size)` for that river/year: the
+  imaging target, capped by however many candidates actually exist.
+- **Imaged** — however many already-imaged candidates count toward that
+  target: `min(imaged count, required)`. Required + Imaged always describes a
+  0–100% target.
+- **Excess** — already-imaged candidates beyond the target:
+  `max(0, imaged count − required)`. Extra coverage that isn't needed to hit
+  100% but exists anyway — reported separately, never folded into the
+  percentage.
+
+Many images predate this project — NASCO's own imaging (task: "Image scale
+samples") starts October 2026 — so this tracks *total* photographic coverage,
+not only new NASCO-funded imaging. If you'd rather track only new project
+imaging once that starts, that needs a cutoff date or a separate flag in the
+source data — not available yet. The 10/river/year target applies equally to
+1SW and 2SW; adjust `PER_YEAR_TARGET` in `scripts/build_summary.py` (and the
+matching constant in `SETUP.md`'s Apps Script) if that's ever confirmed to
+differ by age class.
 
 ## Keeping it updated automatically
 
