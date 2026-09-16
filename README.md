@@ -5,8 +5,7 @@ A small static dashboard tracking scale-sample progress by river for NINA projec
 selected as scale-sample candidates ("required") versus how many already have a
 scale image on file ("imaged").
 
-**Live (unlisted) URL:** filled in after the first `gh api .../pages` call — see
-below, or check the repo's *Settings → Pages*.
+**Live (unlisted) URL:** https://maltewillmes.github.io/scale_dash/
 
 ## How it works
 
@@ -25,7 +24,7 @@ below, or check the repo's *Settings → Pages*.
   git add data/summary.json && git commit -m "Refresh sample data" && git push
   ```
 
-  Pushing to `main` is enough — GitHub Pages redeploys automatically.
+  Pushing to `master` is enough — GitHub Pages redeploys automatically.
 
 ## Definitions used in this dashboard
 

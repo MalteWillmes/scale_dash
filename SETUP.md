@@ -72,15 +72,15 @@ At [script.google.com](https://script.google.com) → **New project**. Name it
 // Project Settings -> Script Properties:
 //   GITHUB_TOKEN   a fine-grained GitHub PAT, scoped to just this repo,
 //                  permission "Contents: Read and write"
-//   GITHUB_REPO    "your-username/nasco-sample-dashboard"
-//   GITHUB_BRANCH  "main"
+//   GITHUB_REPO    "MalteWillmes/scale_dash"
+//   GITHUB_BRANCH  "master"
 const SEARCH_SUBJECT = "NASCO daily export";
 
 function syncDaily() {
   const props = PropertiesService.getScriptProperties();
   const token = props.getProperty("GITHUB_TOKEN");
   const repo = props.getProperty("GITHUB_REPO");
-  const branch = props.getProperty("GITHUB_BRANCH") || "main";
+  const branch = props.getProperty("GITHUB_BRANCH") || "master";
   if (!token || !repo) throw new Error("Set GITHUB_TOKEN and GITHUB_REPO in Script Properties first.");
 
   const threads = GmailApp.search('subject:"' + SEARCH_SUBJECT + '" newer_than:2d', 0, 5);
