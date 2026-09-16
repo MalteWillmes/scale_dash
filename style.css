@@ -60,10 +60,11 @@ body {
   gap: 8px;
 }
 
-.title-row {
+.header-side {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
 }
 
 .brand-mark-chip {
