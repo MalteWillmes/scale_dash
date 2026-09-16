@@ -95,7 +95,6 @@
       switch (state.sort) {
         case "pctAsc": return pctA - pctB;
         case "pctDesc": return pctB - pctA;
-        case "requiredDesc": return b.required - a.required;
         default: return a.name.localeCompare(b.name);
       }
     });
