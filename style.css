@@ -250,6 +250,14 @@ tbody tr:last-child td { border-bottom: none; }
   max-width: 760px;
 }
 
+.footnote p {
+  margin: 0 0 8px;
+}
+
+.footnote p:last-child {
+  margin-bottom: 0;
+}
+
 .footnote code {
   background: var(--track);
   padding: 1px 5px;
