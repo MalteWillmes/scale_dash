@@ -60,6 +60,16 @@ body {
   gap: 8px;
 }
 
+.title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-mark {
+  flex-shrink: 0;
+}
+
 h1 {
   font-size: 1.4rem;
   margin: 0 0 2px;
