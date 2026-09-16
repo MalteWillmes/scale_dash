@@ -12,12 +12,15 @@ more than one Objektnavn spelling, which would otherwise split one river into
 two rows. The displayed name is just the most common Objektnavn for that id.
 
 Each river/year has a candidate pool of up to 15 randomly-selected fish (per
-the NASCO sampling design), of which only PER_YEAR_TARGET actually need to be
+the NASCO sampling design), of which PER_YEAR_TARGET actually need to be
 imaged for that river/year -- the rest are kept in reserve in case of poor
 scale quality.
 
-"Required"  = min(PER_YEAR_TARGET, candidate pool size) for that river/year --
-              the imaging target, capped by however many candidates exist.
+"Required"  = PER_YEAR_TARGET, always -- a fixed per-river, per-year imaging
+              target (10 for 1SW, 10 for 2SW), independent of how many
+              candidates were actually selected that year. A year with fewer
+              than 10 candidates simply can't reach 100% -- that shortfall is
+              real and intentionally visible, not hidden by shrinking the target.
 "Analyzed"  = however many of those already-imaged candidates count toward
               the target, i.e. min(imaged count, required).
 "Excess"    = already-imaged candidates beyond the target (imaged count minus
@@ -96,9 +99,8 @@ def aggregate(rows_1sw, rows_2sw):
                 ws_entry["nameCounts"][name] += 1
             yr = ws_entry["byYear"].setdefault(str(year), {k: 0 for k in FIELDS})
 
-            candidate_count = len(entries)
             imaged_count = sum(1 for _, img in entries if img)
-            required = min(target, candidate_count)
+            required = target
             analyzed = min(imaged_count, required)
             excess = max(0, imaged_count - required)
 

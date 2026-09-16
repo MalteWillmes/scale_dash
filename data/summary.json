@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-16T08:26:12Z",
+  "generatedAt": "2026-09-16T08:28:14Z",
   "years": [
     1925,
     1926,
@@ -229,7 +229,7 @@
       "watershedId": "104.Z",
       "byYear": {
         "1925": {
-          "sw1Required": 1,
+          "sw1Required": 10,
           "sw1Analyzed": 1,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -248,7 +248,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 7,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -272,23 +272,23 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 3,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "1992": {
-          "sw1Required": 7,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 8,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "1993": {
-          "sw1Required": 2,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 1,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -296,7 +296,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 1,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -309,7 +309,7 @@
           "sw2Excess": 0
         },
         "1996": {
-          "sw1Required": 3,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -320,7 +320,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 1,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -328,7 +328,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 3,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -469,7 +469,7 @@
           "sw2Excess": 5
         },
         "2016": {
-          "sw1Required": 4,
+          "sw1Required": 10,
           "sw1Analyzed": 4,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -501,7 +501,7 @@
           "sw2Excess": 0
         },
         "2020": {
-          "sw1Required": 4,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -512,12 +512,12 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 3,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "2022": {
-          "sw1Required": 7,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -525,26 +525,26 @@
           "sw2Excess": 0
         },
         "2023": {
-          "sw1Required": 1,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 3,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "2024": {
-          "sw1Required": 4,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 2,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "2025": {
-          "sw1Required": 4,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 1,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -552,16 +552,16 @@
           "sw1Required": 0,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 2,
+          "sw2Required": 10,
           "sw2Analyzed": 2,
           "sw2Excess": 0
         }
       },
       "totals": {
-        "sw1Required": 337,
+        "sw1Required": 400,
         "sw1Analyzed": 85,
         "sw1Excess": 30,
-        "sw2Required": 325,
+        "sw2Required": 410,
         "sw2Analyzed": 102,
         "sw2Excess": 50
       }
@@ -574,7 +574,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 6,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -651,7 +651,7 @@
           "sw2Excess": 0
         },
         "2006": {
-          "sw1Required": 9,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -667,7 +667,7 @@
           "sw2Excess": 0
         },
         "2008": {
-          "sw1Required": 6,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -675,7 +675,7 @@
           "sw2Excess": 0
         },
         "2009": {
-          "sw1Required": 5,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -707,7 +707,7 @@
           "sw2Excess": 0
         },
         "2013": {
-          "sw1Required": 8,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -715,10 +715,10 @@
           "sw2Excess": 0
         },
         "2014": {
-          "sw1Required": 3,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 6,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -731,7 +731,7 @@
           "sw2Excess": 0
         },
         "2016": {
-          "sw1Required": 5,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -739,7 +739,7 @@
           "sw2Excess": 0
         },
         "2017": {
-          "sw1Required": 4,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -747,15 +747,15 @@
           "sw2Excess": 0
         },
         "2018": {
-          "sw1Required": 1,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "2020": {
-          "sw1Required": 2,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -763,15 +763,15 @@
           "sw2Excess": 0
         },
         "2022": {
-          "sw1Required": 3,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 2,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "2024": {
-          "sw1Required": 2,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -779,10 +779,10 @@
           "sw2Excess": 0
         },
         "2025": {
-          "sw1Required": 1,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 1,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -806,16 +806,16 @@
           "sw1Required": 0,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 1,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         }
       },
       "totals": {
-        "sw1Required": 199,
+        "sw1Required": 270,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
-        "sw2Required": 265,
+        "sw2Required": 300,
         "sw2Analyzed": 0,
         "sw2Excess": 0
       }
@@ -825,10 +825,10 @@
       "watershedId": "030.4Z",
       "byYear": {
         "1998": {
-          "sw1Required": 3,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -836,7 +836,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 6,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -844,7 +844,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -860,16 +860,16 @@
           "sw1Required": 0,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 1,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         }
       },
       "totals": {
-        "sw1Required": 33,
+        "sw1Required": 40,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
-        "sw2Required": 35,
+        "sw2Required": 50,
         "sw2Analyzed": 0,
         "sw2Excess": 0
       }
@@ -922,7 +922,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 5,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -935,10 +935,10 @@
           "sw2Excess": 0
         },
         "1996": {
-          "sw1Required": 7,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 8,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -962,7 +962,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 8,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -986,12 +986,12 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 7,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "2004": {
-          "sw1Required": 7,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -1023,7 +1023,7 @@
           "sw2Excess": 0
         },
         "2008": {
-          "sw1Required": 3,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -1039,7 +1039,7 @@
           "sw2Excess": 0
         },
         "2010": {
-          "sw1Required": 5,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -1047,7 +1047,7 @@
           "sw2Excess": 0
         },
         "2011": {
-          "sw1Required": 2,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -1066,16 +1066,16 @@
           "sw1Required": 0,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 1,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         }
       },
       "totals": {
-        "sw1Required": 204,
+        "sw1Required": 230,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
-        "sw2Required": 209,
+        "sw2Required": 230,
         "sw2Analyzed": 0,
         "sw2Excess": 0
       }
@@ -1149,7 +1149,7 @@
           "sw2Excess": 0
         },
         "2007": {
-          "sw1Required": 8,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -1157,7 +1157,7 @@
           "sw2Excess": 0
         },
         "2009": {
-          "sw1Required": 1,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 0,
@@ -1278,7 +1278,7 @@
         }
       },
       "totals": {
-        "sw1Required": 229,
+        "sw1Required": 240,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
         "sw2Required": 230,
@@ -1363,7 +1363,7 @@
           "sw2Excess": 0
         },
         "1998": {
-          "sw1Required": 2,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -1580,7 +1580,7 @@
         }
       },
       "totals": {
-        "sw1Required": 352,
+        "sw1Required": 360,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
         "sw2Required": 360,
@@ -1601,10 +1601,10 @@
           "sw2Excess": 0
         },
         "1990": {
-          "sw1Required": 7,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 8,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -1617,7 +1617,7 @@
           "sw2Excess": 0
         },
         "1992": {
-          "sw1Required": 8,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -1625,18 +1625,18 @@
           "sw2Excess": 0
         },
         "1993": {
-          "sw1Required": 2,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 2,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "1994": {
-          "sw1Required": 7,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 6,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -1649,10 +1649,10 @@
           "sw2Excess": 0
         },
         "1997": {
-          "sw1Required": 3,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 7,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -1676,16 +1676,16 @@
           "sw1Required": 0,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 4,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         }
       },
       "totals": {
-        "sw1Required": 77,
+        "sw1Required": 100,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
-        "sw2Required": 87,
+        "sw2Required": 110,
         "sw2Analyzed": 0,
         "sw2Excess": 0
       }
@@ -1698,7 +1698,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 6,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -1730,7 +1730,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 4,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -1738,7 +1738,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 7,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -1762,7 +1762,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 3,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -1778,7 +1778,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 8,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -1803,7 +1803,7 @@
         "sw1Required": 130,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
-        "sw2Required": 88,
+        "sw2Required": 110,
         "sw2Analyzed": 0,
         "sw2Excess": 0
       }
@@ -1864,7 +1864,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 4,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -1888,7 +1888,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 5,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2024,7 +2024,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 5,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2041,7 +2041,7 @@
         "sw1Required": 280,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
-        "sw2Required": 264,
+        "sw2Required": 280,
         "sw2Analyzed": 0,
         "sw2Excess": 0
       }
@@ -2054,7 +2054,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 7,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2078,7 +2078,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 1,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2086,7 +2086,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 7,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2094,7 +2094,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2102,7 +2102,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2123,7 +2123,7 @@
           "sw2Excess": 0
         },
         "2010": {
-          "sw1Required": 2,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -2150,7 +2150,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 4,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2158,7 +2158,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 4,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2166,7 +2166,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 8,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2182,7 +2182,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2214,7 +2214,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 7,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2246,16 +2246,16 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 7,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         }
       },
       "totals": {
-        "sw1Required": 242,
+        "sw1Required": 250,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
-        "sw2Required": 202,
+        "sw2Required": 240,
         "sw2Analyzed": 0,
         "sw2Excess": 0
       }
@@ -2308,7 +2308,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 5,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2316,7 +2316,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 6,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2332,7 +2332,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 4,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2340,7 +2340,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 4,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2361,10 +2361,10 @@
           "sw2Excess": 0
         },
         "2002": {
-          "sw1Required": 9,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 8,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2372,7 +2372,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2380,7 +2380,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 6,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2388,15 +2388,15 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "2006": {
-          "sw1Required": 9,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 2,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2404,7 +2404,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 6,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2457,10 +2457,10 @@
           "sw2Excess": 0
         },
         "2019": {
-          "sw1Required": 8,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 6,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2473,7 +2473,7 @@
           "sw2Excess": 0
         },
         "2021": {
-          "sw1Required": 3,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -2481,10 +2481,10 @@
           "sw2Excess": 0
         },
         "2022": {
-          "sw1Required": 9,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 2,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2492,7 +2492,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 3,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2500,12 +2500,12 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 2,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "2025": {
-          "sw1Required": 3,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -2516,16 +2516,16 @@
           "sw1Required": 0,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 3,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         }
       },
       "totals": {
-        "sw1Required": 291,
+        "sw1Required": 310,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
-        "sw2Required": 245,
+        "sw2Required": 320,
         "sw2Analyzed": 0,
         "sw2Excess": 0
       }
@@ -2591,7 +2591,7 @@
           "sw2Excess": 0
         },
         "1995": {
-          "sw1Required": 5,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -2599,7 +2599,7 @@
           "sw2Excess": 0
         },
         "1996": {
-          "sw1Required": 1,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -2607,15 +2607,15 @@
           "sw2Excess": 0
         },
         "2013": {
-          "sw1Required": 3,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 2,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "2014": {
-          "sw1Required": 3,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -2631,23 +2631,23 @@
           "sw2Excess": 0
         },
         "2017": {
-          "sw1Required": 4,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 4,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "2018": {
-          "sw1Required": 2,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 5,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "2019": {
-          "sw1Required": 6,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 0,
@@ -2655,7 +2655,7 @@
           "sw2Excess": 0
         },
         "2020": {
-          "sw1Required": 3,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -2674,7 +2674,7 @@
           "sw1Required": 0,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 1,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2688,10 +2688,10 @@
         }
       },
       "totals": {
-        "sw1Required": 107,
+        "sw1Required": 160,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
-        "sw2Required": 152,
+        "sw2Required": 180,
         "sw2Analyzed": 0,
         "sw2Excess": 0
       }
@@ -2720,7 +2720,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 7,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2752,7 +2752,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2760,7 +2760,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 6,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2784,7 +2784,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 4,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2797,18 +2797,18 @@
           "sw2Excess": 0
         },
         "2002": {
-          "sw1Required": 6,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 3,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "2003": {
-          "sw1Required": 8,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 3,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -2966,10 +2966,10 @@
         }
       },
       "totals": {
-        "sw1Required": 324,
+        "sw1Required": 330,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
-        "sw2Required": 292,
+        "sw2Required": 320,
         "sw2Analyzed": 0,
         "sw2Excess": 0
       }
@@ -3380,7 +3380,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 2,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -3457,7 +3457,7 @@
           "sw2Excess": 0
         },
         "2007": {
-          "sw1Required": 7,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -3489,7 +3489,7 @@
           "sw2Excess": 0
         },
         "2011": {
-          "sw1Required": 9,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -3505,10 +3505,10 @@
           "sw2Excess": 0
         },
         "2013": {
-          "sw1Required": 8,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 8,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -3596,7 +3596,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -3604,16 +3604,16 @@
           "sw1Required": 0,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 2,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         }
       },
       "totals": {
-        "sw1Required": 314,
+        "sw1Required": 320,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
-        "sw2Required": 311,
+        "sw2Required": 330,
         "sw2Analyzed": 0,
         "sw2Excess": 0
       }
@@ -3682,7 +3682,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 5,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -3799,10 +3799,10 @@
           "sw2Excess": 0
         },
         "2016": {
-          "sw1Required": 9,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 6,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -3840,10 +3840,10 @@
         }
       },
       "totals": {
-        "sw1Required": 259,
+        "sw1Required": 260,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
-        "sw2Required": 261,
+        "sw2Required": 270,
         "sw2Analyzed": 0,
         "sw2Excess": 0
       }
@@ -3856,7 +3856,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 6,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -3864,15 +3864,15 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 4,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "1997": {
-          "sw1Required": 8,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 8,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -3880,7 +3880,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 8,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -3917,7 +3917,7 @@
           "sw2Excess": 0
         },
         "2003": {
-          "sw1Required": 2,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 0,
@@ -3936,7 +3936,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 7,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -4102,10 +4102,10 @@
         }
       },
       "totals": {
-        "sw1Required": 300,
+        "sw1Required": 310,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
-        "sw2Required": 283,
+        "sw2Required": 300,
         "sw2Analyzed": 0,
         "sw2Excess": 0
       }
@@ -4147,15 +4147,15 @@
           "sw2Excess": 0
         },
         "1993": {
-          "sw1Required": 9,
+          "sw1Required": 10,
           "sw1Analyzed": 9,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 9,
           "sw2Excess": 0
         },
         "1996": {
-          "sw1Required": 4,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -4163,7 +4163,7 @@
           "sw2Excess": 0
         },
         "1997": {
-          "sw1Required": 6,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -4251,7 +4251,7 @@
           "sw2Excess": 0
         },
         "2008": {
-          "sw1Required": 5,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -4259,7 +4259,7 @@
           "sw2Excess": 0
         },
         "2009": {
-          "sw1Required": 7,
+          "sw1Required": 10,
           "sw1Analyzed": 3,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -4396,10 +4396,10 @@
         }
       },
       "totals": {
-        "sw1Required": 331,
+        "sw1Required": 350,
         "sw1Analyzed": 81,
         "sw1Excess": 24,
-        "sw2Required": 339,
+        "sw2Required": 340,
         "sw2Analyzed": 111,
         "sw2Excess": 29
       }
@@ -4428,7 +4428,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 7,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -4588,7 +4588,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 7,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -4692,7 +4692,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 2,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         }
@@ -4701,7 +4701,7 @@
         "sw1Required": 360,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
-        "sw2Required": 346,
+        "sw2Required": 360,
         "sw2Analyzed": 0,
         "sw2Excess": 0
       }
@@ -4714,23 +4714,23 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 4,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "1990": {
-          "sw1Required": 5,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 8,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "1991": {
-          "sw1Required": 2,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 5,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -4738,15 +4738,15 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 5,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "1993": {
-          "sw1Required": 9,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 1,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -4754,12 +4754,12 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "1995": {
-          "sw1Required": 1,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 0,
@@ -4768,10 +4768,10 @@
         }
       },
       "totals": {
-        "sw1Required": 47,
+        "sw1Required": 70,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
-        "sw2Required": 32,
+        "sw2Required": 60,
         "sw2Analyzed": 0,
         "sw2Excess": 0
       }
@@ -4792,7 +4792,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 5,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -4800,7 +4800,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 5,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -4808,7 +4808,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -4881,7 +4881,7 @@
         "sw1Required": 120,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
-        "sw2Required": 109,
+        "sw2Required": 120,
         "sw2Analyzed": 0,
         "sw2Excess": 0
       }
@@ -4894,7 +4894,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 2,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -4934,7 +4934,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 3,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -4942,7 +4942,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 1,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -4950,7 +4950,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 1,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -4958,7 +4958,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 3,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -4966,15 +4966,15 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 2,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "2003": {
-          "sw1Required": 6,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 2,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -4982,7 +4982,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 5,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -5006,7 +5006,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 4,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -5086,12 +5086,12 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 7,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "2019": {
-          "sw1Required": 9,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -5102,7 +5102,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 6,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -5118,7 +5118,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 8,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -5134,7 +5134,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -5142,7 +5142,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 4,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -5150,16 +5150,16 @@
           "sw1Required": 0,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 1,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         }
       },
       "totals": {
-        "sw1Required": 315,
+        "sw1Required": 320,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
-        "sw2Required": 238,
+        "sw2Required": 330,
         "sw2Analyzed": 0,
         "sw2Excess": 0
       }
@@ -5169,10 +5169,10 @@
       "watershedId": "213.Z",
       "byYear": {
         "1935": {
-          "sw1Required": 5,
+          "sw1Required": 10,
           "sw1Analyzed": 5,
           "sw1Excess": 0,
-          "sw2Required": 4,
+          "sw2Required": 10,
           "sw2Analyzed": 4,
           "sw2Excess": 0
         },
@@ -5196,20 +5196,20 @@
           "sw1Required": 10,
           "sw1Analyzed": 10,
           "sw1Excess": 0,
-          "sw2Required": 7,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "1940": {
-          "sw1Required": 3,
+          "sw1Required": 10,
           "sw1Analyzed": 3,
           "sw1Excess": 0,
-          "sw2Required": 1,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "1942": {
-          "sw1Required": 4,
+          "sw1Required": 10,
           "sw1Analyzed": 3,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -5217,10 +5217,10 @@
           "sw2Excess": 0
         },
         "1943": {
-          "sw1Required": 4,
+          "sw1Required": 10,
           "sw1Analyzed": 4,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -5241,15 +5241,15 @@
           "sw2Excess": 0
         },
         "1947": {
-          "sw1Required": 4,
+          "sw1Required": 10,
           "sw1Analyzed": 4,
           "sw1Excess": 0,
-          "sw2Required": 5,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "1948": {
-          "sw1Required": 2,
+          "sw1Required": 10,
           "sw1Analyzed": 2,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -5257,10 +5257,10 @@
           "sw2Excess": 0
         },
         "1955": {
-          "sw1Required": 3,
+          "sw1Required": 10,
           "sw1Analyzed": 3,
           "sw1Excess": 0,
-          "sw2Required": 6,
+          "sw2Required": 10,
           "sw2Analyzed": 6,
           "sw2Excess": 0
         },
@@ -5276,7 +5276,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 6,
           "sw1Excess": 0,
-          "sw2Required": 5,
+          "sw2Required": 10,
           "sw2Analyzed": 5,
           "sw2Excess": 0
         },
@@ -5284,7 +5284,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 10,
           "sw1Excess": 5,
-          "sw2Required": 3,
+          "sw2Required": 10,
           "sw2Analyzed": 3,
           "sw2Excess": 0
         },
@@ -5292,7 +5292,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 10,
           "sw1Excess": 5,
-          "sw2Required": 4,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -5321,7 +5321,7 @@
           "sw2Excess": 0
         },
         "1966": {
-          "sw1Required": 8,
+          "sw1Required": 10,
           "sw1Analyzed": 8,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -5332,7 +5332,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 10,
           "sw1Excess": 5,
-          "sw2Required": 1,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -5356,7 +5356,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 10,
           "sw1Excess": 5,
-          "sw2Required": 6,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -5372,7 +5372,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 10,
           "sw1Excess": 5,
-          "sw2Required": 4,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -5420,7 +5420,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 10,
           "sw1Excess": 5,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -5492,7 +5492,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 10,
           "sw1Excess": 5,
-          "sw2Required": 7,
+          "sw2Required": 10,
           "sw2Analyzed": 7,
           "sw2Excess": 0
         },
@@ -5556,7 +5556,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 10,
           "sw1Excess": 5,
-          "sw2Required": 6,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -5812,7 +5812,7 @@
           "sw1Required": 0,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 5,
+          "sw2Required": 10,
           "sw2Analyzed": 5,
           "sw2Excess": 0
         },
@@ -5820,7 +5820,7 @@
           "sw1Required": 0,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 7,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -5828,7 +5828,7 @@
           "sw1Required": 0,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -5836,16 +5836,16 @@
           "sw1Required": 0,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 1,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         }
       },
       "totals": {
-        "sw1Required": 753,
+        "sw1Required": 800,
         "sw1Analyzed": 668,
         "sw1Excess": 292,
-        "sw2Required": 749,
+        "sw2Required": 840,
         "sw2Analyzed": 357,
         "sw2Excess": 147
       }
@@ -5858,15 +5858,15 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 7,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "1991": {
-          "sw1Required": 7,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 1,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -5874,7 +5874,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 5,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -5882,7 +5882,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 1,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -5890,15 +5890,15 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 5,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "1995": {
-          "sw1Required": 6,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 4,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -5906,7 +5906,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 7,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -5922,7 +5922,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 4,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -5962,7 +5962,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 4,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -5978,7 +5978,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 5,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -6122,7 +6122,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 2,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -6138,16 +6138,16 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         }
       },
       "totals": {
-        "sw1Required": 353,
+        "sw1Required": 360,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
-        "sw2Required": 294,
+        "sw2Required": 360,
         "sw2Analyzed": 0,
         "sw2Excess": 0
       }
@@ -6157,7 +6157,7 @@
       "watershedId": "163.Z",
       "byYear": {
         "1974": {
-          "sw1Required": 1,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 0,
@@ -6165,18 +6165,18 @@
           "sw2Excess": 0
         },
         "1975": {
-          "sw1Required": 3,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "1976": {
-          "sw1Required": 5,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 8,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -6272,7 +6272,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 7,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -6320,12 +6320,12 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 5,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "1995": {
-          "sw1Required": 2,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 0,
@@ -6341,23 +6341,23 @@
           "sw2Excess": 0
         },
         "1998": {
-          "sw1Required": 9,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 1,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "1999": {
-          "sw1Required": 6,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 2,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "2000": {
-          "sw1Required": 2,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 0,
@@ -6392,7 +6392,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -6461,7 +6461,7 @@
           "sw2Excess": 5
         },
         "2013": {
-          "sw1Required": 8,
+          "sw1Required": 10,
           "sw1Analyzed": 8,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -6485,7 +6485,7 @@
           "sw2Excess": 5
         },
         "2016": {
-          "sw1Required": 3,
+          "sw1Required": 10,
           "sw1Analyzed": 3,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -6520,7 +6520,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 6,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -6528,12 +6528,12 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 4,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "2022": {
-          "sw1Required": 4,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 0,
@@ -6541,7 +6541,7 @@
           "sw2Excess": 0
         },
         "2025": {
-          "sw1Required": 2,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 0,
@@ -6550,10 +6550,10 @@
         }
       },
       "totals": {
-        "sw1Required": 425,
+        "sw1Required": 490,
         "sw1Analyzed": 81,
         "sw1Excess": 35,
-        "sw2Required": 391,
+        "sw2Required": 430,
         "sw2Analyzed": 90,
         "sw2Excess": 45
       }
@@ -6662,7 +6662,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 8,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -6835,7 +6835,7 @@
           "sw2Excess": 0
         },
         "2024": {
-          "sw1Required": 9,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -6846,16 +6846,16 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 8,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         }
       },
       "totals": {
-        "sw1Required": 359,
+        "sw1Required": 360,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
-        "sw2Required": 356,
+        "sw2Required": 360,
         "sw2Analyzed": 0,
         "sw2Excess": 0
       }
@@ -6865,10 +6865,10 @@
       "watershedId": "223.Z",
       "byYear": {
         "1952": {
-          "sw1Required": 5,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 2,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -6876,12 +6876,12 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 4,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "2006": {
-          "sw1Required": 5,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 0,
@@ -6940,7 +6940,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 8,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -6948,7 +6948,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 6,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -6972,7 +6972,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -6996,7 +6996,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 3,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -7004,7 +7004,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 7,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -7020,7 +7020,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 4,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -7028,7 +7028,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -7036,16 +7036,16 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 8,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         }
       },
       "totals": {
-        "sw1Required": 210,
+        "sw1Required": 220,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
-        "sw2Required": 170,
+        "sw2Required": 210,
         "sw2Analyzed": 0,
         "sw2Excess": 0
       }
@@ -7058,7 +7058,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 8,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -7066,7 +7066,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 6,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -7079,7 +7079,7 @@
           "sw2Excess": 0
         },
         "1996": {
-          "sw1Required": 4,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -7087,10 +7087,10 @@
           "sw2Excess": 0
         },
         "1998": {
-          "sw1Required": 8,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -7098,7 +7098,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -7314,16 +7314,16 @@
           "sw1Required": 0,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 3,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         }
       },
       "totals": {
-        "sw1Required": 312,
+        "sw1Required": 320,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
-        "sw2Required": 315,
+        "sw2Required": 330,
         "sw2Analyzed": 0,
         "sw2Excess": 0
       }
@@ -7336,7 +7336,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -7344,7 +7344,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 8,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -7352,15 +7352,15 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 2,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "1993": {
-          "sw1Required": 2,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 1,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -7376,7 +7376,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 7,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -7384,7 +7384,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 5,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -7392,7 +7392,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 1,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -7400,7 +7400,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 4,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -7408,7 +7408,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 2,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -7432,7 +7432,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 6,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -7440,7 +7440,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 6,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -7472,7 +7472,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 8,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -7608,7 +7608,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -7622,10 +7622,10 @@
         }
       },
       "totals": {
-        "sw1Required": 352,
+        "sw1Required": 360,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
-        "sw2Required": 288,
+        "sw2Required": 350,
         "sw2Analyzed": 0,
         "sw2Excess": 0
       }
@@ -7654,7 +7654,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 5,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -7667,18 +7667,18 @@
           "sw2Excess": 0
         },
         "2004": {
-          "sw1Required": 9,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 8,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "2005": {
-          "sw1Required": 4,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 6,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -7686,7 +7686,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 1,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -7699,10 +7699,10 @@
           "sw2Excess": 0
         },
         "2009": {
-          "sw1Required": 5,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 2,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -7836,10 +7836,10 @@
         }
       },
       "totals": {
-        "sw1Required": 238,
+        "sw1Required": 250,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
-        "sw2Required": 222,
+        "sw2Required": 250,
         "sw2Analyzed": 0,
         "sw2Excess": 0
       }
@@ -7852,7 +7852,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 1,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -7860,7 +7860,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 7,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -7900,7 +7900,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -8097,10 +8097,10 @@
           "sw2Excess": 0
         },
         "2021": {
-          "sw1Required": 9,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 5,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -8108,16 +8108,16 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 7,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         }
       },
       "totals": {
-        "sw1Required": 329,
+        "sw1Required": 330,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
-        "sw2Required": 309,
+        "sw2Required": 330,
         "sw2Analyzed": 0,
         "sw2Excess": 0
       }
@@ -8130,7 +8130,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 2,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -8143,10 +8143,10 @@
           "sw2Excess": 0
         },
         "1995": {
-          "sw1Required": 7,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 4,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -8170,7 +8170,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 5,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -8194,12 +8194,12 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 7,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "2004": {
-          "sw1Required": 5,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -8215,7 +8215,7 @@
           "sw2Excess": 0
         },
         "2006": {
-          "sw1Required": 9,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -8223,7 +8223,7 @@
           "sw2Excess": 0
         },
         "2007": {
-          "sw1Required": 8,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -8231,7 +8231,7 @@
           "sw2Excess": 0
         },
         "2008": {
-          "sw1Required": 5,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -8250,12 +8250,12 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "2011": {
-          "sw1Required": 7,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -8263,7 +8263,7 @@
           "sw2Excess": 0
         },
         "2012": {
-          "sw1Required": 9,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -8271,7 +8271,7 @@
           "sw2Excess": 0
         },
         "2013": {
-          "sw1Required": 7,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -8290,15 +8290,15 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "2016": {
-          "sw1Required": 1,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 6,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -8311,7 +8311,7 @@
           "sw2Excess": 0
         },
         "2018": {
-          "sw1Required": 8,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -8319,7 +8319,7 @@
           "sw2Excess": 0
         },
         "2019": {
-          "sw1Required": 8,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -8359,7 +8359,7 @@
           "sw2Excess": 0
         },
         "2024": {
-          "sw1Required": 9,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -8376,10 +8376,10 @@
         }
       },
       "totals": {
-        "sw1Required": 273,
+        "sw1Required": 310,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
-        "sw2Required": 282,
+        "sw2Required": 310,
         "sw2Analyzed": 0,
         "sw2Excess": 0
       }
@@ -8408,7 +8408,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -8421,10 +8421,10 @@
           "sw2Excess": 0
         },
         "1995": {
-          "sw1Required": 8,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -8432,7 +8432,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 6,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -8464,7 +8464,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -8528,7 +8528,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 3,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -8589,7 +8589,7 @@
           "sw2Excess": 0
         },
         "2019": {
-          "sw1Required": 4,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -8605,26 +8605,26 @@
           "sw2Excess": 0
         },
         "2021": {
-          "sw1Required": 9,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 8,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "2022": {
-          "sw1Required": 2,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 4,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "2023": {
-          "sw1Required": 8,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 2,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -8632,24 +8632,24 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 3,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "2025": {
-          "sw1Required": 6,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 6,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         }
       },
       "totals": {
-        "sw1Required": 297,
+        "sw1Required": 320,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
-        "sw2Required": 279,
+        "sw2Required": 320,
         "sw2Analyzed": 0,
         "sw2Excess": 0
       }
@@ -8678,7 +8678,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 4,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -8686,7 +8686,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 7,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -8694,7 +8694,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 9,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -8702,7 +8702,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 5,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -8718,12 +8718,12 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 1,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
         "1998": {
-          "sw1Required": 4,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 0,
@@ -8734,7 +8734,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 1,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -8742,7 +8742,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 8,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -8750,7 +8750,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 1,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -8758,7 +8758,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 3,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -8766,7 +8766,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 7,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -8798,7 +8798,7 @@
           "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 7,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -8819,10 +8819,10 @@
           "sw2Excess": 0
         },
         "2012": {
-          "sw1Required": 1,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
-          "sw2Required": 1,
+          "sw2Required": 10,
           "sw2Analyzed": 0,
           "sw2Excess": 0
         },
@@ -8867,7 +8867,7 @@
           "sw2Excess": 0
         },
         "2018": {
-          "sw1Required": 6,
+          "sw1Required": 10,
           "sw1Analyzed": 0,
           "sw1Excess": 0,
           "sw2Required": 10,
@@ -8932,20 +8932,20 @@
         }
       },
       "totals": {
-        "sw1Required": 321,
+        "sw1Required": 340,
         "sw1Analyzed": 0,
         "sw1Excess": 0,
-        "sw2Required": 264,
+        "sw2Required": 330,
         "sw2Analyzed": 0,
         "sw2Excess": 0
       }
     }
   ],
   "totals": {
-    "sw1Required": 9663,
+    "sw1Required": 10260,
     "sw1Analyzed": 1127,
     "sw1Excess": 481,
-    "sw2Required": 9182,
+    "sw2Required": 10260,
     "sw2Analyzed": 862,
     "sw2Excess": 366
   }

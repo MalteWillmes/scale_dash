@@ -35,13 +35,16 @@ which would otherwise split one river into two rows. The name shown is just
 the most common `Objektnavn` seen for that watershed id.
 
 Each river/year has a candidate pool of up to 15 randomly-selected fish (the
-NASCO sampling design). Of those, only **10 per river per year** actually need
-imaging — the rest are kept in reserve in case of poor scale quality. `imaged`
-below means a candidate row where `Bilde_skjell` (the scale image filename) is
-filled in.
+NASCO sampling design), of which **10 per river per year** need imaging — the
+rest are kept in reserve in case of poor scale quality. `imaged` below means a
+candidate row where `Bilde_skjell` (the scale image filename) is filled in.
 
-- **Required** — `min(10, candidate pool size)` for that river/year: the
-  imaging target, capped by however many candidates actually exist.
+- **Required** — a fixed **10** for every river/year, for each age class (so
+  20 total per river per year, combined) — the imaging target itself, not
+  capped or reduced by how many candidates happen to exist that year. A
+  river/year with fewer than 10 candidates selected simply can't reach 100% —
+  that shortfall is real and intentionally visible rather than hidden by
+  shrinking the target to match.
 - **Imaged** — however many already-imaged candidates count toward that
   target: `min(imaged count, required)`. Required + Imaged always describes a
   0–100% target.

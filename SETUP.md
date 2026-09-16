@@ -145,7 +145,8 @@ function emptyFields() {
 // the most common Objektnavn seen for that watershed id (ties broken
 // alphabetically).
 //
-// Required = min(target, candidate pool size) for that watershed/year.
+// Required = target, always -- a fixed per-river, per-year imaging target,
+//            independent of how many candidates exist that year.
 // Analyzed = min(imaged count, required) -- imaged candidates counted toward the target.
 // Excess   = max(0, imaged count - required) -- already-imaged candidates beyond the target.
 function aggregate(rows1sw, rows2sw) {
@@ -174,9 +175,8 @@ function aggregate(rows1sw, rows2sw) {
       const key = String(year);
       if (!wsEntry.byYear[key]) wsEntry.byYear[key] = emptyFields();
 
-      const candidateCount = entries.length;
       const imagedCount = entries.filter((e) => e.hasImage).length;
-      const required = Math.min(target, candidateCount);
+      const required = target; // fixed per-river, per-year target -- not capped by pool size
       const analyzed = Math.min(imagedCount, required);
       const excess = Math.max(0, imagedCount - required);
 
