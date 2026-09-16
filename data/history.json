@@ -1,0 +1,11 @@
+[
+  {
+    "date": "2026-09-16",
+    "sw1Required": 10260,
+    "sw1Analyzed": 1127,
+    "sw1Excess": 481,
+    "sw2Required": 10260,
+    "sw2Analyzed": 862,
+    "sw2Excess": 366
+  }
+]

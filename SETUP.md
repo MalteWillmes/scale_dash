@@ -1,8 +1,9 @@
 # Daily-refresh automation
 
-Goal: keep `data/summary.json` in sync with the OneDrive spreadsheet every day,
-without an Azure app registration, without a paid Power Automate connector, and
-without ever making the raw fish-level file public.
+Goal: keep `data/summary.json` (and `data/history.json`, the weekly-timeline
+log) in sync with the OneDrive spreadsheet every day, without an Azure app
+registration, without a paid Power Automate connector, and without ever
+making the raw fish-level file public.
 
 Bridge: **Power Automate** (reads the file under your own OneDrive sign-in,
 standard connectors only) → **email attachment to your Gmail** → **Google Apps
@@ -15,7 +16,7 @@ OneDrive Excel  →  Power Automate (daily)  →  email w/ 2 small CSVs  →  Gm
                                                                             │
                                                           Apps Script (daily, time trigger)
                                                                             │
-                                                     aggregates + pushes data/summary.json
+                                          aggregates + pushes data/summary.json + data/history.json
                                                                             ▼
                                                               GitHub repo → Pages redeploys
 ```
@@ -97,7 +98,15 @@ function syncDaily() {
   const rows2sw = parseRows(csv2sw.getDataAsString());
 
   const summary = aggregate(rows1sw, rows2sw);
-  pushToGitHub(summary, token, repo, branch);
+  const today = summary.generatedAt.slice(0, 10); // YYYY-MM-DD
+
+  pushJsonToGitHub("data/summary.json", summary, "Automated daily refresh: " + summary.generatedAt, token, repo, branch);
+
+  const history = fetchJsonFromGitHub("data/history.json", token, repo, branch) || [];
+  const withoutToday = history.filter((h) => h.date !== today);
+  withoutToday.push(Object.assign({ date: today }, summary.totals));
+  withoutToday.sort((a, b) => a.date.localeCompare(b.date));
+  pushJsonToGitHub("data/history.json", withoutToday, "Automated history update: " + today, token, repo, branch);
 }
 
 function findAttachment(attachments, needle) {
@@ -217,15 +226,28 @@ function aggregate(rows1sw, rows2sw) {
   };
 }
 
-function pushToGitHub(summary, token, repo, branch) {
-  const path = "data/summary.json";
-  const apiBase = "https://api.github.com/repos/" + repo + "/contents/" + path;
-  const headers = {
-    Authorization: "Bearer " + token,
-    Accept: "application/vnd.github+json",
-  };
+function githubHeaders(token) {
+  return { Authorization: "Bearer " + token, Accept: "application/vnd.github+json" };
+}
 
-  // Need the current file's sha to update it.
+// Returns the parsed JSON content of a repo file, or null if it doesn't exist yet.
+function fetchJsonFromGitHub(path, token, repo, branch) {
+  const apiBase = "https://api.github.com/repos/" + repo + "/contents/" + path;
+  const resp = UrlFetchApp.fetch(apiBase + "?ref=" + branch, {
+    headers: githubHeaders(token), muteHttpExceptions: true,
+  });
+  if (resp.getResponseCode() !== 200) return null;
+  const body = JSON.parse(resp.getContentText());
+  const decoded = Utilities.newBlob(Utilities.base64Decode(body.content)).getDataAsString();
+  return JSON.parse(decoded);
+}
+
+// Writes (creating or updating) one JSON file in the repo.
+function pushJsonToGitHub(path, data, message, token, repo, branch) {
+  const apiBase = "https://api.github.com/repos/" + repo + "/contents/" + path;
+  const headers = githubHeaders(token);
+
+  // Need the current file's sha to update it (absent for a brand-new file).
   let sha = null;
   const getResp = UrlFetchApp.fetch(apiBase + "?ref=" + branch, {
     headers, muteHttpExceptions: true,
@@ -234,12 +256,8 @@ function pushToGitHub(summary, token, repo, branch) {
     sha = JSON.parse(getResp.getContentText()).sha;
   }
 
-  const content = Utilities.base64Encode(JSON.stringify(summary, null, 2), Utilities.Charset.UTF_8);
-  const payload = {
-    message: "Automated daily refresh: " + summary.generatedAt,
-    content: content,
-    branch: branch,
-  };
+  const content = Utilities.base64Encode(JSON.stringify(data, null, 2), Utilities.Charset.UTF_8);
+  const payload = { message: message, content: content, branch: branch };
   if (sha) payload.sha = sha;
 
   const putResp = UrlFetchApp.fetch(apiBase, {
@@ -250,7 +268,7 @@ function pushToGitHub(summary, token, repo, branch) {
     muteHttpExceptions: true,
   });
   if (putResp.getResponseCode() >= 300) {
-    throw new Error("GitHub push failed: " + putResp.getResponseCode() + " " + putResp.getContentText());
+    throw new Error("GitHub push failed for " + path + ": " + putResp.getResponseCode() + " " + putResp.getContentText());
   }
 }
 ```
@@ -265,8 +283,9 @@ Then:
    other permissions. Paste it into `GITHUB_TOKEN`.
 3. Run `syncDaily` once manually from the Apps Script editor (after the Power
    Automate flow has sent at least one email) — it will ask you to authorize
-   Gmail read + external requests. Approve it, then confirm `data/summary.json`
-   updated in GitHub and the Pages site picked it up.
+   Gmail read + external requests. Approve it, then confirm both
+   `data/summary.json` and `data/history.json` updated in GitHub and the
+   Pages site picked it up.
 4. **Triggers (clock icon) → Add Trigger** → function `syncDaily` → time-driven
    → day timer → pick an hour after the Power Automate flow's run time (e.g.
    07:00–08:00).

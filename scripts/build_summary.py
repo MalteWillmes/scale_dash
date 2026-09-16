@@ -32,8 +32,18 @@ separately and is never part of that percentage.
 This same logic is meant to be re-implemented by the daily refresh pipeline
 (see SETUP.md) so a manual re-run of this script and the automated pipeline
 always produce the identical JSON shape.
+
+The source spreadsheet has no "date image added" column -- Bilde_skjell only
+says whether an image exists *now*, not when it appeared -- so there is no way
+to reconstruct history retroactively. Instead, every run of this script (or
+the daily Apps Script pipeline) upserts today's totals as one entry in
+data/history.json, keyed by date (one entry per calendar day; re-running the
+same day overwrites that day's entry rather than duplicating it). The
+dashboard buckets that log into a weekly timeline itself -- nothing here is
+pre-aggregated by week, so the bucketing logic only has to live in one place.
 """
 import json
+import os
 import sys
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
@@ -138,12 +148,33 @@ def aggregate(rows_1sw, rows_2sw):
     }
 
 
+def update_history(history_path, date_str, totals):
+    """Upsert one {date, ...totals} entry into the history log, sorted by date."""
+    if os.path.exists(history_path):
+        with open(history_path, encoding="utf-8") as f:
+            history = json.load(f)
+    else:
+        history = []
+
+    history = [h for h in history if h.get("date") != date_str]
+    entry = {"date": date_str}
+    entry.update(totals)
+    history.append(entry)
+    history.sort(key=lambda h: h["date"])
+
+    with open(history_path, "w", encoding="utf-8") as f:
+        json.dump(history, f, ensure_ascii=False, indent=2)
+
+    return history
+
+
 def main():
     if len(sys.argv) < 3:
         print(__doc__)
         sys.exit(1)
     path_1sw, path_2sw = sys.argv[1], sys.argv[2]
     out_path = sys.argv[3] if len(sys.argv) > 3 else "data/summary.json"
+    history_path = os.path.join(os.path.dirname(out_path) or ".", "history.json")
 
     rows_1sw = load_rows(path_1sw)
     rows_2sw = load_rows(path_2sw)
@@ -152,8 +183,12 @@ def main():
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(summary, f, ensure_ascii=False, indent=2)
 
+    today = summary["generatedAt"][:10]  # YYYY-MM-DD
+    history = update_history(history_path, today, summary["totals"])
+
     print(f"Wrote {out_path}: {len(summary['rivers'])} rivers, years {summary['years'][0]}-{summary['years'][-1]}")
     print(f"Totals: {summary['totals']}")
+    print(f"Wrote {history_path}: {len(history)} dated entries")
 
 
 if __name__ == "__main__":

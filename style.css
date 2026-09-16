@@ -215,6 +215,12 @@ select#riverSort {
   margin: 0 0 14px;
 }
 
+.panel-caption {
+  margin: -8px 0 14px;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
 .chart-wrap { position: relative; }
 
 .table-wrap { overflow-x: auto; }

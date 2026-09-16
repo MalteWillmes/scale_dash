@@ -80,6 +80,14 @@
       </div>
     </section>
 
+    <section class="panel" aria-label="Images added per week">
+      <h2>Images added per week</h2>
+      <p class="panel-caption" id="timelineCaption"></p>
+      <div class="chart-wrap">
+        <canvas id="timelineChart" height="180" role="img" aria-label="Bar chart of new scale images added each week since tracking began"></canvas>
+      </div>
+    </section>
+
     <section class="panel" aria-label="Progress by river">
       <h2>Progress by river</h2>
       <div class="table-wrap">
@@ -109,7 +117,9 @@
       <p><strong>Imaged</strong> = selected fish that have a scale image on file</p>
       <p><strong>Excess</strong> = imaged fish beyond the target of 10. These are not needed to
       reach 100% coverage but provide additional data.</p>
-      <p>Data are refreshed daily from the project source spreadsheet.</p>
+      <p>Data are refreshed daily from the project source spreadsheet. The weekly timeline above
+      tracks new images going forward from when this tracking began — the source data has no
+      record of when past images were added, so earlier history can't be reconstructed.</p>
     </div>
   </main>
 
