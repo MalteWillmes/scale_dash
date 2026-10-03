@@ -20,17 +20,20 @@ samples beyond that target ("excess").
 - `index.html` / `style.css` / `app.js` are a plain static site — no build step,
   no framework, so GitHub Pages can serve the repo directly.
 - `scripts/build_summary.py` regenerates both `data/summary.json` and
-  `data/history.json` from the two source workbooks (`d_1SW_top15.xlsx`,
-  `d_2SW_top15.xlsx`). Run it locally whenever you want to refresh the numbers
-  by hand:
+  `data/history.json` from the two source workbooks (`d_1SW_top15.xlsx` for
+  1SW, `d_2SW_top15.xlsx` for 2SW — the 15 fish selected per river per year).
+  Drop the current workbooks into `data/` (they're git-ignored via
+  `data/*.xlsx`, since they hold raw fish-level records and must never be
+  published) and run it whenever you want to refresh the numbers by hand:
 
   ```bash
   pip install openpyxl
-  python scripts/build_summary.py /path/to/d_1SW_top15.xlsx /path/to/d_2SW_top15.xlsx data/summary.json
+  python scripts/build_summary.py data/d_1SW_top15.xlsx data/d_2SW_top15.xlsx data/summary.json
   git add data/summary.json data/history.json && git commit -m "Refresh sample data" && git push
   ```
 
-  Pushing to `master` is enough — GitHub Pages redeploys automatically.
+  Stage the two JSON files by name as above rather than `git add -A`. Pushing
+  to `master` is enough — GitHub Pages redeploys automatically.
 
 ## Definitions used in this dashboard
 
@@ -101,8 +104,9 @@ The source spreadsheet lives in OneDrive and gets edited daily. The intended
 pipeline to keep `data/summary.json` fresh without any Azure app registration or
 paid connectors is documented in [`SETUP.md`](SETUP.md) — a small Power Automate
 flow plus a Google Apps Script bridge that pushes the refreshed JSON straight to
-this repo via the GitHub API. That part is **not wired up yet** — this prototype's
-data is a one-off snapshot generated on 2026-09-15.
+this repo via the GitHub API. That part is **not wired up yet** (and the approach
+is still undecided) — for now the data is refreshed by hand from the workbooks in
+`data/`; the current snapshot was generated on 2026-10-03.
 
 ## Project structure
 

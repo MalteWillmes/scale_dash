@@ -1,3 +1,7 @@
 __pycache__/
 *.pyc
 .DS_Store
+
+# Raw fish-level source workbooks stay local -- only the aggregated
+# data/summary.json and data/history.json are published.
+data/*.xlsx
