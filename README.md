@@ -46,7 +46,11 @@ the most common `Objektnavn` seen for that watershed id.
 Each river/year has a candidate pool of up to 15 randomly-selected fish (the
 NASCO sampling design), of which **10 per river per year** need imaging — the
 rest are kept in reserve in case of poor scale quality. `imaged` below means a
-candidate row where `Bilde_skjell` (the scale image filename) is filled in.
+candidate row where the 0/1 `bilde` flag is 1 **or** a `Bilde_skjell` (scale
+image filename) is filled in. `bilde` is the broader flag: every row with a
+filename also has `bilde = 1`, but images from 2019–2025 are flagged by `bilde`
+alone with no filename recorded, so counting filenames only badly undercounts
+recent imaging.
 
 - **Required** — a fixed **10** for every river/year, for each age class (so
   20 total per river per year, combined) — the imaging target itself, not
@@ -73,7 +77,7 @@ differ by age class.
 
 ## Images-added-per-week timeline
 
-The source spreadsheet has no "date image added" column — `Bilde_skjell` only
+The source spreadsheet has no "date image added" column — the image flag only
 says whether an image exists *now*, not when it appeared — so there's no way
 to reconstruct history retroactively. Instead, every pipeline run (manual or
 automated) upserts today's totals into `data/history.json`, and the dashboard

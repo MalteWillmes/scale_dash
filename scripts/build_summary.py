@@ -33,7 +33,13 @@ This same logic is meant to be re-implemented by the daily refresh pipeline
 (see SETUP.md) so a manual re-run of this script and the automated pipeline
 always produce the identical JSON shape.
 
-The source spreadsheet has no "date image added" column -- Bilde_skjell only
+A candidate counts as "imaged" when the 0/1 `bilde` flag is 1 or a
+`Bilde_skjell` filename is filled in. `bilde` is the broader of the two: every
+row with a filename also has bilde = 1, but recent images (2019-2025) are
+flagged by `bilde` alone with no filename recorded, so filename-only badly
+undercounts them.
+
+The source spreadsheet has no "date image added" column -- the image flag only
 says whether an image exists *now*, not when it appeared -- so there is no way
 to reconstruct history retroactively. Instead, every run of this script (or
 the daily Apps Script pipeline) upserts today's totals as one entry in
@@ -50,7 +56,7 @@ from datetime import datetime, timezone
 
 import openpyxl
 
-REQUIRED_COLUMNS = ["Objektnavn", "Vassdragsnr_hovedvassdrag", "Feltaar", "Bilde_skjell"]
+REQUIRED_COLUMNS = ["Objektnavn", "Vassdragsnr_hovedvassdrag", "Feltaar", "Bilde_skjell", "bilde"]
 
 # Per-river, per-year imaging target. The candidate pool itself is usually
 # larger (up to 15) -- the remainder are reserve fish kept in case of poor
@@ -72,7 +78,7 @@ def load_rows(path):
         river = r[idx["Objektnavn"]]
         watershed = r[idx["Vassdragsnr_hovedvassdrag"]]
         year = r[idx["Feltaar"]]
-        has_image = r[idx["Bilde_skjell"]] not in (None, "")
+        has_image = r[idx["bilde"]] == 1 or r[idx["Bilde_skjell"]] not in (None, "")
         if river is None or year is None or watershed is None or str(watershed).strip() == "":
             continue
         rows.append((str(river), str(watershed), int(year), has_image))

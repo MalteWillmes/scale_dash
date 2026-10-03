@@ -47,12 +47,12 @@ Add these actions, in order:
 1. **List rows present in a table** (Excel Online (Business)) — File: the 1SW
    workbook, Table: `Data1SW`.
 2. **Create CSV table** (Data Operations) — From: the *value* output of step 1.
-   Set **Columns → Custom**, and include only these four columns (this also
+   Set **Columns → Custom**, and include only these five columns (this also
    keeps the exported file small and free of anything sensitive):
-   `Objektnavn`, `Vassdragsnr_hovedvassdrag`, `Feltaar`, `Bilde_skjell`.
+   `Objektnavn`, `Vassdragsnr_hovedvassdrag`, `Feltaar`, `Bilde_skjell`, `bilde`.
 3. **List rows present in a table** — same as step 1, for the 2SW workbook /
    `Data2SW` table.
-4. **Create CSV table** — same four columns, from step 3's output.
+4. **Create CSV table** — same five columns, from step 3's output.
 5. **Send an email (V2)** (Office 365 Outlook) —
    - To: your Gmail address
    - Subject: exactly `NASCO daily export` (the Apps Script below matches on
@@ -113,7 +113,9 @@ function findAttachment(attachments, needle) {
   return attachments.find((a) => a.getName().toUpperCase().indexOf(needle) !== -1);
 }
 
-// Parses the CSV into {Objektnavn, Vassdragsnr_hovedvassdrag, Feltaar, Bilde_skjell} rows.
+// Parses the CSV into {Objektnavn, Vassdragsnr_hovedvassdrag, Feltaar, Bilde_skjell, bilde} rows.
+// An image exists when the 0/1 `bilde` flag is 1 or a Bilde_skjell filename is present
+// (same rule as scripts/build_summary.py).
 function parseRows(csvText) {
   const table = Utilities.parseCsv(csvText);
   if (table.length === 0) return [];
@@ -126,7 +128,8 @@ function parseRows(csvText) {
     const river = row[idx["Objektnavn"]];
     const watershed = row[idx["Vassdragsnr_hovedvassdrag"]] || "";
     const year = parseInt(row[idx["Feltaar"]], 10);
-    const hasImage = (row[idx["Bilde_skjell"]] || "").trim() !== "";
+    const hasImage = (row[idx["bilde"]] || "").trim() === "1" ||
+      (row[idx["Bilde_skjell"]] || "").trim() !== "";
     if (!river || !year || !watershed.trim()) continue;
     rows.push({ river: river.trim(), watershed: watershed.trim(), year, hasImage });
   }
