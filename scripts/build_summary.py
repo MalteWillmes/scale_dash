@@ -11,6 +11,10 @@ not by the free-text Objektnavn -- a couple of watersheds are recorded under
 more than one Objektnavn spelling, which would otherwise split one river into
 two rows. The displayed name is just the most common Objektnavn for that id.
 
+Each river also carries its `region` (Nord / Sor / Vest) from the source
+`region` column, kept exactly as written. A watershed maps to a single region
+in the data; if rows ever disagree, the most common non-empty value wins.
+
 Each river/year has a candidate pool of up to 15 randomly-selected fish (per
 the NASCO sampling design), of which PER_YEAR_TARGET actually need to be
 imaged for that river/year -- the rest are kept in reserve in case of poor
@@ -56,7 +60,7 @@ from datetime import datetime, timezone
 
 import openpyxl
 
-REQUIRED_COLUMNS = ["Objektnavn", "Vassdragsnr_hovedvassdrag", "Feltaar", "Bilde_skjell", "bilde"]
+REQUIRED_COLUMNS = ["Objektnavn", "Vassdragsnr_hovedvassdrag", "Feltaar", "Bilde_skjell", "bilde", "region"]
 
 # Per-river, per-year imaging target. The candidate pool itself is usually
 # larger (up to 15) -- the remainder are reserve fish kept in case of poor
@@ -79,9 +83,10 @@ def load_rows(path):
         watershed = r[idx["Vassdragsnr_hovedvassdrag"]]
         year = r[idx["Feltaar"]]
         has_image = r[idx["bilde"]] == 1 or r[idx["Bilde_skjell"]] not in (None, "")
+        region = str(r[idx["region"]]).strip() if r[idx["region"]] is not None else ""
         if river is None or year is None or watershed is None or str(watershed).strip() == "":
             continue
-        rows.append((str(river), str(watershed), int(year), has_image))
+        rows.append((str(river), str(watershed), int(year), has_image, region))
     return rows
 
 
@@ -95,27 +100,30 @@ def aggregate(rows_1sw, rows_2sw):
     # "Etneelva/Sørelva"), which would otherwise fragment one river into
     # multiple rows. The displayed name is the most common Objektnavn seen
     # for that watershed id (ties broken alphabetically).
-    watersheds = {}  # watershed id -> {watershedId, nameCounts, byYear: {year: {...}}}
+    watersheds = {}  # watershed id -> {watershedId, nameCounts, regionCounts, byYear: {year: {...}}}
     all_years = set()
 
     def add(rows, sw_key):
         target = PER_YEAR_TARGET[sw_key]
         # Group first: required/analyzed/excess depend on the whole
         # watershed+year candidate pool, not on individual rows.
-        groups = defaultdict(list)  # (watershed, year) -> [(river_name, has_image), ...]
-        for river, watershed, year, has_image in rows:
-            groups[(watershed, year)].append((river, has_image))
+        groups = defaultdict(list)  # (watershed, year) -> [(river_name, has_image, region), ...]
+        for river, watershed, year, has_image, region in rows:
+            groups[(watershed, year)].append((river, has_image, region))
 
         for (watershed, year), entries in groups.items():
             all_years.add(year)
             ws_entry = watersheds.setdefault(
-                watershed, {"watershedId": watershed, "nameCounts": Counter(), "byYear": {}}
+                watershed,
+                {"watershedId": watershed, "nameCounts": Counter(), "regionCounts": Counter(), "byYear": {}},
             )
-            for name, _ in entries:
+            for name, _, region in entries:
                 ws_entry["nameCounts"][name] += 1
+                if region:
+                    ws_entry["regionCounts"][region] += 1
             yr = ws_entry["byYear"].setdefault(str(year), {k: 0 for k in FIELDS})
 
-            imaged_count = sum(1 for _, img in entries if img)
+            imaged_count = sum(1 for _, img, _ in entries if img)
             required = target
             analyzed = min(imaged_count, required)
             excess = max(0, imaged_count - required)
@@ -131,6 +139,8 @@ def aggregate(rows_1sw, rows_2sw):
     river_list = []
     for ws_entry in watersheds.values():
         best_name = sorted(ws_entry["nameCounts"].items(), key=lambda kv: (-kv[1], kv[0]))[0][0]
+        region_counts = sorted(ws_entry["regionCounts"].items(), key=lambda kv: (-kv[1], kv[0]))
+        best_region = region_counts[0][0] if region_counts else ""
         river_totals = {k: 0 for k in FIELDS}
         for yr in ws_entry["byYear"].values():
             for k in river_totals:
@@ -140,6 +150,7 @@ def aggregate(rows_1sw, rows_2sw):
         river_list.append({
             "name": best_name,
             "watershedId": ws_entry["watershedId"],
+            "region": best_region,
             "byYear": ws_entry["byYear"],
             "totals": river_totals,
         })

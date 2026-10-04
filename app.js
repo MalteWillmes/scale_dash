@@ -82,7 +82,7 @@
       totalRequired += required;
       totalAnalyzed += analyzed;
       totalExcess += excess;
-      riverRows.push({ name: river.name, required, analyzed, excess });
+      riverRows.push({ name: river.name, region: regionLabel(river.region), required, analyzed, excess });
     }
 
     els.statRequired.textContent = totalRequired.toLocaleString();
@@ -96,6 +96,7 @@
       const pctA = a.required ? a.analyzed / a.required : 0;
       const pctB = b.required ? b.analyzed / b.required : 0;
       switch (state.sort) {
+        case "region": return a.region.localeCompare(b.region) || a.name.localeCompare(b.name);
         case "pctAsc": return pctA - pctB;
         case "pctDesc": return pctB - pctA;
         default: return a.name.localeCompare(b.name);
@@ -214,15 +215,23 @@
     return d.toLocaleDateString(undefined, { month: "short", day: "numeric", timeZone: "UTC" });
   }
 
+  // The source data writes the southern region as "Sor" (no ø); show it spelled properly.
+  const REGION_LABELS = { Sor: "Sør" };
+
+  function regionLabel(raw) {
+    return REGION_LABELS[raw] || raw || "–";
+  }
+
   function renderTable(rows) {
     if (!rows.length) {
-      els.tableBody.innerHTML = '<tr><td colspan="6" class="empty-row">No samples in this range.</td></tr>';
+      els.tableBody.innerHTML = '<tr><td colspan="7" class="empty-row">No samples in this range.</td></tr>';
       return;
     }
     els.tableBody.innerHTML = rows.map((r) => {
       const pct = r.required ? Math.round((r.analyzed / r.required) * 100) : 0;
       return `<tr>
         <td>${escapeHtml(r.name)}</td>
+        <td>${escapeHtml(r.region)}</td>
         <td class="num">${r.required.toLocaleString()}</td>
         <td class="num">${r.analyzed.toLocaleString()}</td>
         <td class="num">${pct}%</td>
@@ -366,7 +375,7 @@
     } catch (err) {
       els.updated.textContent = "Failed to load data";
       els.tableBody.innerHTML =
-        '<tr><td colspan="6" class="empty-row">Could not load data/summary.json. ' + escapeHtml(String(err)) + "</td></tr>";
+        '<tr><td colspan="7" class="empty-row">Could not load data/summary.json. ' + escapeHtml(String(err)) + "</td></tr>";
       console.error(err);
     }
   }

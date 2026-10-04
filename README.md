@@ -43,6 +43,12 @@ more than one `Objektnavn` spelling (e.g. "Etneelva" / "Etneelva/Sørelva"),
 which would otherwise split one river into two rows. The name shown is just
 the most common `Objektnavn` seen for that watershed id.
 
+Each river also carries its **region** from the source `region` column — Nord
+(10 rivers), Sør (8) and Vest (7) in the current data; every watershed maps to
+exactly one. It's stored in `summary.json` exactly as written in the source
+(`Sor`, without the ø) and shown as "Sør" in the table's Region column. The
+river sort menu has a "Region, then name" option that groups the table by region.
+
 Each river/year has a candidate pool of up to 15 randomly-selected fish (the
 NASCO sampling design), of which **10 per river per year** need imaging — the
 rest are kept in reserve in case of poor scale quality. `imaged` below means a

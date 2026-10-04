@@ -47,12 +47,13 @@ Add these actions, in order:
 1. **List rows present in a table** (Excel Online (Business)) — File: the 1SW
    workbook, Table: `Data1SW`.
 2. **Create CSV table** (Data Operations) — From: the *value* output of step 1.
-   Set **Columns → Custom**, and include only these five columns (this also
+   Set **Columns → Custom**, and include only these six columns (this also
    keeps the exported file small and free of anything sensitive):
-   `Objektnavn`, `Vassdragsnr_hovedvassdrag`, `Feltaar`, `Bilde_skjell`, `bilde`.
+   `Objektnavn`, `Vassdragsnr_hovedvassdrag`, `Feltaar`, `Bilde_skjell`, `bilde`,
+   `region`.
 3. **List rows present in a table** — same as step 1, for the 2SW workbook /
    `Data2SW` table.
-4. **Create CSV table** — same five columns, from step 3's output.
+4. **Create CSV table** — same six columns, from step 3's output.
 5. **Send an email (V2)** (Office 365 Outlook) —
    - To: your Gmail address
    - Subject: exactly `NASCO daily export` (the Apps Script below matches on
@@ -113,7 +114,7 @@ function findAttachment(attachments, needle) {
   return attachments.find((a) => a.getName().toUpperCase().indexOf(needle) !== -1);
 }
 
-// Parses the CSV into {Objektnavn, Vassdragsnr_hovedvassdrag, Feltaar, Bilde_skjell, bilde} rows.
+// Parses the CSV into {Objektnavn, Vassdragsnr_hovedvassdrag, Feltaar, Bilde_skjell, bilde, region} rows.
 // An image exists when the 0/1 `bilde` flag is 1 or a Bilde_skjell filename is present
 // (same rule as scripts/build_summary.py).
 function parseRows(csvText) {
@@ -130,8 +131,9 @@ function parseRows(csvText) {
     const year = parseInt(row[idx["Feltaar"]], 10);
     const hasImage = (row[idx["bilde"]] || "").trim() === "1" ||
       (row[idx["Bilde_skjell"]] || "").trim() !== "";
+    const region = (row[idx["region"]] || "").trim();
     if (!river || !year || !watershed.trim()) continue;
-    rows.push({ river: river.trim(), watershed: watershed.trim(), year, hasImage });
+    rows.push({ river: river.trim(), watershed: watershed.trim(), year, hasImage, region });
   }
   return rows;
 }
@@ -162,27 +164,28 @@ function emptyFields() {
 // Analyzed = min(imaged count, required) -- imaged candidates counted toward the target.
 // Excess   = max(0, imaged count - required) -- already-imaged candidates beyond the target.
 function aggregate(rows1sw, rows2sw) {
-  const watersheds = {}; // watershed id -> { watershedId, nameCounts, byYear: { year: {...} } }
+  const watersheds = {}; // watershed id -> { watershedId, nameCounts, regionCounts, byYear: { year: {...} } }
   const allYears = new Set();
 
   function add(rows, swKey) {
     const target = PER_YEAR_TARGET[swKey];
     // Group first: required/analyzed/excess depend on the whole watershed+year pool.
-    const groups = {}; // "watershed||year" -> [{river, hasImage}, ...]
-    rows.forEach(({ river, watershed, year, hasImage }) => {
+    const groups = {}; // "watershed||year" -> [{river, hasImage, region}, ...]
+    rows.forEach(({ river, watershed, year, hasImage, region }) => {
       const gKey = watershed + "||" + year;
       if (!groups[gKey]) groups[gKey] = { watershed, year, entries: [] };
-      groups[gKey].entries.push({ river, hasImage });
+      groups[gKey].entries.push({ river, hasImage, region });
     });
 
     Object.values(groups).forEach(({ watershed, year, entries }) => {
       allYears.add(year);
       if (!watersheds[watershed]) {
-        watersheds[watershed] = { watershedId: watershed, nameCounts: {}, byYear: {} };
+        watersheds[watershed] = { watershedId: watershed, nameCounts: {}, regionCounts: {}, byYear: {} };
       }
       const wsEntry = watersheds[watershed];
-      entries.forEach(({ river }) => {
+      entries.forEach(({ river, region }) => {
         wsEntry.nameCounts[river] = (wsEntry.nameCounts[river] || 0) + 1;
+        if (region) wsEntry.regionCounts[region] = (wsEntry.regionCounts[region] || 0) + 1;
       });
       const key = String(year);
       if (!wsEntry.byYear[key]) wsEntry.byYear[key] = emptyFields();
@@ -205,6 +208,14 @@ function aggregate(rows1sw, rows2sw) {
     return Object.entries(nameCounts).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0][0];
   }
 
+  // Most common non-empty region for the watershed ("" if none), ties alphabetical --
+  // same rule as scripts/build_summary.py. Kept exactly as written in the source
+  // ("Nord" / "Sor" / "Vest"); the dashboard does the display spelling.
+  function bestRegion(regionCounts) {
+    const entries = Object.entries(regionCounts).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+    return entries.length ? entries[0][0] : "";
+  }
+
   const totals = emptyFields();
   const riverList = Object.values(watersheds).map((wsEntry) => {
     const riverTotals = emptyFields();
@@ -215,6 +226,7 @@ function aggregate(rows1sw, rows2sw) {
     return {
       name: bestName(wsEntry.nameCounts),
       watershedId: wsEntry.watershedId,
+      region: bestRegion(wsEntry.regionCounts),
       byYear: wsEntry.byYear,
       totals: riverTotals,
     };

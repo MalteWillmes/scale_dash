@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-03T20:14:07Z",
+  "generatedAt": "2026-10-04T19:56:47Z",
   "years": [
     1932,
     1935,
@@ -91,6 +91,7 @@
     {
       "name": "Enningdalselva",
       "watershedId": "001.1Z",
+      "region": "Sor",
       "byYear": {
         "1990": {
           "sw1Required": 10,
@@ -345,6 +346,7 @@
     {
       "name": "Espedalselva",
       "watershedId": "030.4Z",
+      "region": "Sor",
       "byYear": {
         "1998": {
           "sw1Required": 10,
@@ -399,6 +401,7 @@
     {
       "name": "Etneelva",
       "watershedId": "041.Z",
+      "region": "Vest",
       "byYear": {
         "1989": {
           "sw1Required": 10,
@@ -605,6 +608,7 @@
     {
       "name": "Figgjo",
       "watershedId": "028.Z",
+      "region": "Sor",
       "byYear": {
         "1989": {
           "sw1Required": 10,
@@ -811,6 +815,7 @@
     {
       "name": "Gaula i Sunnfjord (Gaularvassdraget)",
       "watershedId": "083.Z",
+      "region": "Vest",
       "byYear": {
         "1989": {
           "sw1Required": 10,
@@ -1113,6 +1118,7 @@
     {
       "name": "Gloppenelva (Breimsvassdraget) i Gloppen",
       "watershedId": "087.Z",
+      "region": "Vest",
       "byYear": {
         "1989": {
           "sw1Required": 10,
@@ -1215,6 +1221,7 @@
     {
       "name": "Kongsfjordelva",
       "watershedId": "236.Z",
+      "region": "Nord",
       "byYear": {
         "1990": {
           "sw1Required": 10,
@@ -1453,6 +1460,7 @@
     {
       "name": "Kvænangselva",
       "watershedId": "209.Z",
+      "region": "Nord",
       "byYear": {
         "1990": {
           "sw1Required": 10,
@@ -1667,6 +1675,7 @@
     {
       "name": "Laukhellevassdraget (Lakselva fra Trollbuvatnet)",
       "watershedId": "194.Z",
+      "region": "Nord",
       "byYear": {
         "1989": {
           "sw1Required": 10,
@@ -1937,6 +1946,7 @@
     {
       "name": "Lærdalselva",
       "watershedId": "073.Z",
+      "region": "Vest",
       "byYear": {
         "1978": {
           "sw1Required": 10,
@@ -2103,6 +2113,7 @@
     {
       "name": "Målselvvassdraget (hele vassdraget)",
       "watershedId": "196.Z",
+      "region": "Nord",
       "byYear": {
         "1989": {
           "sw1Required": 10,
@@ -2381,6 +2392,7 @@
     {
       "name": "Nausta",
       "watershedId": "084.7Z",
+      "region": "Vest",
       "byYear": {
         "1989": {
           "sw1Required": 10,
@@ -2659,6 +2671,7 @@
     {
       "name": "Neidenelva",
       "watershedId": "244.Z",
+      "region": "Nord",
       "byYear": {
         "1989": {
           "sw1Required": 10,
@@ -2889,6 +2902,7 @@
     {
       "name": "Nidelva (Arendalsvassdraget)",
       "watershedId": "019.Z",
+      "region": "Sor",
       "byYear": {
         "1995": {
           "sw1Required": 10,
@@ -3151,6 +3165,7 @@
     {
       "name": "Numedalslågen",
       "watershedId": "015.Z",
+      "region": "Sor",
       "byYear": {
         "1989": {
           "sw1Required": 10,
@@ -3445,6 +3460,7 @@
     {
       "name": "Oselva i Os",
       "watershedId": "055.7Z",
+      "region": "Vest",
       "byYear": {
         "1989": {
           "sw1Required": 10,
@@ -3515,6 +3531,7 @@
     {
       "name": "Otra",
       "watershedId": "021.Z",
+      "region": "Sor",
       "byYear": {
         "2014": {
           "sw1Required": 10,
@@ -3625,6 +3642,7 @@
     {
       "name": "Reisavassdraget",
       "watershedId": "208.Z",
+      "region": "Nord",
       "byYear": {
         "1989": {
           "sw1Required": 10,
@@ -3903,6 +3921,7 @@
     {
       "name": "Repparfjordelva",
       "watershedId": "213.Z",
+      "region": "Nord",
       "byYear": {
         "1935": {
           "sw1Required": 10,
@@ -4589,6 +4608,7 @@
     {
       "name": "Roksdalsvassdraget (Åelva)",
       "watershedId": "186.2Z",
+      "region": "Nord",
       "byYear": {
         "1990": {
           "sw1Required": 10,
@@ -4891,6 +4911,7 @@
     {
       "name": "Skienselva",
       "watershedId": "016.Z",
+      "region": "Sor",
       "byYear": {
         "1989": {
           "sw1Required": 10,
@@ -5193,6 +5214,7 @@
     {
       "name": "Stabburselva i Porsanger",
       "watershedId": "223.Z",
+      "region": "Nord",
       "byYear": {
         "1952": {
           "sw1Required": 10,
@@ -5383,6 +5405,7 @@
     {
       "name": "Vestre Jakobselv",
       "watershedId": "240.Z",
+      "region": "Nord",
       "byYear": {
         "1989": {
           "sw1Required": 10,
@@ -5661,6 +5684,7 @@
     {
       "name": "Vikedalselva i Vindafjord",
       "watershedId": "038.Z",
+      "region": "Sor",
       "byYear": {
         "1990": {
           "sw1Required": 10,
@@ -5923,6 +5947,7 @@
     {
       "name": "Ørstaelva (Storelva)",
       "watershedId": "095.Z",
+      "region": "Vest",
       "byYear": {
         "1989": {
           "sw1Required": 10,

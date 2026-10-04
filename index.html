@@ -44,6 +44,7 @@
         <label class="control-label" for="riverSort">Sort rivers by</label>
         <select id="riverSort">
           <option value="name">Name (A–Z)</option>
+          <option value="region">Region, then name</option>
           <option value="pctAsc">% complete (lowest first)</option>
           <option value="pctDesc">% complete (highest first)</option>
         </select>
@@ -95,6 +96,7 @@
           <thead>
             <tr>
               <th scope="col">River</th>
+              <th scope="col">Region</th>
               <th scope="col" class="num">Required</th>
               <th scope="col" class="num">Imaged</th>
               <th scope="col" class="num">%</th>
@@ -103,7 +105,7 @@
             </tr>
           </thead>
           <tbody id="riverTableBody">
-            <tr><td colspan="6" class="loading-row">Loading…</td></tr>
+            <tr><td colspan="7" class="loading-row">Loading…</td></tr>
           </tbody>
         </table>
       </div>

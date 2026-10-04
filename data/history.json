@@ -7,5 +7,14 @@
     "sw2Required": 7110,
     "sw2Analyzed": 706,
     "sw2Excess": 312
+  },
+  {
+    "date": "2026-10-04",
+    "sw1Required": 7040,
+    "sw1Analyzed": 1003,
+    "sw1Excess": 438,
+    "sw2Required": 7110,
+    "sw2Analyzed": 706,
+    "sw2Excess": 312
   }
 ]
