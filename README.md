@@ -18,7 +18,11 @@ samples beyond that target ("excess").
   re-running the same day updates that day's entry rather than duplicating it.
   The dashboard buckets this into the "Images added per week" chart — see below.
 - `index.html` / `style.css` / `app.js` are a plain static site — no build step,
-  no framework, so GitHub Pages can serve the repo directly.
+  no framework, so GitHub Pages can serve the repo directly. GitHub Pages lets
+  browsers cache these files for ~10 minutes, and a plain reload re-fetches only
+  `index.html`, so an old `app.js` can end up paired with a new page (panels stuck
+  on "Loading…"). To prevent that, `index.html` links them as `style.css?v=…` /
+  `app.js?v=…` — **bump that date whenever `style.css` or `app.js` changes.**
 - `scripts/build_summary.py` regenerates both `data/summary.json` and
   `data/history.json` from the two source workbooks (`d_1SW_top15.xlsx` for
   1SW, `d_2SW_top15.xlsx` for 2SW — the 15 fish selected per river per year).
@@ -127,6 +131,38 @@ This only tracks forward from whenever logging started — it does **not**
 retroactively reconstruct how the current backlog of already-imaged samples
 accumulated before this feature existed.
 
+## Map of rivers
+
+A panel above *Progress by region* with one circle marker per river:
+
+- **Colour = region** (Nord blue, Sør orange, Vest aqua — the first three slots
+  of a colour-blind-safe palette; size and the popups carry the same
+  information, so colour is never the only cue). **Size = % of target imaged.**
+  Click or tap a marker for that river's numbers.
+- It follows the Age class, Years and Region filters, with the same "has
+  candidates in the selected range" rule as the tables, and zooms to whatever is
+  shown (so picking a region zooms to it).
+- Base map: Kartverket's open grayscale topographic tiles, drawn with Leaflet
+  1.9.4 (both loaded from CDNs; no build step). Scroll-wheel zoom is off so the
+  page still scrolls — use the +/− buttons or pinch.
+
+**Positions are approximate, and are not sampling sites.** The spreadsheets
+have no coordinates, so `data/rivers.json` holds one representative point per
+river (keyed by `Vassdragsnr_hovedvassdrag`) taken from Kartverket's place-name
+register (`ws.geonorge.no/stedsnavn`). That point isn't necessarily the outlet:
+on long rivers it can be tens of km away. Names that match many rivers in Norway
+were resolved by hand — e.g. the Lakselva by its source lake Trollbuvatnet on
+Senja, Espedalselva via Espedalsvatnet in Rogaland, Åelva via Roksdalen on
+Andøy — and the finished set was checked against the data: all rivers located,
+all inside Norway, Nord entirely north of Sør/Vest, and the points follow the
+coast in vassdragsnummer order with no strays. Each entry's `from` field records
+exactly which register object was used. If real sampling-site coordinates
+become available, replace the lat/lon there.
+
+`rivers.json` is static (the refresh pipeline doesn't touch it). A river that
+shows up in the data later but isn't in that file still appears in the tables;
+the map skips it and its legend says how many were left off.
+
 ## Keeping it updated automatically
 
 The source spreadsheet lives in OneDrive and gets edited daily. The intended
@@ -135,7 +171,7 @@ paid connectors is documented in [`SETUP.md`](SETUP.md) — a small Power Automa
 flow plus a Google Apps Script bridge that pushes the refreshed JSON straight to
 this repo via the GitHub API. That part is **not wired up yet** (and the approach
 is still undecided) — for now the data is refreshed by hand from the workbooks in
-`data/`; the current snapshot was generated on 2026-10-03.
+`data/`; the current snapshot was generated on 2026-10-05.
 
 ## Project structure
 
@@ -143,6 +179,7 @@ is still undecided) — for now the data is refreshed by hand from the workbooks
 index.html / style.css / app.js   the dashboard (static, no build step)
 data/summary.json                 pre-aggregated current-state data the page reads
 data/history.json                 daily-snapshot log the page buckets into the weekly timeline
+data/rivers.json                  approximate map position per river (static, hand-curated)
 scripts/build_summary.py          regenerates both data files from the xlsx sources
 SETUP.md                          daily-refresh automation plan (Power Automate + Apps Script)
 ```

@@ -13,6 +13,12 @@
   --required-bar: #898781;
   --accent-tint: #cde2fb;
   --excess-color: #2a78d6;
+  /* Map: one categorical colour per region (blue / orange / aqua, the first three slots that
+     validate in every pairing, in light and dark). Marker size and the popups carry the same
+     information, so colour is never the only cue. */
+  --region-1: #2a78d6;
+  --region-2: #eb6834;
+  --region-3: #1baf7a;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -31,6 +37,15 @@
     --required-bar: #6b6a64;
     --accent-tint: #184f95;
     --excess-color: #3987e5;
+    --region-1: #3987e5;
+    --region-2: #d95926;
+    --region-3: #199e70;
+  }
+
+  /* The base map is grayscale, so inverting it gives a dark one; markers sit in a
+     separate pane and keep their colours. */
+  :root:where(:not([data-theme="light"])) .leaflet-tile-pane {
+    filter: invert(1) brightness(0.82) contrast(0.95);
   }
 }
 
@@ -311,6 +326,72 @@ tr.total-row td {
   font-size: 0.78rem;
 }
 
+.river-map {
+  height: 460px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--track);
+}
+
+.river-map.leaflet-container {
+  font: inherit;
+}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: var(--surface-1);
+  color: var(--text-primary);
+}
+
+.leaflet-popup-content {
+  margin: 10px 14px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.river-map .leaflet-bar a,
+.river-map .leaflet-bar a:hover {
+  background-color: var(--surface-1);
+  color: var(--text-primary);
+  border-bottom-color: var(--border);
+}
+
+.river-map .leaflet-control-attribution {
+  background: var(--surface-1);
+  color: var(--text-secondary);
+}
+
+.river-map .leaflet-control-attribution a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin-top: 10px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+}
+
+.legend-dot {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.legend-note { color: var(--text-muted); }
+
 @media (max-width: 720px) {
+  .river-map { height: 340px; }
   .bar-col { width: 100px; }
 }

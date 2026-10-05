@@ -8,6 +8,8 @@
     sort: "name",
     data: null,
     history: [], // [{date, sw1Required, sw1Analyzed, sw1Excess, sw2Required, sw2Analyzed, sw2Excess}, ...]
+    geo: {}, // watershedId -> {lat, lon}, from data/rivers.json (map positions)
+    regionKeys: [], // raw region values in display order; also fixes each region's map colour
   };
 
   const els = {
@@ -25,10 +27,14 @@
     regionToggle: document.getElementById("regionToggle"),
     riverSort: document.getElementById("riverSort"),
     timelineCaption: document.getElementById("timelineCaption"),
+    mapEl: document.getElementById("riverMap"),
+    mapLegend: document.getElementById("mapLegend"),
   };
 
   let yearChart = null;
   let timelineChart = null;
+  let map = null;
+  let markerLayer = null;
 
   function swKeys() {
     if (state.sw === "sw1") return { req: ["sw1Required"], an: ["sw1Analyzed"], ex: ["sw1Excess"] };
@@ -112,6 +118,7 @@
       }
     });
 
+    renderMap(years);
     renderRegionTable(years);
     renderTable(riverRows);
     renderYearChart(years, req, an, ex);
@@ -304,6 +311,94 @@
       </tr>`;
   }
 
+  // Region colours come from CSS (one categorical slot per region, in display order)
+  // so light/dark stay defined in one place; a region past the defined slots falls
+  // back to muted grey.
+  const REGION_COLOR_VARS = ["--region-1", "--region-2", "--region-3"];
+
+  function regionColorFor() {
+    const style = getComputedStyle(document.documentElement);
+    return (raw) => {
+      const i = state.regionKeys.indexOf(raw);
+      const cssVar = i >= 0 && i < REGION_COLOR_VARS.length ? REGION_COLOR_VARS[i] : "--text-muted";
+      return style.getPropertyValue(cssVar).trim();
+    };
+  }
+
+  function initMap() {
+    // Scroll-wheel zoom stays off so the map doesn't hijack scrolling the page.
+    map = L.map(els.mapEl, { scrollWheelZoom: false, zoomSnap: 0.25 }).setView([65, 14], 4);
+    L.tileLayer("https://cache.kartverket.no/v1/wmts/1.0.0/topograatone/default/webmercator/{z}/{y}/{x}.png", {
+      maxZoom: 18,
+      attribution: '&copy; <a href="https://www.kartverket.no/" target="_blank" rel="noopener">Kartverket</a>',
+    }).addTo(map);
+    markerLayer = L.layerGroup().addTo(map);
+  }
+
+  // One marker per river that has candidates in the current Age class / Years / Region
+  // selection (the same rule as the tables): colour = region, size = % of target imaged.
+  function renderMap(years) {
+    if (typeof L === "undefined") {
+      els.mapEl.textContent = "The map couldn't be loaded.";
+      return;
+    }
+    if (!Object.keys(state.geo).length) {
+      els.mapEl.textContent = "No river locations available.";
+      return;
+    }
+    if (!map) initMap();
+    map.invalidateSize();
+    markerLayer.clearLayers();
+
+    const colorFor = regionColorFor();
+    const surface = getComputedStyle(document.documentElement).getPropertyValue("--surface-1").trim();
+    const items = [];
+    let unplaced = 0; // rivers in the selection with no entry in rivers.json
+    for (const river of state.data.rivers) {
+      if (!inRegion(river)) continue;
+      const pos = state.geo[river.watershedId];
+      const { required, analyzed, excess } = riverAggregate(river, years);
+      if (required === 0) continue;
+      if (!pos) { unplaced += 1; continue; }
+      const pct = analyzed / required;
+      items.push({ river, pos, required, analyzed, excess, pct, radius: 6 + Math.round(pct * 12) });
+    }
+
+    // Largest first, so small markers aren't buried under big neighbours.
+    items.sort((a, b) => b.radius - a.radius);
+    for (const it of items) {
+      L.circleMarker([it.pos.lat, it.pos.lon], {
+        radius: it.radius,
+        color: surface,
+        weight: 2,
+        fillColor: colorFor(it.river.region),
+        fillOpacity: 0.9,
+      })
+        .bindPopup(
+          `<strong>${escapeHtml(it.river.name)}</strong><br>` +
+          `${escapeHtml(regionLabel(it.river.region))}<br>` +
+          `Required ${it.required.toLocaleString()} · Imaged ${it.analyzed.toLocaleString()} ` +
+          `(${Math.round(it.pct * 100)}%)<br>` +
+          `Excess ${it.excess ? it.excess.toLocaleString() : "–"}`
+        )
+        .addTo(markerLayer);
+    }
+
+    if (items.length) {
+      map.fitBounds(L.latLngBounds(items.map((it) => [it.pos.lat, it.pos.lon])), { padding: [36, 36], maxZoom: 8 });
+    } else {
+      map.setView([65, 14], 4);
+    }
+
+    els.mapLegend.innerHTML =
+      state.regionKeys
+        .map((key) => `<span class="legend-item"><span class="legend-dot" style="background:${colorFor(key)}"></span>${escapeHtml(regionLabel(key))}</span>`)
+        .join("") + '<span class="legend-item legend-note">Marker size = % of target imaged</span>' +
+      (unplaced
+        ? `<span class="legend-item legend-note">${unplaced} river${unplaced === 1 ? "" : "s"} without a known location not shown</span>`
+        : "");
+  }
+
   function renderYearChart(years, reqKeys, anKeys, exKeys) {
     const required = [];
     const analyzed = [];
@@ -414,6 +509,7 @@
   function buildRegionToggle() {
     const regions = [...new Set(state.data.rivers.map((r) => r.region).filter(Boolean))]
       .sort((a, b) => regionLabel(a).localeCompare(regionLabel(b)));
+    state.regionKeys = regions;
     for (const raw of regions) {
       const btn = document.createElement("button");
       btn.type = "button";
@@ -450,6 +546,14 @@
       } catch (err) {
         state.history = [];
         console.warn("Could not load data/history.json — timeline will be empty.", err);
+      }
+
+      // River positions are likewise supplementary: without them only the map is affected.
+      try {
+        state.geo = (await fetchJson("data/rivers.json")).rivers || {};
+      } catch (err) {
+        state.geo = {};
+        console.warn("Could not load data/rivers.json — map will be unavailable.", err);
       }
 
       buildRegionToggle();

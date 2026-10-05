@@ -1,0 +1,30 @@
+{
+  "about": "Approximate map position for each river, keyed by Vassdragsnr_hovedvassdrag. NOT sampling sites and not necessarily the river mouth: each point is one representative point on the river taken from Kartverket's place-name register (Sentralt stedsnavnregister, https://ws.geonorge.no/stedsnavn/v1), picked by hand where the name is ambiguous. Expect up to a few tens of km from the outlet on long rivers. `from` records which register object was used.",
+  "rivers": {
+    "001.1Z": { "lat": 58.9358, "lon": 11.5005, "from": "Enningdalselva (Elv, Halden)" },
+    "015.Z":  { "lat": 59.4967, "lon": 9.9262,  "from": "Numedalslågen (Elv, Kongsberg/Larvik)" },
+    "016.Z":  { "lat": 59.2028, "lon": 9.6118,  "from": "Skienselva (Elv, Skien/Porsgrunn)" },
+    "019.Z":  { "lat": 58.4334, "lon": 8.7109,  "from": "Nidelva (Elv, Arendal/Grimstad/Froland)" },
+    "021.Z":  { "lat": 58.1441, "lon": 8.0131,  "from": "Otra (Elv, Kristiansand)" },
+    "028.Z":  { "lat": 58.7969, "lon": 5.5836,  "from": "Figgjo (Elv, Sandnes/Klepp/Time)" },
+    "030.4Z": { "lat": 58.9087, "lon": 6.2442,  "from": "Espedalsvatnet (Vann, Sandnes) - the lake Espedalselva drains; no Rogaland river object by that name in the register" },
+    "038.Z":  { "lat": 59.5130, "lon": 5.9182,  "from": "Vikedalselva (Elv, Vindafjord)" },
+    "041.Z":  { "lat": 59.6663, "lon": 5.9474,  "from": "Etneelva (Elv, Etne)" },
+    "055.7Z": { "lat": 60.1947, "lon": 5.4724,  "from": "Oselva (Elv, Bjørnafjorden/Os)" },
+    "073.Z":  { "lat": 61.0964, "lon": 7.5187,  "from": "Lærdalselvi (Elv, Lærdal)" },
+    "083.Z":  { "lat": 61.3687, "lon": 5.6921,  "from": "Gaula (Elv, Sogndal/Sunnfjord) - the full Gaularvassdraget object" },
+    "084.7Z": { "lat": 61.5766, "lon": 5.9199,  "from": "Nausta (Elv, Sunnfjord)" },
+    "087.Z":  { "lat": 61.7539, "lon": 6.2526,  "from": "Gloppeelva (Elv, Gloppen)" },
+    "095.Z":  { "lat": 62.1892, "lon": 6.1403,  "from": "Ørstaelva (Elv, Ørsta)" },
+    "186.2Z": { "lat": 69.0485, "lon": 15.8480, "from": "Åelva (Elv, Andøy) - the only Åelva on Andøy, ~10 km from Roksdalen" },
+    "194.Z":  { "lat": 69.2344, "lon": 17.7446, "from": "Lakselva (Elv, Senja) - the one ~1.4 km from Trollbuvatnet" },
+    "196.Z":  { "lat": 68.9951, "lon": 19.1406, "from": "Målselva (Elv, Målselv)" },
+    "208.Z":  { "lat": 69.7807, "lon": 21.0129, "from": "Reisaelva (Elv, Nordreisa)" },
+    "209.Z":  { "lat": 69.7344, "lon": 22.1378, "from": "Kvænangselva (Elv, Kvænangen)" },
+    "213.Z":  { "lat": 70.2693, "lon": 24.0964, "from": "Repparfjordelva (Elv, Hammerfest)" },
+    "223.Z":  { "lat": 69.9180, "lon": 24.2154, "from": "Stabburselva (Elv, Porsanger)" },
+    "236.Z":  { "lat": 70.6258, "lon": 29.1492, "from": "Kongsfjordelva (Elv, Berlevåg)" },
+    "240.Z":  { "lat": 70.1212, "lon": 29.3213, "from": "Jakobselva (Elv, Vadsø/Nesseby)" },
+    "244.Z":  { "lat": 69.7161, "lon": 29.1806, "from": "Neidenelva (Elv, Sør-Varanger)" }
+  }
+}
