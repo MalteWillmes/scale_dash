@@ -4,6 +4,7 @@
   const state = {
     sw: "combined", // "combined" | "sw1" | "sw2"
     yearRange: "10", // "10" | "5" | "all"
+    region: "all", // "all" | a raw region value from summary.json ("Nord" | "Sor" | "Vest")
     sort: "name",
     data: null,
     history: [], // [{date, sw1Required, sw1Analyzed, sw1Excess, sw2Required, sw2Analyzed, sw2Excess}, ...]
@@ -17,8 +18,11 @@
     statExcess: document.getElementById("statExcess"),
     statRivers: document.getElementById("statRivers"),
     tableBody: document.getElementById("riverTableBody"),
+    regionTableBody: document.getElementById("regionTableBody"),
+    regionTableFoot: document.getElementById("regionTableFoot"),
     swToggle: document.getElementById("swToggle"),
     yearToggle: document.getElementById("yearToggle"),
+    regionToggle: document.getElementById("regionToggle"),
     riverSort: document.getElementById("riverSort"),
     timelineCaption: document.getElementById("timelineCaption"),
   };
@@ -67,6 +71,10 @@
     return Math.round((analyzed / required) * 100) + "%";
   }
 
+  function inRegion(river) {
+    return state.region === "all" || river.region === state.region;
+  }
+
   function render() {
     const years = selectedYears();
     const { req, an, ex } = swKeys();
@@ -77,6 +85,7 @@
     const riverRows = [];
 
     for (const river of state.data.rivers) {
+      if (!inRegion(river)) continue;
       const { required, analyzed, excess } = riverAggregate(river, years);
       if (required === 0) continue; // river has no candidates in this range/class
       totalRequired += required;
@@ -103,6 +112,7 @@
       }
     });
 
+    renderRegionTable(years);
     renderTable(riverRows);
     renderYearChart(years, req, an, ex);
     renderTimeline(an, ex);
@@ -158,14 +168,17 @@
   function renderTimeline(anKeys, exKeys) {
     const { weeks, added } = computeWeeklyTimeline(state.history, anKeys, exKeys);
 
+    let caption;
     if (!weeks.length) {
-      els.timelineCaption.textContent = "No history yet — this starts accumulating once the daily refresh runs.";
+      caption = "No history yet — this starts accumulating once the daily refresh runs.";
     } else if (weeks.length === 1) {
-      els.timelineCaption.textContent =
-        "Tracking began " + formatWeekLabel(weeks[0]) + " — check back next week to see a trend.";
+      caption = "Tracking began " + formatWeekLabel(weeks[0]) + " — check back next week to see a trend.";
     } else {
-      els.timelineCaption.textContent = "Tracking since " + formatWeekLabel(weeks[0]) + ".";
+      caption = "Tracking since " + formatWeekLabel(weeks[0]) + ".";
     }
+    // history.json only stores project-wide totals, so this chart can't follow the Region filter.
+    if (state.region !== "all") caption += " Shows all regions — the weekly log isn't recorded by region.";
+    els.timelineCaption.textContent = caption;
 
     const style = getComputedStyle(document.documentElement);
     const barColor = style.getPropertyValue("--excess-color").trim();
@@ -222,17 +235,11 @@
     return REGION_LABELS[raw] || raw || "–";
   }
 
-  function renderTable(rows) {
-    if (!rows.length) {
-      els.tableBody.innerHTML = '<tr><td colspan="7" class="empty-row">No samples in this range.</td></tr>';
-      return;
-    }
-    els.tableBody.innerHTML = rows.map((r) => {
-      const pct = r.required ? Math.round((r.analyzed / r.required) * 100) : 0;
-      return `<tr>
-        <td>${escapeHtml(r.name)}</td>
-        <td>${escapeHtml(r.region)}</td>
-        <td class="num">${r.required.toLocaleString()}</td>
+  // The Required / Imaged / % / Progress / Excess cells, shared by the river
+  // and region tables so the two always render the numbers identically.
+  function metricCells(r) {
+    const pct = r.required ? Math.round((r.analyzed / r.required) * 100) : 0;
+    return `<td class="num">${r.required.toLocaleString()}</td>
         <td class="num">${r.analyzed.toLocaleString()}</td>
         <td class="num">${pct}%</td>
         <td class="bar-col">
@@ -240,9 +247,61 @@
             <div class="bar-fill" style="width:${pct}%"></div>
           </div>
         </td>
-        <td class="num">${r.excess ? r.excess.toLocaleString() : "–"}</td>
+        <td class="num">${r.excess ? r.excess.toLocaleString() : "–"}</td>`;
+  }
+
+  function renderTable(rows) {
+    if (!rows.length) {
+      els.tableBody.innerHTML = '<tr><td colspan="7" class="empty-row">No samples in this range.</td></tr>';
+      return;
+    }
+    els.tableBody.innerHTML = rows.map((r) => `<tr>
+        <td>${escapeHtml(r.name)}</td>
+        <td>${escapeHtml(r.region)}</td>
+        ${metricCells(r)}
+      </tr>`).join("");
+  }
+
+  // Subtotals per region (plus an all-regions total) for the current Age class
+  // and Years selection. Deliberately ignores the Region filter itself, so the
+  // regions stay comparable side by side; the selected one is just highlighted.
+  function renderRegionTable(years) {
+    const groups = new Map(); // raw region value -> {rivers, required, analyzed, excess}
+    const total = { rivers: 0, required: 0, analyzed: 0, excess: 0 };
+
+    for (const river of state.data.rivers) {
+      const { required, analyzed, excess } = riverAggregate(river, years);
+      if (required === 0) continue; // same rule as the river table
+      const key = river.region || "";
+      if (!groups.has(key)) groups.set(key, { rivers: 0, required: 0, analyzed: 0, excess: 0 });
+      for (const t of [groups.get(key), total]) {
+        t.rivers += 1;
+        t.required += required;
+        t.analyzed += analyzed;
+        t.excess += excess;
+      }
+    }
+
+    if (!groups.size) {
+      els.regionTableBody.innerHTML = '<tr><td colspan="7" class="empty-row">No samples in this range.</td></tr>';
+      els.regionTableFoot.innerHTML = "";
+      return;
+    }
+
+    const keys = [...groups.keys()].sort((a, b) => regionLabel(a).localeCompare(regionLabel(b)));
+    els.regionTableBody.innerHTML = keys.map((key) => {
+      const g = groups.get(key);
+      return `<tr class="${key === state.region ? "is-selected" : ""}">
+        <td>${escapeHtml(regionLabel(key))}</td>
+        <td class="num">${g.rivers}</td>
+        ${metricCells(g)}
       </tr>`;
     }).join("");
+    els.regionTableFoot.innerHTML = `<tr class="total-row">
+        <td>All regions</td>
+        <td class="num">${total.rivers}</td>
+        ${metricCells(total)}
+      </tr>`;
   }
 
   function renderYearChart(years, reqKeys, anKeys, exKeys) {
@@ -254,6 +313,7 @@
       let anSum = 0;
       let exSum = 0;
       for (const river of state.data.rivers) {
+        if (!inRegion(river)) continue;
         const entry = river.byYear[String(y)];
         if (!entry) continue;
         reqSum += sumFor(entry, reqKeys);
@@ -337,10 +397,31 @@
       setActive(els.yearToggle, btn);
       render();
     });
+    els.regionToggle.addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-region]");
+      if (!btn) return;
+      state.region = btn.dataset.region;
+      setActive(els.regionToggle, btn);
+      render();
+    });
     els.riverSort.addEventListener("change", () => {
       state.sort = els.riverSort.value;
       render();
     });
+  }
+
+  // One button per region present in the data, after the static "All regions" one.
+  function buildRegionToggle() {
+    const regions = [...new Set(state.data.rivers.map((r) => r.region).filter(Boolean))]
+      .sort((a, b) => regionLabel(a).localeCompare(regionLabel(b)));
+    for (const raw of regions) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.dataset.region = raw;
+      btn.setAttribute("aria-pressed", "false");
+      btn.textContent = regionLabel(raw);
+      els.regionToggle.appendChild(btn);
+    }
   }
 
   function setActive(group, btn) {
@@ -371,6 +452,7 @@
         console.warn("Could not load data/history.json — timeline will be empty.", err);
       }
 
+      buildRegionToggle();
       render();
     } catch (err) {
       els.updated.textContent = "Failed to load data";

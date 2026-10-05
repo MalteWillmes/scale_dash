@@ -49,6 +49,19 @@ exactly one. It's stored in `summary.json` exactly as written in the source
 (`Sor`, without the ø) and shown as "Sør" in the table's Region column. The
 river sort menu has a "Region, then name" option that groups the table by region.
 
+Region has two more roles on the page:
+
+- **Region filter** (All regions / Nord / Sør / Vest, built from whatever
+  regions are in the data): narrows the stat tiles, the *Samples by year* chart
+  and the *Progress by river* table to that region, and combines with the Age
+  class and Years filters. It does **not** apply to the weekly timeline —
+  `history.json` only stores project-wide totals — and the timeline's caption
+  says so while a region is selected.
+- **Progress by region** table: the per-region subtotals (rivers, required,
+  imaged, %, excess) plus an *All regions* total row, for the current Age class
+  and Years selection. It deliberately ignores the Region filter so the regions
+  stay comparable side by side; the selected region just gets a highlight.
+
 Each river/year has a candidate pool of up to 15 randomly-selected fish (the
 NASCO sampling design), of which **10 per river per year** need imaging — the
 rest are kept in reserve in case of poor scale quality. `imaged` below means a
@@ -103,6 +116,10 @@ place: `computeWeeklyTimeline` in `app.js`):
 - Respects the Age class filter (Combined / 1SW / 2SW) like the rest of the
   dashboard; not affected by the Years filter, since that filters by sampling
   year (`Feltaar`), not by when an image was actually added.
+- Not affected by the Region filter either: each history entry holds
+  project-wide totals only, and since history can't be reconstructed
+  retroactively, a per-region timeline would only cover weeks logged *after*
+  `history.json` starts storing per-region totals.
 
 This only tracks forward from whenever logging started — it does **not**
 retroactively reconstruct how the current backlog of already-imaged samples

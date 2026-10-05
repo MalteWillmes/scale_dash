@@ -253,6 +253,20 @@ td {
 
 tbody tr:last-child td { border-bottom: none; }
 
+/* Region summary: the region matching the Region filter gets a left accent bar
+   (not a background, which would swallow the progress-bar track), and the
+   all-regions total row sits under a heavier rule. */
+tr.is-selected td:first-child {
+  box-shadow: inset 3px 0 0 var(--fill-good);
+  font-weight: 600;
+}
+
+tr.total-row td {
+  font-weight: 600;
+  border-top: 1px solid var(--baseline);
+  border-bottom: none;
+}
+
 .bar-col { width: 180px; }
 
 .bar-track {

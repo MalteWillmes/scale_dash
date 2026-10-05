@@ -40,6 +40,12 @@
           <button type="button" data-range="all" aria-pressed="false">All years</button>
         </div>
       </div>
+      <div class="control-group" role="group" aria-label="Region">
+        <span class="control-label">Region</span>
+        <div class="segmented" id="regionToggle">
+          <button type="button" data-region="all" class="active" aria-pressed="true">All regions</button>
+        </div>
+      </div>
       <div class="control-group">
         <label class="control-label" for="riverSort">Sort rivers by</label>
         <select id="riverSort">
@@ -86,6 +92,29 @@
       <p class="panel-caption" id="timelineCaption"></p>
       <div class="chart-wrap">
         <canvas id="timelineChart" height="180" role="img" aria-label="Bar chart of new scale images added each week since tracking began"></canvas>
+      </div>
+    </section>
+
+    <section class="panel" aria-label="Progress by region">
+      <h2>Progress by region</h2>
+      <div class="table-wrap">
+        <table id="regionTable">
+          <thead>
+            <tr>
+              <th scope="col">Region</th>
+              <th scope="col" class="num">Rivers</th>
+              <th scope="col" class="num">Required</th>
+              <th scope="col" class="num">Imaged</th>
+              <th scope="col" class="num">%</th>
+              <th scope="col" class="bar-col">Progress</th>
+              <th scope="col" class="num">Excess</th>
+            </tr>
+          </thead>
+          <tbody id="regionTableBody">
+            <tr><td colspan="7" class="loading-row">Loading…</td></tr>
+          </tbody>
+          <tfoot id="regionTableFoot"></tfoot>
+        </table>
       </div>
     </section>
 
