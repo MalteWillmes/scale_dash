@@ -13,10 +13,10 @@ samples beyond that target ("excess").
   runtime — a small, pre-aggregated file (river × year × age-class counts),
   not the raw fish-level spreadsheet.
 - `data/history.json` is a small time series alongside it: one `{date,
-  ...totals}` entry per calendar day the pipeline has run, upserted (not
-  appended) so re-running the same day updates that day's entry rather than
-  duplicating it. The dashboard buckets this into the "Images added per week"
-  chart — see below.
+  ...totals, regions}` entry per calendar day the pipeline has run (`regions`
+  repeats the totals for each of Nord / Sor / Vest), upserted (not appended) so
+  re-running the same day updates that day's entry rather than duplicating it.
+  The dashboard buckets this into the "Images added per week" chart — see below.
 - `index.html` / `style.css` / `app.js` are a plain static site — no build step,
   no framework, so GitHub Pages can serve the repo directly.
 - `scripts/build_summary.py` regenerates both `data/summary.json` and
@@ -52,11 +52,10 @@ river sort menu has a "Region, then name" option that groups the table by region
 Region has two more roles on the page:
 
 - **Region filter** (All regions / Nord / Sør / Vest, built from whatever
-  regions are in the data): narrows the stat tiles, the *Samples by year* chart
-  and the *Progress by river* table to that region, and combines with the Age
-  class and Years filters. It does **not** apply to the weekly timeline —
-  `history.json` only stores project-wide totals — and the timeline's caption
-  says so while a region is selected.
+  regions are in the data): narrows the stat tiles, the *Samples by year* chart,
+  the weekly *Images added per week* timeline and the *Progress by river* table
+  to that region, and combines with the Age class filter (and, for everything
+  but the timeline, the Years filter).
 - **Progress by region** table: the per-region subtotals (rivers, required,
   imaged, %, excess) plus an *All regions* total row, for the current Age class
   and Years selection. It deliberately ignores the Region filter so the regions
@@ -116,10 +115,13 @@ place: `computeWeeklyTimeline` in `app.js`):
 - Respects the Age class filter (Combined / 1SW / 2SW) like the rest of the
   dashboard; not affected by the Years filter, since that filters by sampling
   year (`Feltaar`), not by when an image was actually added.
-- Not affected by the Region filter either: each history entry holds
-  project-wide totals only, and since history can't be reconstructed
-  retroactively, a per-region timeline would only cover weeks logged *after*
-  `history.json` starts storing per-region totals.
+- Follows the Region filter: each history entry stores the project-wide totals
+  *and* the same totals per region (`regions`), so selecting a region shows that
+  region's weekly additions. An entry without a `regions` breakdown is skipped
+  when a region is selected rather than guessed at. The log was restarted
+  (2026-10-05) when this breakdown was added, because history can't be rebuilt
+  after the fact — every entry has to carry it from the start. Rivers with no
+  region count only toward the project-wide numbers.
 
 This only tracks forward from whenever logging started — it does **not**
 retroactively reconstruct how the current backlog of already-imaged samples

@@ -138,15 +138,18 @@
   // gap weeks (no snapshot that week) carrying the prior known total forward
   // (so their own delta reads as 0, not "unknown"). Returns weeks (Monday
   // dates) and added (net new imaged count that week, first week = its own
-  // total since tracking effectively starts from zero).
-  function computeWeeklyTimeline(history, anKeys, exKeys) {
-    if (!history.length) return { weeks: [], added: [] };
-
+  // total since tracking effectively starts from zero). With a region
+  // selected, each entry's per-region totals (entry.regions) are used instead of
+  // the project-wide ones; an entry without them is skipped, not guessed at.
+  function computeWeeklyTimeline(history, anKeys, exKeys, region) {
     const byWeek = {};
     for (const entry of history) {
-      const imaged = sumFor(entry, anKeys) + sumFor(entry, exKeys);
+      const totals = region === "all" ? entry : entry.regions && entry.regions[region];
+      if (!totals) continue;
+      const imaged = sumFor(totals, anKeys) + sumFor(totals, exKeys);
       byWeek[weekStart(entry.date)] = imaged; // later (sorted) entries overwrite earlier ones in the same week
     }
+    if (!Object.keys(byWeek).length) return { weeks: [], added: [] };
 
     const weekKeys = Object.keys(byWeek).sort();
     const firstWeek = weekKeys[0];
@@ -166,19 +169,16 @@
   }
 
   function renderTimeline(anKeys, exKeys) {
-    const { weeks, added } = computeWeeklyTimeline(state.history, anKeys, exKeys);
+    const { weeks, added } = computeWeeklyTimeline(state.history, anKeys, exKeys, state.region);
 
-    let caption;
     if (!weeks.length) {
-      caption = "No history yet — this starts accumulating once the daily refresh runs.";
+      els.timelineCaption.textContent = "No history yet — this starts accumulating once the daily refresh runs.";
     } else if (weeks.length === 1) {
-      caption = "Tracking began " + formatWeekLabel(weeks[0]) + " — check back next week to see a trend.";
+      els.timelineCaption.textContent =
+        "Tracking began " + formatWeekLabel(weeks[0]) + " — check back next week to see a trend.";
     } else {
-      caption = "Tracking since " + formatWeekLabel(weeks[0]) + ".";
+      els.timelineCaption.textContent = "Tracking since " + formatWeekLabel(weeks[0]) + ".";
     }
-    // history.json only stores project-wide totals, so this chart can't follow the Region filter.
-    if (state.region !== "all") caption += " Shows all regions — the weekly log isn't recorded by region.";
-    els.timelineCaption.textContent = caption;
 
     const style = getComputedStyle(document.documentElement);
     const barColor = style.getPropertyValue("--excess-color").trim();

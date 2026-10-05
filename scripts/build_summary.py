@@ -48,9 +48,14 @@ says whether an image exists *now*, not when it appeared -- so there is no way
 to reconstruct history retroactively. Instead, every run of this script (or
 the daily Apps Script pipeline) upserts today's totals as one entry in
 data/history.json, keyed by date (one entry per calendar day; re-running the
-same day overwrites that day's entry rather than duplicating it). The
-dashboard buckets that log into a weekly timeline itself -- nothing here is
-pre-aggregated by week, so the bucketing logic only has to live in one place.
+same day overwrites that day's entry rather than duplicating it). Each entry
+holds the project-wide totals plus a `regions` object with the same totals per
+region, so the timeline can follow the dashboard's Region filter -- and because
+history can't be rebuilt after the fact, every entry has to carry that
+breakdown from the start. (Rivers with no region only count toward the
+project-wide totals.) The dashboard buckets that log into a weekly timeline
+itself -- nothing here is pre-aggregated by week, so the bucketing logic only
+has to live in one place.
 """
 import json
 import os
@@ -165,8 +170,21 @@ def aggregate(rows_1sw, rows_2sw):
     }
 
 
-def update_history(history_path, date_str, totals):
-    """Upsert one {date, ...totals} entry into the history log, sorted by date."""
+def region_totals(rivers):
+    """Sum each river's totals by region (rivers without a region are skipped)."""
+    by_region = {}
+    for river in rivers:
+        region = river["region"]
+        if not region:
+            continue
+        acc = by_region.setdefault(region, {k: 0 for k in FIELDS})
+        for k in FIELDS:
+            acc[k] += river["totals"][k]
+    return dict(sorted(by_region.items()))
+
+
+def update_history(history_path, date_str, totals, regions):
+    """Upsert one {date, ...totals, regions} entry into the history log, sorted by date."""
     if os.path.exists(history_path):
         with open(history_path, encoding="utf-8") as f:
             history = json.load(f)
@@ -176,6 +194,7 @@ def update_history(history_path, date_str, totals):
     history = [h for h in history if h.get("date") != date_str]
     entry = {"date": date_str}
     entry.update(totals)
+    entry["regions"] = regions
     history.append(entry)
     history.sort(key=lambda h: h["date"])
 
@@ -201,7 +220,7 @@ def main():
         json.dump(summary, f, ensure_ascii=False, indent=2)
 
     today = summary["generatedAt"][:10]  # YYYY-MM-DD
-    history = update_history(history_path, today, summary["totals"])
+    history = update_history(history_path, today, summary["totals"], region_totals(summary["rivers"]))
 
     print(f"Wrote {out_path}: {len(summary['rivers'])} rivers, years {summary['years'][0]}-{summary['years'][-1]}")
     print(f"Totals: {summary['totals']}")

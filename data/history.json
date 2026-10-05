@@ -1,20 +1,37 @@
 [
   {
-    "date": "2026-10-03",
+    "date": "2026-10-05",
     "sw1Required": 7040,
     "sw1Analyzed": 1003,
     "sw1Excess": 438,
     "sw2Required": 7110,
     "sw2Analyzed": 706,
-    "sw2Excess": 312
-  },
-  {
-    "date": "2026-10-04",
-    "sw1Required": 7040,
-    "sw1Analyzed": 1003,
-    "sw1Excess": 438,
-    "sw2Required": 7110,
-    "sw2Analyzed": 706,
-    "sw2Excess": 312
+    "sw2Excess": 312,
+    "regions": {
+      "Nord": {
+        "sw1Required": 3460,
+        "sw1Analyzed": 738,
+        "sw1Excess": 327,
+        "sw2Required": 3500,
+        "sw2Analyzed": 427,
+        "sw2Excess": 182
+      },
+      "Sor": {
+        "sw1Required": 2000,
+        "sw1Analyzed": 265,
+        "sw1Excess": 111,
+        "sw2Required": 2010,
+        "sw2Analyzed": 279,
+        "sw2Excess": 130
+      },
+      "Vest": {
+        "sw1Required": 1580,
+        "sw1Analyzed": 0,
+        "sw1Excess": 0,
+        "sw2Required": 1600,
+        "sw2Analyzed": 0,
+        "sw2Excess": 0
+      }
+    }
   }
 ]

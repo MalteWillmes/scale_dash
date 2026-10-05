@@ -105,7 +105,9 @@ function syncDaily() {
 
   const history = fetchJsonFromGitHub("data/history.json", token, repo, branch) || [];
   const withoutToday = history.filter((h) => h.date !== today);
-  withoutToday.push(Object.assign({ date: today }, summary.totals));
+  // Project-wide totals plus the same totals per region, so the dashboard's
+  // timeline can follow its Region filter (same shape as scripts/build_summary.py).
+  withoutToday.push(Object.assign({ date: today }, summary.totals, { regions: regionTotals(summary.rivers) }));
   withoutToday.sort((a, b) => a.date.localeCompare(b.date));
   pushJsonToGitHub("data/history.json", withoutToday, "Automated history update: " + today, token, repo, branch);
 }
@@ -148,6 +150,21 @@ function emptyFields() {
   const o = {};
   FIELDS.forEach((k) => { o[k] = 0; });
   return o;
+}
+
+// Sums each river's totals by region (rivers without a region are skipped, so they
+// only count toward the project-wide totals). Mirrors region_totals() in
+// scripts/build_summary.py; keys sorted so the JSON matches byte for byte.
+function regionTotals(rivers) {
+  const byRegion = {};
+  rivers.forEach((r) => {
+    if (!r.region) return;
+    if (!byRegion[r.region]) byRegion[r.region] = emptyFields();
+    FIELDS.forEach((k) => { byRegion[r.region][k] += r.totals[k]; });
+  });
+  const sorted = {};
+  Object.keys(byRegion).sort().forEach((k) => { sorted[k] = byRegion[k]; });
+  return sorted;
 }
 
 // Mirrors scripts/build_summary.py's aggregate() exactly, so a manual regenerate
