@@ -41,12 +41,6 @@
     --region-2: #d95926;
     --region-3: #199e70;
   }
-
-  /* The base map is grayscale, so inverting it gives a dark one; markers sit in a
-     separate pane and keep their colours. */
-  :root:where(:not([data-theme="light"])) .leaflet-tile-pane {
-    filter: invert(1) brightness(0.82) contrast(0.95);
-  }
 }
 
 * { box-sizing: border-box; }
@@ -331,7 +325,9 @@ tr.total-row td {
   border: 1px solid var(--border);
   border-radius: 8px;
   overflow: hidden;
-  background: var(--track);
+  /* The tiles only draw land (the sea is transparent), so this is the map's white
+     background in both light and dark mode. */
+  background: #ffffff;
 }
 
 .river-map.leaflet-container {

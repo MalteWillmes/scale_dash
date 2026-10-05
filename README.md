@@ -143,8 +143,10 @@ A panel above *Progress by region* with one circle marker per river:
   candidates in the selected range" rule as the tables, and zooms to whatever is
   shown (so picking a region zooms to it).
 - Base map: Kartverket's open grayscale topographic tiles, drawn with Leaflet
-  1.9.4 (both loaded from CDNs; no build step). Scroll-wheel zoom is off so the
-  page still scrolls — use the +/− buttons or pinch.
+  1.9.4 (both loaded from CDNs; no build step). The tiles only draw land (the sea
+  is transparent), so the white background is the map box's own `background` in
+  `style.css`, in light and dark mode alike. Scroll-wheel zoom is off so the page
+  still scrolls — use the +/− buttons or pinch.
 
 **Positions are approximate, and are not sampling sites.** The spreadsheets
 have no coordinates, so `data/rivers.json` holds one representative point per
