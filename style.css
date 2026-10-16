@@ -320,6 +320,70 @@ tr.total-row td {
   font-size: 0.78rem;
 }
 
+/* Year-by-year detail: a river row opens to show its years. */
+.river-row { cursor: pointer; }
+.river-row:hover td { background: var(--page-plane); }
+
+.row-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.row-toggle:focus-visible {
+  outline: 2px solid var(--fill-good);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.chev {
+  flex-shrink: 0;
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 6px solid var(--text-muted);
+  transition: transform 0.15s;
+}
+
+.row-toggle[aria-expanded="true"] .chev { transform: rotate(90deg); }
+
+.detail-row > td {
+  padding: 4px 10px 14px 24px;
+  background: var(--page-plane);
+}
+
+/* Compact rows so a 10-year window fits without an inner scrollbar; only long
+   "All years" lists scroll inside this box. */
+.year-table-wrap {
+  max-height: 480px;
+  overflow: auto;
+}
+
+.year-table { font-size: 0.82rem; }
+
+.year-table td { padding: 5px 10px; }
+
+.year-table thead th {
+  position: sticky;
+  top: 0;
+  background: var(--page-plane);
+}
+
+.year-table .no-data td { color: var(--text-muted); }
+
+@media (prefers-reduced-motion: reduce) {
+  .chev { transition: none; }
+}
+
 .river-map {
   height: 460px;
   border: 1px solid var(--border);

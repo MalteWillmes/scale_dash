@@ -10,6 +10,7 @@
     history: [], // [{date, sw1Required, sw1Analyzed, sw1Excess, sw2Required, sw2Analyzed, sw2Excess}, ...]
     geo: {}, // watershedId -> {lat, lon}, from data/rivers.json (map positions)
     regionKeys: [], // raw region values in display order; also fixes each region's map colour
+    expanded: new Set(), // watershed ids of river rows opened to their year-by-year detail
   };
 
   const els = {
@@ -97,7 +98,7 @@
       totalRequired += required;
       totalAnalyzed += analyzed;
       totalExcess += excess;
-      riverRows.push({ name: river.name, region: regionLabel(river.region), required, analyzed, excess });
+      riverRows.push({ id: river.watershedId, name: river.name, region: regionLabel(river.region), required, analyzed, excess });
     }
 
     els.statRequired.textContent = totalRequired.toLocaleString();
@@ -257,16 +258,94 @@
         <td class="num">${r.excess ? r.excess.toLocaleString() : "–"}</td>`;
   }
 
+  function riverById(id) {
+    return state.data.rivers.find((r) => r.watershedId === id);
+  }
+
+  // The river's years inside the current Years window, newest first, starting from its
+  // first year with candidates. A year after that with no candidates is kept (flagged
+  // `empty`) so gaps in the selection are visible; years before the river's first
+  // candidates are left out rather than listed as a wall of "none". Follows the Age class
+  // filter, so the rows add up to the river's row in the table above.
+  function riverYearRows(river, years) {
+    const { req, an, ex } = swKeys();
+    const hasData = (y) => {
+      const e = river.byYear[String(y)];
+      return !!e && sumFor(e, req) > 0;
+    };
+    const first = years.find(hasData);
+    if (first === undefined) return [];
+    return years
+      .filter((y) => y >= first)
+      .reverse()
+      .map((y) => {
+        if (!hasData(y)) return { year: y, empty: true };
+        const e = river.byYear[String(y)];
+        return { year: y, required: sumFor(e, req), analyzed: sumFor(e, an), excess: sumFor(e, ex) };
+      });
+  }
+
+  function detailRowHtml(river, years) {
+    const body = riverYearRows(river, years).map((r) => (r.empty
+      ? `<tr class="no-data"><td>${r.year}</td><td colspan="5">no candidates selected</td></tr>`
+      : `<tr><td>${r.year}</td>${metricCells(r)}</tr>`)).join("");
+    return `<tr class="detail-row">
+      <td colspan="7">
+        <div class="year-table-wrap">
+          <table class="year-table" aria-label="Year by year for ${escapeHtml(river.name)}">
+            <thead>
+              <tr>
+                <th scope="col">Year</th>
+                <th scope="col" class="num">Required</th>
+                <th scope="col" class="num">Imaged</th>
+                <th scope="col" class="num">%</th>
+                <th scope="col" class="bar-col">Progress</th>
+                <th scope="col" class="num">Excess</th>
+              </tr>
+            </thead>
+            <tbody>${body}</tbody>
+          </table>
+        </div>
+      </td>
+    </tr>`;
+  }
+
+  function riverRowHtml(r, open) {
+    return `<tr class="river-row${open ? " is-open" : ""}" data-id="${escapeHtml(r.id)}">
+        <td><button type="button" class="row-toggle" aria-expanded="${open}"><span class="chev" aria-hidden="true"></span>${escapeHtml(r.name)}</button></td>
+        <td>${escapeHtml(r.region)}</td>
+        ${metricCells(r)}
+      </tr>`;
+  }
+
   function renderTable(rows) {
     if (!rows.length) {
       els.tableBody.innerHTML = '<tr><td colspan="7" class="empty-row">No samples in this range.</td></tr>';
       return;
     }
-    els.tableBody.innerHTML = rows.map((r) => `<tr>
-        <td>${escapeHtml(r.name)}</td>
-        <td>${escapeHtml(r.region)}</td>
-        ${metricCells(r)}
-      </tr>`).join("");
+    const years = selectedYears();
+    els.tableBody.innerHTML = rows.map((r) => {
+      const open = state.expanded.has(r.id);
+      return riverRowHtml(r, open) + (open ? detailRowHtml(riverById(r.id), years) : "");
+    }).join("");
+  }
+
+  // Clicking a river row (or pressing Enter/Space on its button) opens or closes its
+  // year-by-year detail. The open set lives in state, so it survives filter changes, and
+  // the detail is added/removed in place so keyboard focus stays on the button.
+  function toggleRiverRow(tr) {
+    const id = tr.dataset.id;
+    const open = !state.expanded.has(id);
+    if (open) {
+      state.expanded.add(id);
+      tr.insertAdjacentHTML("afterend", detailRowHtml(riverById(id), selectedYears()));
+    } else {
+      state.expanded.delete(id);
+      const next = tr.nextElementSibling;
+      if (next && next.classList.contains("detail-row")) next.remove();
+    }
+    tr.classList.toggle("is-open", open);
+    tr.querySelector(".row-toggle").setAttribute("aria-expanded", String(open));
   }
 
   // Subtotals per region (plus an all-regions total) for the current Age class
@@ -493,6 +572,10 @@
       state.yearRange = btn.dataset.range;
       setActive(els.yearToggle, btn);
       render();
+    });
+    els.tableBody.addEventListener("click", (e) => {
+      const tr = e.target.closest("tr.river-row");
+      if (tr) toggleRiverRow(tr);
     });
     els.regionToggle.addEventListener("click", (e) => {
       const btn = e.target.closest("button[data-region]");

@@ -66,6 +66,21 @@ Region has two more roles on the page:
   and Years selection. It deliberately ignores the Region filter so the regions
   stay comparable side by side; the selected region just gets a highlight.
 
+**Year by year.** Click a river in the *Progress by river* table (anywhere on the
+row, or Tab to it and press Enter/Space) to open a breakdown of that river's years,
+newest first, with the same Required / Imaged / % / Excess columns:
+
+- It follows the Age class and Years filters, so its rows add up to the river's own
+  row above it.
+- It starts at the river's first year with candidates in the selected window. A
+  later year with **no candidates at all** is listed as "no candidates selected"
+  rather than skipped — such river-years aren't counted anywhere in the percentages,
+  so this is where the gaps become visible (for most rivers 2026 shows up this way,
+  since this year's selection isn't complete).
+- Several rivers can be open at once, and they stay open (with updated numbers)
+  when you change a filter or sort order. Long "All years" lists scroll inside the
+  box; the default windows show in full.
+
 Each river/year has a candidate pool of up to 15 randomly-selected fish (the
 NASCO sampling design), of which **10 per river per year** need imaging — the
 rest are kept in reserve in case of poor scale quality. `imaged` below means a
