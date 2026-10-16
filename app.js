@@ -311,18 +311,19 @@
       </tr>`;
   }
 
-  // Region colours come from CSS (one categorical slot per region, in display order)
-  // so light/dark stay defined in one place; a region past the defined slots falls
-  // back to muted grey.
-  const REGION_COLOR_VARS = ["--region-1", "--region-2", "--region-3"];
+  // Each region keeps its own map colour (defined in CSS), keyed by name rather than by
+  // position in the list, so a region appearing or disappearing never repaints the others.
+  // A region not listed here falls back to muted grey.
+  const REGION_COLOR_VARS = {
+    Nord: "--map-region-1",
+    Sor: "--map-region-2",
+    Vest: "--map-region-3",
+    Midt: "--map-region-4",
+  };
 
   function regionColorFor() {
     const style = getComputedStyle(document.documentElement);
-    return (raw) => {
-      const i = state.regionKeys.indexOf(raw);
-      const cssVar = i >= 0 && i < REGION_COLOR_VARS.length ? REGION_COLOR_VARS[i] : "--text-muted";
-      return style.getPropertyValue(cssVar).trim();
-    };
+    return (raw) => style.getPropertyValue(REGION_COLOR_VARS[raw] || "--text-muted").trim();
   }
 
   function initMap() {
@@ -351,7 +352,6 @@
     markerLayer.clearLayers();
 
     const colorFor = regionColorFor();
-    const surface = getComputedStyle(document.documentElement).getPropertyValue("--surface-1").trim();
     const items = [];
     let unplaced = 0; // rivers in the selection with no entry in rivers.json
     for (const river of state.data.rivers) {
@@ -369,7 +369,7 @@
     for (const it of items) {
       L.circleMarker([it.pos.lat, it.pos.lon], {
         radius: it.radius,
-        color: surface,
+        color: "#ffffff", // ring: the map is always white
         weight: 2,
         fillColor: colorFor(it.river.region),
         fillOpacity: 0.9,
@@ -384,10 +384,12 @@
         .addTo(markerLayer);
     }
 
+    // No animation: Leaflet ignores a new zoom while one is still animating, so two quick
+    // filter clicks could otherwise leave the map framed on the wrong rivers.
     if (items.length) {
-      map.fitBounds(L.latLngBounds(items.map((it) => [it.pos.lat, it.pos.lon])), { padding: [36, 36], maxZoom: 8 });
+      map.fitBounds(L.latLngBounds(items.map((it) => [it.pos.lat, it.pos.lon])), { padding: [36, 36], maxZoom: 8, animate: false });
     } else {
-      map.setView([65, 14], 4);
+      map.setView([65, 14], 4, { animate: false });
     }
 
     els.mapLegend.innerHTML =

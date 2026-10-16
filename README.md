@@ -14,7 +14,7 @@ samples beyond that target ("excess").
   not the raw fish-level spreadsheet.
 - `data/history.json` is a small time series alongside it: one `{date,
   ...totals, regions}` entry per calendar day the pipeline has run (`regions`
-  repeats the totals for each of Nord / Sor / Vest), upserted (not appended) so
+  repeats the totals for each region), upserted (not appended) so
   re-running the same day updates that day's entry rather than duplicating it.
   The dashboard buckets this into the "Images added per week" chart — see below.
 - `index.html` / `style.css` / `app.js` are a plain static site — no build step,
@@ -47,16 +47,17 @@ more than one `Objektnavn` spelling (e.g. "Etneelva" / "Etneelva/Sørelva"),
 which would otherwise split one river into two rows. The name shown is just
 the most common `Objektnavn` seen for that watershed id.
 
-Each river also carries its **region** from the source `region` column — Nord
-(10 rivers), Sør (8) and Vest (7) in the current data; every watershed maps to
-exactly one. It's stored in `summary.json` exactly as written in the source
-(`Sor`, without the ø) and shown as "Sør" in the table's Region column. The
-river sort menu has a "Region, then name" option that groups the table by region.
+Each river also carries its **region** from the source `region` column — Midt
+(11 rivers), Nord (10), Sør (8) and Vest (6) in the current data (35 rivers);
+every watershed maps to exactly one. It's stored in `summary.json` exactly as
+written in the source (`Sor`, without the ø) and shown as "Sør" in the table's
+Region column. The river sort menu has a "Region, then name" option that groups
+the table by region.
 
 Region has two more roles on the page:
 
-- **Region filter** (All regions / Nord / Sør / Vest, built from whatever
-  regions are in the data): narrows the stat tiles, the *Samples by year* chart,
+- **Region filter** (All regions plus one button per region in the data — Midt /
+  Nord / Sør / Vest at the moment): narrows the stat tiles, the *Samples by year* chart,
   the weekly *Images added per week* timeline and the *Progress by river* table
   to that region, and combines with the Age class filter (and, for everything
   but the timeline, the Years filter).
@@ -122,10 +123,16 @@ place: `computeWeeklyTimeline` in `app.js`):
 - Follows the Region filter: each history entry stores the project-wide totals
   *and* the same totals per region (`regions`), so selecting a region shows that
   region's weekly additions. An entry without a `regions` breakdown is skipped
-  when a region is selected rather than guessed at. The log was restarted
-  (2026-10-05) when this breakdown was added, because history can't be rebuilt
-  after the fact — every entry has to carry it from the start. Rivers with no
-  region count only toward the project-wide numbers.
+  when a region is selected rather than guessed at. Rivers with no region count
+  only toward the project-wide numbers.
+- **The log is restarted whenever the set of rivers changes**, because totals
+  over different river sets aren't comparable and the chart would show the
+  difference as a bogus burst of "added" images. It was restarted on 2026-10-05
+  (per-region totals added; river set had shrunk) and again on 2026-10-16, when
+  10 rivers came back into the data: only +90 of the ~1,970 extra imaged rows
+  that week were new imaging in the existing rivers (all Numedalslågen) — the
+  rest were already-imaged samples in the returning rivers. To restart, delete
+  `data/history.json` before running `build_summary.py`.
 
 This only tracks forward from whenever logging started — it does **not**
 retroactively reconstruct how the current backlog of already-imaged samples
@@ -135,13 +142,20 @@ accumulated before this feature existed.
 
 A panel above *Progress by region* with one circle marker per river:
 
-- **Colour = region** (Nord blue, Sør orange, Vest aqua — the first three slots
-  of a colour-blind-safe palette; size and the popups carry the same
-  information, so colour is never the only cue). **Size = % of target imaged.**
-  Click or tap a marker for that river's numbers.
+- **Colour = region** (Nord blue, Sør orange, Vest aqua, Midt violet). Each
+  region keeps its own colour, keyed by name in `app.js`, so a region appearing or
+  disappearing never repaints the others. The four colours pass the palette
+  validator for every pairing on a white background, in normal vision and under
+  colour-blind simulation; they're the same in light and dark mode because the
+  map is always white (the dark-mode palette doesn't hold up at four colours).
+  Size and the popups carry the same information, so colour is never the only
+  cue. A fifth region would need a new colour and a fresh validator run.
+  **Size = % of target imaged.** Click or tap a marker for that river's numbers.
 - It follows the Age class, Years and Region filters, with the same "has
-  candidates in the selected range" rule as the tables, and zooms to whatever is
-  shown (so picking a region zooms to it).
+  candidates in the selected range" rule as the tables, and reframes to whatever
+  is shown (so picking a region zooms to it) — without animation, because Leaflet
+  ignores a new zoom while one is still animating and quick clicks could otherwise
+  leave the map framed on the wrong rivers.
 - Base map: Kartverket's open grayscale topographic tiles, drawn with Leaflet
   1.9.4 (both loaded from CDNs; no build step). The tiles only draw land (the sea
   is transparent), so the white background is the map box's own `background` in
@@ -155,11 +169,15 @@ register (`ws.geonorge.no/stedsnavn`). That point isn't necessarily the outlet:
 on long rivers it can be tens of km away. Names that match many rivers in Norway
 were resolved by hand — e.g. the Lakselva by its source lake Trollbuvatnet on
 Senja, Espedalselva via Espedalsvatnet in Rogaland, Åelva via Roksdalen on
-Andøy — and the finished set was checked against the data: all rivers located,
-all inside Norway, Nord entirely north of Sør/Vest, and the points follow the
-coast in vassdragsnummer order with no strays. Each entry's `from` field records
-exactly which register object was used. If real sampling-site coordinates
-become available, replace the lat/lon there.
+Andøy, Buksnesvassdraget via Teinvatnet next to Buksnes on Andøy, Varpavassdraget
+via Varpvatnet in Hamarøy — and the finished set was checked against the data:
+all 35 rivers located, all inside Norway, the points follow the coast in
+vassdragsnummer order with no strays (largest step 235 km, across a stretch of
+numbers with no rivers in the data), and the four regions come out as clean
+latitude bands (Sør 58.1–59.5°N, Vest 59.7–61.8°, Midt 62.2–68.9°, Nord
+69.0–70.6°) — an independent confirmation that each river sits where its region
+says. Each entry's `from` field records exactly which register object was used.
+If real sampling-site coordinates become available, replace the lat/lon there.
 
 `rivers.json` is static (the refresh pipeline doesn't touch it). A river that
 shows up in the data later but isn't in that file still appears in the tables;
@@ -173,7 +191,7 @@ paid connectors is documented in [`SETUP.md`](SETUP.md) — a small Power Automa
 flow plus a Google Apps Script bridge that pushes the refreshed JSON straight to
 this repo via the GitHub API. That part is **not wired up yet** (and the approach
 is still undecided) — for now the data is refreshed by hand from the workbooks in
-`data/`; the current snapshot was generated on 2026-10-05.
+`data/`; the current snapshot was generated on 2026-10-16.
 
 ## Project structure
 

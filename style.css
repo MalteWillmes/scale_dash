@@ -13,12 +13,15 @@
   --required-bar: #898781;
   --accent-tint: #cde2fb;
   --excess-color: #2a78d6;
-  /* Map: one categorical colour per region (blue / orange / aqua, the first three slots that
-     validate in every pairing, in light and dark). Marker size and the popups carry the same
-     information, so colour is never the only cue. */
-  --region-1: #2a78d6;
-  --region-2: #eb6834;
-  --region-3: #1baf7a;
+  /* Map: one categorical colour per region (blue / orange / aqua / violet). The map is always
+     white, so these are the light-mode values in BOTH themes (deliberately not overridden under
+     dark): that four-colour set passes the palette validator for every pairing on white, which
+     the dark-mode values do not at four colours. Marker size, the popups and the legend labels
+     carry the same information, so colour is never the only cue. */
+  --map-region-1: #2a78d6;
+  --map-region-2: #eb6834;
+  --map-region-3: #1baf7a;
+  --map-region-4: #4a3aa7;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -37,9 +40,6 @@
     --required-bar: #6b6a64;
     --accent-tint: #184f95;
     --excess-color: #3987e5;
-    --region-1: #3987e5;
-    --region-2: #d95926;
-    --region-3: #199e70;
   }
 }
 
@@ -383,6 +383,8 @@ tr.total-row td {
   height: 11px;
   border-radius: 50%;
   margin-right: 6px;
+  /* The dot colours are chosen for the white map; the ring keeps them visible on a dark page. */
+  box-shadow: 0 0 0 1.5px #ffffff;
 }
 
 .legend-note { color: var(--text-muted); }
