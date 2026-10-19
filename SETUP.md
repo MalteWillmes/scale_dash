@@ -98,7 +98,10 @@ function syncDaily() {
   const rows1sw = parseRows(csv1sw.getDataAsString());
   const rows2sw = parseRows(csv2sw.getDataAsString());
 
-  const summary = aggregate(rows1sw, rows2sw);
+  // RB's pictures are a static file in the repo (made by scripts/extract_rb.py), not part of
+  // the daily email, so read the current copy from GitHub.
+  const rbDoc = fetchJsonFromGitHub("data/rb_pictures.json", token, repo, branch);
+  const summary = aggregate(rows1sw, rows2sw, rbDoc ? rbDoc.rivers : {});
   const today = summary.generatedAt.slice(0, 10); // YYYY-MM-DD
 
   pushJsonToGitHub("data/summary.json", summary, "Automated daily refresh: " + summary.generatedAt, token, repo, branch);
@@ -144,7 +147,15 @@ function parseRows(csvText) {
 // (up to 15) -- the remainder are reserve fish. Must match PER_YEAR_TARGET
 // in scripts/build_summary.py.
 const PER_YEAR_TARGET = { sw1: 10, sw2: 10 };
-const FIELDS = ["sw1Required", "sw1Analyzed", "sw1Excess", "sw2Required", "sw2Analyzed", "sw2Excess"];
+
+// Every river-year is computed three ways, field-name infix in brackets: all
+// institutions combined [""], NINA only ["Nina"], RB only ["Rb"]. Same list, same
+// order as FIELDS in scripts/build_summary.py.
+const CLASSES = ["sw1", "sw2"];
+const VIEW_INFIXES = ["", "Nina", "Rb"];
+const MEASURES = ["Required", "Analyzed", "Excess"];
+const FIELDS = [];
+VIEW_INFIXES.forEach((infix) => CLASSES.forEach((c) => MEASURES.forEach((m) => FIELDS.push(c + infix + m))));
 
 function emptyFields() {
   const o = {};
@@ -180,46 +191,76 @@ function regionTotals(rivers) {
 //            independent of how many candidates exist that year.
 // Analyzed = min(imaged count, required) -- imaged candidates counted toward the target.
 // Excess   = max(0, imaged count - required) -- already-imaged candidates beyond the target.
-function aggregate(rows1sw, rows2sw) {
+//
+// Institutions: everything in the NINA workbooks is institution NINA; RB's pictures
+// come from `rb` (the `rivers` object of data/rb_pictures.json, made by
+// scripts/extract_rb.py). A river-year counts ONCE toward the target in the combined
+// view however many institutions contributed: required = target if either has
+// material there, imaged = NINA's imaged candidates + RB's pictures. In the RB view a
+// river-year RB has no pictures for does not exist.
+function aggregate(rows1sw, rows2sw, rb) {
+  rb = rb || {};
   const watersheds = {}; // watershed id -> { watershedId, nameCounts, regionCounts, byYear: { year: {...} } }
   const allYears = new Set();
 
-  function add(rows, swKey) {
-    const target = PER_YEAR_TARGET[swKey];
-    // Group first: required/analyzed/excess depend on the whole watershed+year pool.
-    const groups = {}; // "watershed||year" -> [{river, hasImage, region}, ...]
-    rows.forEach(({ river, watershed, year, hasImage, region }) => {
-      const gKey = watershed + "||" + year;
-      if (!groups[gKey]) groups[gKey] = { watershed, year, entries: [] };
-      groups[gKey].entries.push({ river, hasImage, region });
-    });
-
-    Object.values(groups).forEach(({ watershed, year, entries }) => {
-      allYears.add(year);
-      if (!watersheds[watershed]) {
-        watersheds[watershed] = { watershedId: watershed, nameCounts: {}, regionCounts: {}, byYear: {} };
-      }
-      const wsEntry = watersheds[watershed];
-      entries.forEach(({ river, region }) => {
-        wsEntry.nameCounts[river] = (wsEntry.nameCounts[river] || 0) + 1;
-        if (region) wsEntry.regionCounts[region] = (wsEntry.regionCounts[region] || 0) + 1;
-      });
-      const key = String(year);
-      if (!wsEntry.byYear[key]) wsEntry.byYear[key] = emptyFields();
-
-      const imagedCount = entries.filter((e) => e.hasImage).length;
-      const required = target; // fixed per-river, per-year target -- not capped by pool size
-      const analyzed = Math.min(imagedCount, required);
-      const excess = Math.max(0, imagedCount - required);
-
-      wsEntry.byYear[key][swKey + "Required"] += required;
-      wsEntry.byYear[key][swKey + "Analyzed"] += analyzed;
-      wsEntry.byYear[key][swKey + "Excess"] += excess;
-    });
+  function entryFor(ws) {
+    if (!watersheds[ws]) watersheds[ws] = { watershedId: ws, nameCounts: {}, regionCounts: {}, byYear: {} };
+    return watersheds[ws];
   }
 
-  add(rows1sw, "sw1");
-  add(rows2sw, "sw2");
+  const nina = { sw1: {}, sw2: {} };     // class -> "ws||year" -> { ws, year, pool, imaged }
+  const pictures = { sw1: {}, sw2: {} }; // class -> "ws||year" -> { ws, year, n }
+
+  [["sw1", rows1sw], ["sw2", rows2sw]].forEach(([swKey, rows]) => {
+    rows.forEach(({ river, watershed, year, hasImage, region }) => {
+      const e = entryFor(watershed);
+      e.nameCounts[river] = (e.nameCounts[river] || 0) + 1;
+      if (region) e.regionCounts[region] = (e.regionCounts[region] || 0) + 1;
+      const k = watershed + "||" + year;
+      if (!nina[swKey][k]) nina[swKey][k] = { ws: watershed, year, pool: 0, imaged: 0 };
+      nina[swKey][k].pool += 1; // candidate in the pool
+      if (hasImage) nina[swKey][k].imaged += 1;
+    });
+  });
+
+  Object.keys(rb).forEach((ws) => {
+    const river = rb[ws];
+    const e = entryFor(ws);
+    e.nameCounts[river.name] = (e.nameCounts[river.name] || 0) + 1; // one vote: NINA's spelling wins on a shared river
+    if (river.region) e.regionCounts[river.region] = (e.regionCounts[river.region] || 0) + 1;
+    [["1SW", "sw1"], ["2SW", "sw2"]].forEach(([sheet, swKey]) => {
+      const byYear = (river.pictures && river.pictures[sheet]) || {};
+      Object.keys(byYear).forEach((year) => {
+        pictures[swKey][ws + "||" + Number(year)] = { ws, year: Number(year), n: byYear[year] };
+      });
+    });
+  });
+
+  CLASSES.forEach((swKey) => {
+    const target = PER_YEAR_TARGET[swKey];
+    const keys = {};
+    Object.keys(nina[swKey]).forEach((k) => { keys[k] = true; });
+    Object.keys(pictures[swKey]).forEach((k) => { keys[k] = true; });
+    Object.keys(keys).forEach((k) => {
+      const n = nina[swKey][k], p = pictures[swKey][k];
+      const ws = (n || p).ws, year = (n || p).year;
+      const pool = n ? n.pool : 0, ninaImaged = n ? n.imaged : 0, rbN = p ? p.n : 0;
+      allYears.add(year);
+      const wsEntry = entryFor(ws);
+      const key = String(year);
+      if (!wsEntry.byYear[key]) wsEntry.byYear[key] = emptyFields();
+      [
+        ["", pool > 0 || rbN > 0, ninaImaged + rbN],
+        ["Nina", pool > 0, ninaImaged],
+        ["Rb", rbN > 0, rbN],
+      ].forEach(([infix, hasMaterial, imagedCount]) => {
+        if (!hasMaterial) return;
+        wsEntry.byYear[key][swKey + infix + "Required"] += target; // fixed target -- not capped by pool size
+        wsEntry.byYear[key][swKey + infix + "Analyzed"] += Math.min(imagedCount, target);
+        wsEntry.byYear[key][swKey + infix + "Excess"] += Math.max(0, imagedCount - target);
+      });
+    });
+  });
 
   function bestName(nameCounts) {
     return Object.entries(nameCounts).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0][0];

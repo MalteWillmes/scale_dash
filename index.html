@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>NASCO Salmon Growth — Sample Progress</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
-<link rel="stylesheet" href="style.css?v=2026-10-16d" />
+<link rel="stylesheet" href="style.css?v=2026-10-19a" />
 </head>
 <body>
   <header class="page-header">
@@ -31,6 +31,14 @@
           <button type="button" data-sw="combined" class="active" aria-pressed="true">Combined</button>
           <button type="button" data-sw="sw1" aria-pressed="false">1SW</button>
           <button type="button" data-sw="sw2" aria-pressed="false">2SW</button>
+        </div>
+      </div>
+      <div class="control-group" role="group" aria-label="Institution">
+        <span class="control-label">Institution</span>
+        <div class="segmented" id="instToggle">
+          <button type="button" data-inst="all" class="active" aria-pressed="true">All</button>
+          <button type="button" data-inst="nina" aria-pressed="false">NINA</button>
+          <button type="button" data-inst="rb" aria-pressed="false">RB</button>
         </div>
       </div>
       <div class="control-group" role="group" aria-label="Year range">
@@ -133,6 +141,7 @@
             <tr>
               <th scope="col">River</th>
               <th scope="col">Region</th>
+              <th scope="col">Institution</th>
               <th scope="col" class="num">Required</th>
               <th scope="col" class="num">Imaged</th>
               <th scope="col" class="num">%</th>
@@ -141,7 +150,7 @@
             </tr>
           </thead>
           <tbody id="riverTableBody">
-            <tr><td colspan="7" class="loading-row">Loading…</td></tr>
+            <tr><td colspan="8" class="loading-row">Loading…</td></tr>
           </tbody>
         </table>
       </div>
@@ -155,6 +164,10 @@
       <p><strong>Imaged</strong> = selected fish that have a scale image on file</p>
       <p><strong>Excess</strong> = imaged fish beyond the target of 10. These are not needed to
       reach 100% coverage but provide additional data.</p>
+      <p><strong>Institution</strong> = who took the images: <strong>NINA</strong> (the project
+      source spreadsheet) or <strong>RB</strong> (pictures from our collaborator). <em>All</em>
+      counts a river and year once toward the target of 10, however many of the two institutions
+      contributed images there; the NINA and RB views show each institution's images on their own.</p>
       <p>Data are refreshed daily from the project source spreadsheet. The weekly timeline above
       tracks new images going forward from when this tracking began — the source data has no
       record of when past images were added, so earlier history can't be reconstructed.</p>
@@ -163,6 +176,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="app.js?v=2026-10-16d"></script>
+  <script src="app.js?v=2026-10-19a"></script>
 </body>
 </html>

@@ -11,9 +11,24 @@ not by the free-text Objektnavn -- a couple of watersheds are recorded under
 more than one Objektnavn spelling, which would otherwise split one river into
 two rows. The displayed name is just the most common Objektnavn for that id.
 
-Each river also carries its `region` (Nord / Sor / Vest) from the source
+Each river also carries its `region` (Midt / Nord / Sor / Vest) from the source
 `region` column, kept exactly as written. A watershed maps to a single region
 in the data; if rows ever disagree, the most common non-empty value wins.
+
+Institutions. Everything in the two NINA workbooks is institution NINA. The
+collaborator RB's existing pictures come from data/rb_pictures.json (next to
+the output file; made by scripts/extract_rb.py from the project appendix) and
+are institution RB. Each river-year's Required / Analyzed / Excess is computed
+three ways, with the field-name infix saying which:
+    ""      all institutions combined (sw1Required, ...)  -- a river-year counts
+            ONCE toward the target however many institutions contributed:
+            required = target if either has material there, imaged = NINA's
+            imaged candidates + RB's pictures
+    "Nina"  NINA only (sw1NinaRequired, ...)
+    "Rb"    RB only   (sw1RbRequired, ...); RB's material is its pictures, so a
+            river-year RB has no pictures for does not exist in this view
+A river that only RB has pictures from (e.g. Bjerkreimselva) exists only in
+the combined and RB views.
 
 Each river/year has a candidate pool of up to 15 randomly-selected fish (per
 the NASCO sampling design), of which PER_YEAR_TARGET actually need to be
@@ -95,50 +110,85 @@ def load_rows(path):
     return rows
 
 
-FIELDS = ["sw1Required", "sw1Analyzed", "sw1Excess", "sw2Required", "sw2Analyzed", "sw2Excess"]
+# Every river-year is computed three ways so the dashboard can filter by
+# institution: all institutions combined (the original field names, no infix),
+# NINA only ("Nina") and RB only ("Rb").
+CLASSES = ("sw1", "sw2")
+VIEW_INFIXES = ("", "Nina", "Rb")
+MEASURES = ("Required", "Analyzed", "Excess")
+FIELDS = [f"{c}{infix}{m}" for infix in VIEW_INFIXES for c in CLASSES for m in MEASURES]
 
 
-def aggregate(rows_1sw, rows_2sw):
+def load_rb(path):
+    """The `rivers` object of data/rb_pictures.json (see scripts/extract_rb.py), or {} if absent."""
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8") as f:
+        return json.load(f)["rivers"]
+
+
+def aggregate(rows_1sw, rows_2sw, rb=None):
     # Grouped by Vassdragsnr_hovedvassdrag (the canonical watershed/main-river
     # id), not by Objektnavn -- some watersheds are recorded under more than
     # one Objektnavn spelling (e.g. "041.Z" appears as both "Etneelva" and
     # "Etneelva/Sørelva"), which would otherwise fragment one river into
     # multiple rows. The displayed name is the most common Objektnavn seen
     # for that watershed id (ties broken alphabetically).
+    #
+    # Institutions: everything in the NINA workbooks is institution NINA; RB's
+    # pictures come from `rb` (data/rb_pictures.json). A river-year counts ONCE
+    # toward the target in the combined view, however many institutions
+    # contributed: required = target if either has material there, and imaged =
+    # NINA's imaged candidates + RB's pictures.
+    rb = rb or {}
     watersheds = {}  # watershed id -> {watershedId, nameCounts, regionCounts, byYear: {year: {...}}}
     all_years = set()
 
-    def add(rows, sw_key):
+    def entry_for(ws):
+        return watersheds.setdefault(
+            ws, {"watershedId": ws, "nameCounts": Counter(), "regionCounts": Counter(), "byYear": {}}
+        )
+
+    nina = {c: defaultdict(lambda: [0, 0]) for c in CLASSES}  # class -> (ws, year) -> [pool, imaged]
+    pictures = {c: {} for c in CLASSES}  # class -> (ws, year) -> RB pictures
+
+    for sw_key, rows in (("sw1", rows_1sw), ("sw2", rows_2sw)):
+        for river, ws, year, has_image, region in rows:
+            e = entry_for(ws)
+            e["nameCounts"][river] += 1
+            if region:
+                e["regionCounts"][region] += 1
+            cell = nina[sw_key][(ws, year)]
+            cell[0] += 1  # candidate in the pool
+            cell[1] += 1 if has_image else 0
+
+    for ws, river in rb.items():
+        e = entry_for(ws)
+        e["nameCounts"][river["name"]] += 1  # one vote: NINA's spelling wins on a shared river
+        if river.get("region"):
+            e["regionCounts"][river["region"]] += 1
+        for sheet, sw_key in (("1SW", "sw1"), ("2SW", "sw2")):
+            for year, n in river["pictures"].get(sheet, {}).items():
+                pictures[sw_key][(ws, int(year))] = n
+
+    for sw_key in CLASSES:
         target = PER_YEAR_TARGET[sw_key]
-        # Group first: required/analyzed/excess depend on the whole
-        # watershed+year candidate pool, not on individual rows.
-        groups = defaultdict(list)  # (watershed, year) -> [(river_name, has_image, region), ...]
-        for river, watershed, year, has_image, region in rows:
-            groups[(watershed, year)].append((river, has_image, region))
-
-        for (watershed, year), entries in groups.items():
+        for ws, year in set(nina[sw_key]) | set(pictures[sw_key]):
             all_years.add(year)
-            ws_entry = watersheds.setdefault(
-                watershed,
-                {"watershedId": watershed, "nameCounts": Counter(), "regionCounts": Counter(), "byYear": {}},
+            pool, nina_imaged = nina[sw_key][(ws, year)] if (ws, year) in nina[sw_key] else (0, 0)
+            rb_n = pictures[sw_key].get((ws, year), 0)
+            yr = entry_for(ws)["byYear"].setdefault(str(year), {k: 0 for k in FIELDS})
+            views = (
+                ("", pool > 0 or rb_n > 0, nina_imaged + rb_n),
+                ("Nina", pool > 0, nina_imaged),
+                ("Rb", rb_n > 0, rb_n),
             )
-            for name, _, region in entries:
-                ws_entry["nameCounts"][name] += 1
-                if region:
-                    ws_entry["regionCounts"][region] += 1
-            yr = ws_entry["byYear"].setdefault(str(year), {k: 0 for k in FIELDS})
-
-            imaged_count = sum(1 for _, img, _ in entries if img)
-            required = target
-            analyzed = min(imaged_count, required)
-            excess = max(0, imaged_count - required)
-
-            yr[f"{sw_key}Required"] += required
-            yr[f"{sw_key}Analyzed"] += analyzed
-            yr[f"{sw_key}Excess"] += excess
-
-    add(rows_1sw, "sw1")
-    add(rows_2sw, "sw2")
+            for infix, has_material, imaged_count in views:
+                if not has_material:
+                    continue
+                yr[f"{sw_key}{infix}Required"] += target
+                yr[f"{sw_key}{infix}Analyzed"] += min(imaged_count, target)
+                yr[f"{sw_key}{infix}Excess"] += max(0, imaged_count - target)
 
     totals = {k: 0 for k in FIELDS}
     river_list = []
@@ -212,9 +262,12 @@ def main():
     out_path = sys.argv[3] if len(sys.argv) > 3 else "data/summary.json"
     history_path = os.path.join(os.path.dirname(out_path) or ".", "history.json")
 
+    rb_path = os.path.join(os.path.dirname(out_path) or ".", "rb_pictures.json")
+
     rows_1sw = load_rows(path_1sw)
     rows_2sw = load_rows(path_2sw)
-    summary = aggregate(rows_1sw, rows_2sw)
+    rb = load_rb(rb_path)
+    summary = aggregate(rows_1sw, rows_2sw, rb)
 
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(summary, f, ensure_ascii=False, indent=2)
@@ -222,7 +275,7 @@ def main():
     today = summary["generatedAt"][:10]  # YYYY-MM-DD
     history = update_history(history_path, today, summary["totals"], region_totals(summary["rivers"]))
 
-    print(f"Wrote {out_path}: {len(summary['rivers'])} rivers, years {summary['years'][0]}-{summary['years'][-1]}")
+    print(f"Wrote {out_path}: {len(summary['rivers'])} rivers ({len(rb)} with RB pictures), years {summary['years'][0]}-{summary['years'][-1]}")
     print(f"Totals: {summary['totals']}")
     print(f"Wrote {history_path}: {len(history)} dated entries")
 

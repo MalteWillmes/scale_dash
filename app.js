@@ -4,10 +4,11 @@
   const state = {
     sw: "combined", // "combined" | "sw1" | "sw2"
     yearRange: "10", // "10" | "5" | "all"
-    region: "all", // "all" | a raw region value from summary.json ("Nord" | "Sor" | "Vest")
+    region: "all", // "all" | a raw region value from summary.json ("Nord" | "Sor" | "Vest" | "Midt")
+    institution: "all", // "all" | "nina" | "rb" -- whose images are counted
     sort: "name",
     data: null,
-    history: [], // [{date, sw1Required, sw1Analyzed, sw1Excess, sw2Required, sw2Analyzed, sw2Excess}, ...]
+    history: [], // [{date, sw1Required, ..., sw2RbExcess, regions}, ...]: every field in FIELDS (see build_summary.py)
     geo: {}, // watershedId -> {lat, lon}, from data/rivers.json (map positions)
     regionKeys: [], // raw region values in display order; also fixes each region's map colour
     expanded: new Set(), // watershed ids of river rows opened to their year-by-year detail
@@ -24,6 +25,7 @@
     regionTableBody: document.getElementById("regionTableBody"),
     regionTableFoot: document.getElementById("regionTableFoot"),
     swToggle: document.getElementById("swToggle"),
+    instToggle: document.getElementById("instToggle"),
     yearToggle: document.getElementById("yearToggle"),
     regionToggle: document.getElementById("regionToggle"),
     riverSort: document.getElementById("riverSort"),
@@ -37,14 +39,33 @@
   let map = null;
   let markerLayer = null;
 
+  // summary.json carries every river-year three ways, told apart by an infix in the field
+  // name: all institutions combined (no infix, e.g. sw1Required), NINA only (sw1NinaRequired)
+  // and RB only (sw1RbRequired). The Institution filter just picks which set of fields to read.
+  const INSTITUTION_INFIX = { all: "", nina: "Nina", rb: "Rb" };
+
+  function ageClasses() {
+    return state.sw === "combined" ? ["sw1", "sw2"] : [state.sw];
+  }
+
   function swKeys() {
-    if (state.sw === "sw1") return { req: ["sw1Required"], an: ["sw1Analyzed"], ex: ["sw1Excess"] };
-    if (state.sw === "sw2") return { req: ["sw2Required"], an: ["sw2Analyzed"], ex: ["sw2Excess"] };
-    return {
-      req: ["sw1Required", "sw2Required"],
-      an: ["sw1Analyzed", "sw2Analyzed"],
-      ex: ["sw1Excess", "sw2Excess"],
-    };
+    const infix = INSTITUTION_INFIX[state.institution];
+    const keys = (measure) => ageClasses().map((c) => c + infix + measure);
+    return { req: keys("Required"), an: keys("Analyzed"), ex: keys("Excess") };
+  }
+
+  // Which institutions the river's numbers come from, for the current Age class, Years
+  // and Institution selection: "NINA", "RB" or "NINA + RB". A river counts for an
+  // institution when that institution has material there (Required > 0 in its own fields).
+  function riverInstitutions(river, years) {
+    const has = (infix) => years.some((y) => {
+      const e = river.byYear[String(y)];
+      return !!e && ageClasses().some((c) => e[c + infix + "Required"] > 0);
+    });
+    const names = [];
+    if (state.institution !== "rb" && has("Nina")) names.push("NINA");
+    if (state.institution !== "nina" && has("Rb")) names.push("RB");
+    return names.join(" + ");
   }
 
   function selectedYears() {
@@ -98,7 +119,10 @@
       totalRequired += required;
       totalAnalyzed += analyzed;
       totalExcess += excess;
-      riverRows.push({ id: river.watershedId, name: river.name, region: regionLabel(river.region), required, analyzed, excess });
+      riverRows.push({
+        id: river.watershedId, name: river.name, region: regionLabel(river.region),
+        institution: riverInstitutions(river, years), required, analyzed, excess,
+      });
     }
 
     els.statRequired.textContent = totalRequired.toLocaleString();
@@ -290,7 +314,7 @@
       ? `<tr class="no-data"><td>${r.year}</td><td colspan="5">no candidates selected</td></tr>`
       : `<tr><td>${r.year}</td>${metricCells(r)}</tr>`)).join("");
     return `<tr class="detail-row">
-      <td colspan="7">
+      <td colspan="8">
         <div class="year-table-wrap">
           <table class="year-table" aria-label="Year by year for ${escapeHtml(river.name)}">
             <thead>
@@ -314,13 +338,14 @@
     return `<tr class="river-row${open ? " is-open" : ""}" data-id="${escapeHtml(r.id)}">
         <td><button type="button" class="row-toggle" aria-expanded="${open}"><span class="chev" aria-hidden="true"></span>${escapeHtml(r.name)}</button></td>
         <td>${escapeHtml(r.region)}</td>
+        <td class="inst-cell">${escapeHtml(r.institution)}</td>
         ${metricCells(r)}
       </tr>`;
   }
 
   function renderTable(rows) {
     if (!rows.length) {
-      els.tableBody.innerHTML = '<tr><td colspan="7" class="empty-row">No samples in this range.</td></tr>';
+      els.tableBody.innerHTML = '<tr><td colspan="8" class="empty-row">No samples in this range.</td></tr>';
       return;
     }
     const years = selectedYears();
@@ -440,7 +465,10 @@
       if (required === 0) continue;
       if (!pos) { unplaced += 1; continue; }
       const pct = analyzed / required;
-      items.push({ river, pos, required, analyzed, excess, pct, radius: 6 + Math.round(pct * 12) });
+      items.push({
+        river, pos, required, analyzed, excess, pct, radius: 6 + Math.round(pct * 12),
+        institution: riverInstitutions(river, years),
+      });
     }
 
     // Largest first, so small markers aren't buried under big neighbours.
@@ -455,7 +483,7 @@
       })
         .bindPopup(
           `<strong>${escapeHtml(it.river.name)}</strong><br>` +
-          `${escapeHtml(regionLabel(it.river.region))}<br>` +
+          `${escapeHtml(regionLabel(it.river.region))} · ${escapeHtml(it.institution)}<br>` +
           `Required ${it.required.toLocaleString()} · Imaged ${it.analyzed.toLocaleString()} ` +
           `(${Math.round(it.pct * 100)}%)<br>` +
           `Excess ${it.excess ? it.excess.toLocaleString() : "–"}`
@@ -566,6 +594,13 @@
       setActive(els.swToggle, btn);
       render();
     });
+    els.instToggle.addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-inst]");
+      if (!btn) return;
+      state.institution = btn.dataset.inst;
+      setActive(els.instToggle, btn);
+      render();
+    });
     els.yearToggle.addEventListener("click", (e) => {
       const btn = e.target.closest("button[data-range]");
       if (!btn) return;
@@ -646,7 +681,7 @@
     } catch (err) {
       els.updated.textContent = "Failed to load data";
       els.tableBody.innerHTML =
-        '<tr><td colspan="7" class="empty-row">Could not load data/summary.json. ' + escapeHtml(String(err)) + "</td></tr>";
+        '<tr><td colspan="8" class="empty-row">Could not load data/summary.json. ' + escapeHtml(String(err)) + "</td></tr>";
       console.error(err);
     }
   }

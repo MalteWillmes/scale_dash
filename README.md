@@ -3,7 +3,9 @@
 A small static dashboard tracking scale-sample progress by river for NINA project
 132668 ("NASCO: Salmon growth"). Shows, per river and year, progress toward the
 project's imaging target ("required" vs. "imaged") plus any already-imaged
-samples beyond that target ("excess").
+samples beyond that target ("excess"). Images come from two institutions: NINA
+(the project's own source workbooks) and RB, a collaborator whose existing
+pictures are added from a separate workbook — see *Institutions* below.
 
 **Live (unlisted) URL:** https://maltewillmes.github.io/scale_dash/
 
@@ -25,7 +27,8 @@ samples beyond that target ("excess").
   `app.js?v=…` — **bump that date whenever `style.css` or `app.js` changes.**
 - `scripts/build_summary.py` regenerates both `data/summary.json` and
   `data/history.json` from the two source workbooks (`d_1SW_top15.xlsx` for
-  1SW, `d_2SW_top15.xlsx` for 2SW — the 15 fish selected per river per year).
+  1SW, `d_2SW_top15.xlsx` for 2SW — the 15 fish selected per river per year)
+  plus RB's pictures from `data/rb_pictures.json` (if that file is there).
   Drop the current workbooks into `data/` (they're git-ignored via
   `data/*.xlsx`, since they hold raw fish-level records and must never be
   published) and run it whenever you want to refresh the numbers by hand:
@@ -38,6 +41,13 @@ samples beyond that target ("excess").
 
   Stage the two JSON files by name as above rather than `git add -A`. Pushing
   to `master` is enough — GitHub Pages redeploys automatically.
+- `scripts/extract_rb.py` turns RB's workbook into `data/rb_pictures.json`. It
+  only needs re-running when RB's workbook changes (then run `build_summary.py`
+  again, and stage `data/rb_pictures.json` too):
+
+  ```bash
+  python scripts/extract_rb.py data/Vedlegg1_materiale_1989_2024.xlsx data/rb_pictures.json
+  ```
 
 ## Definitions used in this dashboard
 
@@ -48,19 +58,66 @@ which would otherwise split one river into two rows. The name shown is just
 the most common `Objektnavn` seen for that watershed id.
 
 Each river also carries its **region** from the source `region` column — Midt
-(11 rivers), Nord (10), Sør (8) and Vest (6) in the current data (35 rivers);
+(11 rivers), Nord (10), Sør (10) and Vest (12) in the current data (43 rivers);
 every watershed maps to exactly one. It's stored in `summary.json` exactly as
 written in the source (`Sor`, without the ø) and shown as "Sør" in the table's
 Region column. The river sort menu has a "Region, then name" option that groups
 the table by region.
+
+## Institutions (NINA and RB)
+
+Everything that was in the dashboard before — the NINA source workbooks — is
+institution **NINA**. A second institution, **RB** (the collaborator), has
+pictures of its own for some rivers; they come from the project appendix
+workbook "Vedlegg 1 – materiale 1989–2024" (rows with `Institusjon = RB`, sheets
+1SW and 2SW).
+
+- **Institution filter** (All / NINA / RB) — works like the other filters: it
+  drives the stat tiles, both charts, the map and both tables, and combines with
+  Age class, Years and Region. The river table has an *Institution* column that
+  says where a river's numbers come from (`NINA`, `RB` or `NINA + RB`), and map
+  popups repeat it.
+- **All counts each river-year once.** If NINA and RB both have material for a
+  river and year, that river-year still has a target of 10 per age class (not 20):
+  `required` = 10 if either institution has material there, and `imaged` =
+  NINA's imaged candidates + RB's pictures, so a river-year can be completed (or
+  go into Excess) by either or both. The NINA and RB views are each computed on
+  their own with the same rule, so they don't add up to *All* where both
+  institutions cover the same river-year (three shared rivers today:
+  Espedalselva, Oselva and Gloppenelva).
+- **In the RB view a river-year exists only if RB has pictures for it.** RB
+  has 11 rivers (Sør 3, Vest 8), 8 of them not in the NINA data — those show up
+  as new rows and map markers (Bjerkreimselva, Suldalslågen, Storelva (Arna),
+  Frøysetelva, Vikja, Sogndalselva, Flekkeelva, Eidselva). 907 pictures in 1SW and
+  920 in 2SW. No river-year has more than 10 RB pictures, so RB alone never
+  produces Excess.
+
+How RB's pictures are read (`scripts/extract_rb.py`): the workbook's last column,
+*Eksisterande bildemateriale* ("existing image material"), is a plain `=SUM(AE:AM)`
+over the year columns on every RB row — so the years that count (2016–2024) are
+read from that formula, not hard-coded, and the script checks that the cells in
+that range add up to the column's own value before writing anything. RB material
+in years *outside* that range has no pictures yet: it is **not counted**, but
+`rb_pictures.json` records how much of it there is (`notCounted`) so nothing is
+silently dropped — if you ever want it to count toward the target, that is a
+decision to make, not a bug to fix. The 3SW sheet is ignored (the dashboard
+tracks 1SW and 2SW). RB's pictures are a static snapshot of that workbook, so the
+timeline shows them as part of the first week's total, not as growth.
+
+In `summary.json` every river-year carries 18 numbers: Required / Analyzed /
+Excess for 1SW and 2SW, each three ways — all institutions combined
+(`sw1Required`), NINA only (`sw1NinaRequired`) and RB only (`sw1RbRequired`).
+The Institution filter just picks which set of fields the page reads;
+`history.json` stores the same 18 fields per day (and per region), so the
+timeline follows the filter too.
 
 Region has two more roles on the page:
 
 - **Region filter** (All regions plus one button per region in the data — Midt /
   Nord / Sør / Vest at the moment): narrows the stat tiles, the *Samples by year* chart,
   the weekly *Images added per week* timeline and the *Progress by river* table
-  to that region, and combines with the Age class filter (and, for everything
-  but the timeline, the Years filter).
+  to that region, and combines with the Age class and Institution filters (and,
+  for everything but the timeline, the Years filter).
 - **Progress by region** table: the per-region subtotals (rivers, required,
   imaged, %, excess) plus an *All regions* total row, for the current Age class
   and Years selection. It deliberately ignores the Region filter so the regions
@@ -70,8 +127,8 @@ Region has two more roles on the page:
 row, or Tab to it and press Enter/Space) to open a breakdown of that river's years,
 newest first, with the same Required / Imaged / % / Excess columns:
 
-- It follows the Age class and Years filters, so its rows add up to the river's own
-  row above it.
+- It follows the Age class, Institution and Years filters, so its rows add up to the
+  river's own row above it.
 - It starts at the river's first year with candidates in the selected window. A
   later year with **no candidates at all** is listed as "no candidates selected"
   rather than skipped — such river-years aren't counted anywhere in the percentages,
@@ -132,7 +189,7 @@ place: `computeWeeklyTimeline` in `app.js`):
   shows as zero *added* that week rather than a gap.
 - The first bar is the total imaged count discovered when tracking began, not
   a real "this week" delta — there's no prior snapshot to diff against.
-- Respects the Age class filter (Combined / 1SW / 2SW) like the rest of the
+- Respects the Age class and Institution filters like the rest of the
   dashboard; not affected by the Years filter, since that filters by sampling
   year (`Feltaar`), not by when an image was actually added.
 - Follows the Region filter: each history entry stores the project-wide totals
@@ -143,10 +200,12 @@ place: `computeWeeklyTimeline` in `app.js`):
 - **The log is restarted whenever the set of rivers changes**, because totals
   over different river sets aren't comparable and the chart would show the
   difference as a bogus burst of "added" images. It was restarted on 2026-10-05
-  (per-region totals added; river set had shrunk) and again on 2026-10-16, when
+  (per-region totals added; river set had shrunk), again on 2026-10-16, when
   10 rivers came back into the data: only +90 of the ~1,970 extra imaged rows
   that week were new imaging in the existing rivers (all Numedalslågen) — the
-  rest were already-imaged samples in the returning rivers. To restart, delete
+  rest were already-imaged samples in the returning rivers — and a third time
+  on 2026-10-19, when RB's 8 extra rivers and 1,827 pictures were added and every
+  entry gained the per-institution fields. To restart, delete
   `data/history.json` before running `build_summary.py`.
 
 This only tracks forward from whenever logging started — it does **not**
@@ -166,8 +225,8 @@ A panel above *Progress by region* with one circle marker per river:
   Size and the popups carry the same information, so colour is never the only
   cue. A fifth region would need a new colour and a fresh validator run.
   **Size = % of target imaged.** Click or tap a marker for that river's numbers.
-- It follows the Age class, Years and Region filters, with the same "has
-  candidates in the selected range" rule as the tables, and reframes to whatever
+- It follows the Age class, Institution, Years and Region filters, with the same
+  "has candidates in the selected range" rule as the tables, and reframes to whatever
   is shown (so picking a region zooms to it) — without animation, because Leaflet
   ignores a new zoom while one is still animating and quick clicks could otherwise
   leave the map framed on the wrong rivers.
@@ -186,12 +245,16 @@ were resolved by hand — e.g. the Lakselva by its source lake Trollbuvatnet on
 Senja, Espedalselva via Espedalsvatnet in Rogaland, Åelva via Roksdalen on
 Andøy, Buksnesvassdraget via Teinvatnet next to Buksnes on Andøy, Varpavassdraget
 via Varpvatnet in Hamarøy — and the finished set was checked against the data:
-all 35 rivers located, all inside Norway, the points follow the coast in
+all 43 rivers located, all inside Norway, the points follow the coast in
 vassdragsnummer order with no strays (largest step 235 km, across a stretch of
 numbers with no rivers in the data), and the four regions come out as clean
-latitude bands (Sør 58.1–59.5°N, Vest 59.7–61.8°, Midt 62.2–68.9°, Nord
+latitude bands (Sør 58.1–59.5°N, Vest 59.7–61.9°, Midt 62.2–68.9°, Nord
 69.0–70.6°) — an independent confirmation that each river sits where its region
 says. Each entry's `from` field records exactly which register object was used.
+Three of RB's rivers are less certain than the rest: **Storelva (Arna)** is the
+Storelva about 2 km from Arna centre (other Storelvas exist nearby),
+**Frøysetelva** has no river object in the register so its point is the Frøyset
+farm in Masfjorden, and **Flekkeelva** is a point on the river at the Flekke bridge.
 If real sampling-site coordinates become available, replace the lat/lon there.
 
 `rivers.json` is static (the refresh pipeline doesn't touch it). A river that
@@ -206,7 +269,9 @@ paid connectors is documented in [`SETUP.md`](SETUP.md) — a small Power Automa
 flow plus a Google Apps Script bridge that pushes the refreshed JSON straight to
 this repo via the GitHub API. That part is **not wired up yet** (and the approach
 is still undecided) — for now the data is refreshed by hand from the workbooks in
-`data/`; the current snapshot was generated on 2026-10-16.
+`data/`; the current snapshot was generated on 2026-10-19. (The Apps Script in
+`SETUP.md` mirrors `build_summary.py`, RB institution included: it reads
+`data/rb_pictures.json` from the repo on every run.)
 
 ## Project structure
 
@@ -215,6 +280,8 @@ index.html / style.css / app.js   the dashboard (static, no build step)
 data/summary.json                 pre-aggregated current-state data the page reads
 data/history.json                 daily-snapshot log the page buckets into the weekly timeline
 data/rivers.json                  approximate map position per river (static, hand-curated)
-scripts/build_summary.py          regenerates both data files from the xlsx sources
+data/rb_pictures.json             RB's existing pictures by river/age class/year (from extract_rb.py)
+scripts/build_summary.py          regenerates both data files from the xlsx sources + rb_pictures.json
+scripts/extract_rb.py             reads RB's workbook into data/rb_pictures.json
 SETUP.md                          daily-refresh automation plan (Power Automate + Apps Script)
 ```

@@ -322,6 +322,7 @@ tr.total-row td {
 
 /* Year-by-year detail: a river row opens to show its years. */
 .river-row { cursor: pointer; }
+.inst-cell { white-space: nowrap; }
 .river-row:hover td { background: var(--page-plane); }
 
 .row-toggle {
