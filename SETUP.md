@@ -194,12 +194,14 @@ function regionTotals(rivers) {
 // Analyzed = min(imaged count, required) -- imaged fish counted toward that.
 // Excess   = max(0, imaged count - required) -- imaged fish beyond what is required.
 //
-// Institutions: everything in the NINA workbooks is institution NINA; RB's pictures
-// come from `rb` (the `rivers` object of data/rb_pictures.json, made by
-// scripts/extract_rb.py) and are the fish RB has available. A river-year counts ONCE
-// toward the target in the combined view however many institutions contributed:
-// available = NINA's selected fish + RB's pictures, imaged = NINA's imaged candidates +
-// RB's pictures. In the RB view a river-year RB has no pictures for does not exist.
+// Institutions: everything in the NINA workbooks is institution NINA. RB's fish come from
+// `rb` (the `rivers` object of data/rb_pictures.json, made by scripts/extract_rb.py):
+// `material` = the fish RB has for a river-year (what has to be imaged), `pictures` = the
+// fish imaged so far (RB's imaging is not finished). RB's available fish = its material,
+// or its pictures if there are more. A river-year counts ONCE toward the target in the
+// combined view however many institutions contributed: available = NINA's selected fish +
+// RB's available fish, imaged = NINA's imaged candidates + RB's pictures. In the RB view a
+// river-year RB has no fish for does not exist.
 function aggregate(rows1sw, rows2sw, rb) {
   rb = rb || {};
   const watersheds = {}; // watershed id -> { watershedId, nameCounts, regionCounts, byYear: { year: {...} } }
@@ -211,7 +213,7 @@ function aggregate(rows1sw, rows2sw, rb) {
   }
 
   const nina = { sw1: {}, sw2: {} };     // class -> "ws||year" -> { ws, year, pool, imaged }
-  const pictures = { sw1: {}, sw2: {} }; // class -> "ws||year" -> { ws, year, n }
+  const rbFish = { sw1: {}, sw2: {} };   // class -> "ws||year" -> { ws, year, material, pictures }
 
   [["sw1", rows1sw], ["sw2", rows2sw]].forEach(([swKey, rows]) => {
     rows.forEach(({ river, watershed, year, hasImage, region }) => {
@@ -231,9 +233,13 @@ function aggregate(rows1sw, rows2sw, rb) {
     e.nameCounts[river.name] = (e.nameCounts[river.name] || 0) + 1; // one vote: NINA's spelling wins on a shared river
     if (river.region) e.regionCounts[river.region] = (e.regionCounts[river.region] || 0) + 1;
     [["1SW", "sw1"], ["2SW", "sw2"]].forEach(([sheet, swKey]) => {
-      const byYear = (river.pictures && river.pictures[sheet]) || {};
-      Object.keys(byYear).forEach((year) => {
-        pictures[swKey][ws + "||" + Number(year)] = { ws, year: Number(year), n: byYear[year] };
+      [["material", river.material], ["pictures", river.pictures]].forEach(([field, byClass]) => {
+        const byYear = (byClass && byClass[sheet]) || {};
+        Object.keys(byYear).forEach((year) => {
+          const k = ws + "||" + Number(year);
+          if (!rbFish[swKey][k]) rbFish[swKey][k] = { ws, year: Number(year), material: 0, pictures: 0 };
+          rbFish[swKey][k][field] = byYear[year];
+        });
       });
     });
   });
@@ -242,20 +248,24 @@ function aggregate(rows1sw, rows2sw, rb) {
     const target = PER_YEAR_TARGET[swKey];
     const keys = {};
     Object.keys(nina[swKey]).forEach((k) => { keys[k] = true; });
-    Object.keys(pictures[swKey]).forEach((k) => { keys[k] = true; });
+    Object.keys(rbFish[swKey]).forEach((k) => { keys[k] = true; });
     Object.keys(keys).forEach((k) => {
-      const n = nina[swKey][k], p = pictures[swKey][k];
+      const n = nina[swKey][k], p = rbFish[swKey][k];
       const ws = (n || p).ws, year = (n || p).year;
-      const pool = n ? n.pool : 0, ninaImaged = n ? n.imaged : 0, rbN = p ? p.n : 0;
+      const pool = n ? n.pool : 0, ninaImaged = n ? n.imaged : 0;
+      const rbImaged = p ? p.pictures : 0;
+      // RB's fish for the river-year: its material, or its pictures if there are more
+      // (so that imaged never exceeds available).
+      const rbAvailable = p ? Math.max(p.material, p.pictures) : 0;
       allYears.add(year);
       const wsEntry = entryFor(ws);
       const key = String(year);
       if (!wsEntry.byYear[key]) wsEntry.byYear[key] = emptyFields();
       // [infix, fish available, fish imaged]; imaged never exceeds available
       [
-        ["", pool + rbN, ninaImaged + rbN],
+        ["", pool + rbAvailable, ninaImaged + rbImaged],
         ["Nina", pool, ninaImaged],
-        ["Rb", rbN, rbN],
+        ["Rb", rbAvailable, rbImaged],
       ].forEach(([infix, available, imagedCount]) => {
         if (available === 0) return;
         // Every available fish needs imaging, up to the target: a river-year with

@@ -4,8 +4,9 @@ A small static dashboard tracking scale-sample progress by river for NINA projec
 132668 ("NASCO: Salmon growth"). Shows, per river and year, progress toward the
 project's imaging target ("required" vs. "imaged") plus any already-imaged
 samples beyond that target ("excess"). Images come from two institutions: NINA
-(the project's own source workbooks) and RB, a collaborator whose existing
-pictures are added from a separate workbook — see *Institutions* below.
+(the project's own source workbooks) and RB, a collaborator whose fish come from
+a separate workbook and whose images are counted from its image folder — see
+*Institutions* below.
 
 **Live (unlisted) URL:** https://maltewillmes.github.io/scale_dash/
 
@@ -28,7 +29,7 @@ pictures are added from a separate workbook — see *Institutions* below.
 - `scripts/build_summary.py` regenerates both `data/summary.json` and
   `data/history.json` from the two source workbooks (`d_1SW_top15.xlsx` for
   1SW, `d_2SW_top15.xlsx` for 2SW — the 15 fish selected per river per year)
-  plus RB's pictures from `data/rb_pictures.json` (if that file is there).
+  plus RB's fish and images from `data/rb_pictures.json` (if that file is there).
   Drop the current workbooks into `data/` (they're git-ignored via
   `data/*.xlsx`, since they hold raw fish-level records and must never be
   published) and run it whenever you want to refresh the numbers by hand:
@@ -41,12 +42,14 @@ pictures are added from a separate workbook — see *Institutions* below.
 
   Stage the two JSON files by name as above rather than `git add -A`. Pushing
   to `master` is enough — GitHub Pages redeploys automatically.
-- `scripts/extract_rb.py` turns RB's workbook into `data/rb_pictures.json`. It
-  only needs re-running when RB's workbook changes (then run `build_summary.py`
-  again, and stage `data/rb_pictures.json` too):
+- `scripts/extract_rb.py` builds `data/rb_pictures.json` from RB's appendix
+  workbook and RB's image folder. **Re-run it whenever RB has imaged more fish**
+  (then run `build_summary.py` again, and stage `data/rb_pictures.json` too). It
+  needs to run on a computer that can see the image folder; the output holds only
+  counts, no file names:
 
   ```bash
-  python scripts/extract_rb.py data/Vedlegg1_materiale_1989_2024.xlsx data/rb_pictures.json
+  python scripts/extract_rb.py data/Vedlegg1_materiale_1989_2024.xlsx "P:/132453_digital_skjell/images/RB" data/rb_pictures.json
   ```
 
 ## Definitions used in this dashboard
@@ -67,10 +70,18 @@ the table by region.
 ## Institutions (NINA and RB)
 
 Everything that was in the dashboard before — the NINA source workbooks — is
-institution **NINA**. A second institution, **RB** (the collaborator), has
-pictures of its own for some rivers; they come from the project appendix
-workbook "Vedlegg 1 – materiale 1989–2024" (rows with `Institusjon = RB`, sheets
-1SW and 2SW).
+institution **NINA**. A second institution, **RB** (the collaborator), images
+its own fish from 11 rivers. RB's imaging is not finished, so the two parts come
+from different places:
+
+- **What has to be imaged** (Required) comes from the project appendix workbook
+  "Vedlegg 1 – materiale 1989–2024": the rows with `Institusjon = RB` (sheets 1SW
+  and 2SW) list, for each river and year 1989–2024, how many fish RB has (at most
+  10) — 2,397 in 1SW and 2,468 in 2SW.
+- **What has been imaged so far** (Imaged) is counted from RB's image folder
+  (`132453_digital_skjell/images/RB`). So far that is 1,100 fish, all from
+  1999–2004 (677 in 1SW, 423 in 2SW), from 8 of RB's 11 rivers — nothing yet from
+  Bjerkreimselva, Espedalselva or Suldalslågen, and nothing for 2005 onwards.
 
 - **Institution filter** (All / NINA / RB) — works like the other filters: it
   drives the stat tiles, both charts, the map and both tables, and combines with
@@ -79,33 +90,50 @@ workbook "Vedlegg 1 – materiale 1989–2024" (rows with `Institusjon = RB`, sh
   popups repeat it.
 - **All counts each river-year once.** If NINA and RB both have fish for a river
   and year, that river-year still has one target of at most 10 per age class (not
-  20): the fish available are NINA's selected fish + RB's pictures, `required` is
-  `min(10, available)`, and `imaged` = NINA's imaged candidates + RB's pictures,
-  so a river-year can be completed (or go into Excess) by either or both. The
-  NINA and RB views are each computed on their own with the same rule, so they
-  would not add up to *All* where both cover the same river-year. Today no
-  river-year is covered by both (the three rivers both institutions work in —
-  Espedalselva, Oselva and Gloppenelva — have NINA and RB in different years), so
-  in practice *All* is NINA plus RB.
-- **In the RB view a river-year exists only if RB has pictures for it.** RB
-  has 11 rivers (Sør 3, Vest 8), 8 of them not in the NINA data — those show up
-  as new rows and map markers (Bjerkreimselva, Suldalslågen, Storelva (Arna),
-  Frøysetelva, Vikja, Sogndalselva, Flekkeelva, Eidselva). 907 pictures in 1SW and
-  920 in 2SW. No river-year has more than 10 RB pictures, so RB alone never
-  produces Excess. RB's fish *are* its pictures (see below), so the RB view is
-  100% by construction: it shows how much RB has, not how much is still to do.
+  20): the fish available are NINA's selected fish + RB's fish, `required` is
+  `min(10, available)`, and `imaged` = NINA's imaged candidates + RB's images, so
+  a river-year can be completed (or go into Excess) by either or both. The NINA
+  and RB views are each computed on their own with the same rule, so they don't
+  add up to *All* where both cover the same river-year. That happens in only two
+  river-years today (Gloppenelva 2000 and 2001); everywhere else *All* is NINA
+  plus RB.
+- **In the RB view a river-year exists only if RB has fish for it** (material in
+  the appendix, or images in the folder). 8 of RB's 11 rivers are not in the NINA
+  data — they show up as new rows and map markers (Bjerkreimselva, Suldalslågen,
+  Storelva (Arna), Frøysetelva, Vikja, Sogndalselva, Flekkeelva, Eidselva). Because
+  RB's imaging is unfinished the RB view is mostly *Required* with little *Imaged*
+  yet: about 12% of the target overall, and 0% in the default "last 10 years"
+  window, since no image from 2005 onwards exists yet.
+- **More images than fish is normal for RB.** In many river-years RB imaged
+  more fish than the appendix lists (the appendix caps a river-year at 10, the
+  imaging covered every fish available), so those river-years are 100% and the
+  rest count as Excess. In others fewer fish are imaged than listed so far.
+  A river-year with images but no appendix entry (e.g. Vikja 2000, 2003 and 2004)
+  needs 10, like any other.
 
-How RB's pictures are read (`scripts/extract_rb.py`): the workbook's last column,
-*Eksisterande bildemateriale* ("existing image material"), is a plain `=SUM(AE:AM)`
-over the year columns on every RB row — so the years that count (2016–2024) are
-read from that formula, not hard-coded, and the script checks that the cells in
-that range add up to the column's own value before writing anything. RB material
-in years *outside* that range has no pictures yet: it is **not counted** (neither
-as imaged nor as required), but `rb_pictures.json` records how much of it there is
-(`notCounted`) so nothing is silently dropped — if you ever want it to count
-toward the target, that is a decision to make, not a bug to fix. The 3SW sheet is ignored (the dashboard
-tracks 1SW and 2SW). RB's pictures are a static snapshot of that workbook, so the
-timeline shows them as part of the first week's total, not as growth.
+How RB's images are read (`scripts/extract_rb.py`). The image folder has one
+sub-folder per year with the Leica exports (`<River><Year>-<fish no>.jpg`; some
+years also have `.tif` or BandTracer `.png` files) and a `DNV <year>.xlsx` with one
+row per imaged fish. Each row's *ID nr.* is the image name, and it gives the
+watershed id (*Vassdragsnr.*) and the number of sea winters (*Sjø*), so every
+image is assigned to a river, a year and an age class from the data, not from the
+file name. An image counts once however many files it has. Not counted:
+58 images of fish with 3 or more sea winters (the dashboard tracks 1SW and 2SW; the
+appendix's 3SW sheet is ignored too) and 12 images with no row in the DNV
+workbook (no age class to assign them to). Folders that aren't a year (e.g. a
+staging folder) are ignored. The script stops with an error rather than guess if
+a file doesn't fit (a DNV year or species that doesn't match, a watershed that
+isn't one of RB's rivers, a missing DNV workbook).
+
+An earlier version of the dashboard took the appendix's *Eksisterande
+bildemateriale* column (a sum over 2016–2024) to mean "pictures that already exist"
+and counted 1,827 RB fish as imaged. That was wrong: no image from those years
+exists yet, and the column's formulas are not consistent across rows. Those years
+are RB material still to be imaged, like every other year the appendix lists.
+
+RB's images are a snapshot of the folder when the script last ran, so each re-run
+shows up in the weekly timeline as new images (the first run is the first week's
+bar).
 
 In `summary.json` every river-year carries 18 numbers: Required / Analyzed /
 Excess for 1SW and 2SW, each three ways — all institutions combined
@@ -210,7 +238,7 @@ place: `computeWeeklyTimeline` in `app.js`):
   10 rivers came back into the data: only +90 of the ~1,970 extra imaged rows
   that week were new imaging in the existing rivers (all Numedalslågen) — the
   rest were already-imaged samples in the returning rivers — and a third time
-  on 2026-10-19, when RB's 8 extra rivers and 1,827 pictures were added and every
+  on 2026-10-19, when RB's 8 extra rivers and its 1,100 images were added and every
   entry gained the per-institution fields. To restart, delete
   `data/history.json` before running `build_summary.py`.
 
@@ -286,8 +314,8 @@ index.html / style.css / app.js   the dashboard (static, no build step)
 data/summary.json                 pre-aggregated current-state data the page reads
 data/history.json                 daily-snapshot log the page buckets into the weekly timeline
 data/rivers.json                  approximate map position per river (static, hand-curated)
-data/rb_pictures.json             RB's existing pictures by river/age class/year (from extract_rb.py)
+data/rb_pictures.json             RB's fish (material) and images so far, by river/age class/year (from extract_rb.py)
 scripts/build_summary.py          regenerates both data files from the xlsx sources + rb_pictures.json
-scripts/extract_rb.py             reads RB's workbook into data/rb_pictures.json
+scripts/extract_rb.py             builds data/rb_pictures.json from RB's appendix workbook + image folder
 SETUP.md                          daily-refresh automation plan (Power Automate + Apps Script)
 ```

@@ -16,19 +16,22 @@ Each river also carries its `region` (Midt / Nord / Sor / Vest) from the source
 in the data; if rows ever disagree, the most common non-empty value wins.
 
 Institutions. Everything in the two NINA workbooks is institution NINA. The
-collaborator RB's existing pictures come from data/rb_pictures.json (next to
-the output file; made by scripts/extract_rb.py from the project appendix) and
-are institution RB. Each river-year's Required / Analyzed / Excess is computed
-three ways, with the field-name infix saying which:
+collaborator RB's fish come from data/rb_pictures.json (next to the output file;
+made by scripts/extract_rb.py from the project appendix and RB's image folder)
+and are institution RB. RB's imaging is not finished: its `material` (the fish
+the appendix lists, per river and year) is what has to be imaged, and its
+`pictures` are the fish imaged so far. Each river-year's Required / Analyzed /
+Excess is computed three ways, with the field-name infix saying which:
     ""      all institutions combined (sw1Required, ...)  -- a river-year counts
             ONCE toward the target however many institutions contributed: the
-            fish available are NINA's selected fish + RB's pictures, and
+            fish available are NINA's selected fish + RB's fish, and
             imaged = NINA's imaged candidates + RB's pictures
     "Nina"  NINA only (sw1NinaRequired, ...)
-    "Rb"    RB only   (sw1RbRequired, ...); RB's material is its pictures, so a
-            river-year RB has no pictures for does not exist in this view
-A river that only RB has pictures from (e.g. Bjerkreimselva) exists only in
-the combined and RB views.
+    "Rb"    RB only   (sw1RbRequired, ...); available = RB's material (or its
+            pictures, if there are more), imaged = RB's pictures; a river-year
+            RB has no fish for does not exist in this view
+A river that only RB has fish from (e.g. Bjerkreimselva) exists only in the
+combined and RB views.
 
 Each river/year has a candidate pool of up to 15 randomly-selected fish (per
 the NASCO sampling design), of which up to PER_YEAR_TARGET need to be imaged
@@ -39,7 +42,7 @@ for those, every selected fish needs imaging.
 "Required"  = the fish available for that river-year and age class, capped at
               PER_YEAR_TARGET (10 for 1SW, 10 for 2SW): min(10, selected fish).
               For NINA the available fish are the candidates selected that year
-              (up to 15), for RB the fish it has pictures for. So a river-year
+              (up to 15), for RB the fish its material lists. So a river-year
               with 7 selected fish needs 7 images and reaches 100% when all 7
               are imaged, instead of being stuck below 100% for ever.
 "Analyzed"  = however many of the imaged fish count toward that, i.e.
@@ -142,10 +145,10 @@ def aggregate(rows_1sw, rows_2sw, rb=None):
     # for that watershed id (ties broken alphabetically).
     #
     # Institutions: everything in the NINA workbooks is institution NINA; RB's
-    # pictures come from `rb` (data/rb_pictures.json). A river-year counts ONCE
-    # toward the target in the combined view, however many institutions
-    # contributed: the fish available are NINA's selected fish + RB's pictures,
-    # and imaged = NINA's imaged candidates + RB's pictures.
+    # fish and pictures come from `rb` (data/rb_pictures.json). A river-year counts
+    # ONCE toward the target in the combined view, however many institutions
+    # contributed: the fish available are NINA's selected fish + RB's fish, and
+    # imaged = NINA's imaged candidates + RB's pictures.
     rb = rb or {}
     watersheds = {}  # watershed id -> {watershedId, nameCounts, regionCounts, byYear: {year: {...}}}
     all_years = set()
@@ -156,7 +159,8 @@ def aggregate(rows_1sw, rows_2sw, rb=None):
         )
 
     nina = {c: defaultdict(lambda: [0, 0]) for c in CLASSES}  # class -> (ws, year) -> [pool, imaged]
-    pictures = {c: {} for c in CLASSES}  # class -> (ws, year) -> RB pictures
+    rb_material = {c: {} for c in CLASSES}  # class -> (ws, year) -> fish RB has (to be imaged)
+    pictures = {c: {} for c in CLASSES}  # class -> (ws, year) -> fish RB has imaged so far
 
     for sw_key, rows in (("sw1", rows_1sw), ("sw2", rows_2sw)):
         for river, ws, year, has_image, region in rows:
@@ -174,21 +178,26 @@ def aggregate(rows_1sw, rows_2sw, rb=None):
         if river.get("region"):
             e["regionCounts"][river["region"]] += 1
         for sheet, sw_key in (("1SW", "sw1"), ("2SW", "sw2")):
-            for year, n in river["pictures"].get(sheet, {}).items():
+            for year, n in river.get("material", {}).get(sheet, {}).items():
+                rb_material[sw_key][(ws, int(year))] = n
+            for year, n in river.get("pictures", {}).get(sheet, {}).items():
                 pictures[sw_key][(ws, int(year))] = n
 
     for sw_key in CLASSES:
         target = PER_YEAR_TARGET[sw_key]
-        for ws, year in set(nina[sw_key]) | set(pictures[sw_key]):
+        for ws, year in set(nina[sw_key]) | set(rb_material[sw_key]) | set(pictures[sw_key]):
             all_years.add(year)
             pool, nina_imaged = nina[sw_key][(ws, year)] if (ws, year) in nina[sw_key] else (0, 0)
-            rb_n = pictures[sw_key].get((ws, year), 0)
+            rb_imaged = pictures[sw_key].get((ws, year), 0)
+            # RB's fish for the river-year: what its material lists, or the images it has
+            # if there are more of them (so that imaged never exceeds available).
+            rb_available = max(rb_material[sw_key].get((ws, year), 0), rb_imaged)
             yr = entry_for(ws)["byYear"].setdefault(str(year), {k: 0 for k in FIELDS})
             # (infix, fish available, fish imaged); imaged never exceeds available
             views = (
-                ("", pool + rb_n, nina_imaged + rb_n),
+                ("", pool + rb_available, nina_imaged + rb_imaged),
                 ("Nina", pool, nina_imaged),
-                ("Rb", rb_n, rb_n),
+                ("Rb", rb_available, rb_imaged),
             )
             for infix, available, imaged_count in views:
                 if available == 0:
@@ -285,7 +294,7 @@ def main():
     today = summary["generatedAt"][:10]  # YYYY-MM-DD
     history = update_history(history_path, today, summary["totals"], region_totals(summary["rivers"]))
 
-    print(f"Wrote {out_path}: {len(summary['rivers'])} rivers ({len(rb)} with RB pictures), years {summary['years'][0]}-{summary['years'][-1]}")
+    print(f"Wrote {out_path}: {len(summary['rivers'])} rivers ({len(rb)} with RB fish), years {summary['years'][0]}-{summary['years'][-1]}")
     print(f"Totals: {summary['totals']}")
     print(f"Wrote {history_path}: {len(history)} dated entries")
 
