@@ -77,30 +77,33 @@ workbook "Vedlegg 1 – materiale 1989–2024" (rows with `Institusjon = RB`, sh
   Age class, Years and Region. The river table has an *Institution* column that
   says where a river's numbers come from (`NINA`, `RB` or `NINA + RB`), and map
   popups repeat it.
-- **All counts each river-year once.** If NINA and RB both have material for a
-  river and year, that river-year still has a target of 10 per age class (not 20):
-  `required` = 10 if either institution has material there, and `imaged` =
-  NINA's imaged candidates + RB's pictures, so a river-year can be completed (or
-  go into Excess) by either or both. The NINA and RB views are each computed on
-  their own with the same rule, so they don't add up to *All* where both
-  institutions cover the same river-year (three shared rivers today:
-  Espedalselva, Oselva and Gloppenelva).
+- **All counts each river-year once.** If NINA and RB both have fish for a river
+  and year, that river-year still has one target of at most 10 per age class (not
+  20): the fish available are NINA's selected fish + RB's pictures, `required` is
+  `min(10, available)`, and `imaged` = NINA's imaged candidates + RB's pictures,
+  so a river-year can be completed (or go into Excess) by either or both. The
+  NINA and RB views are each computed on their own with the same rule, so they
+  would not add up to *All* where both cover the same river-year. Today no
+  river-year is covered by both (the three rivers both institutions work in —
+  Espedalselva, Oselva and Gloppenelva — have NINA and RB in different years), so
+  in practice *All* is NINA plus RB.
 - **In the RB view a river-year exists only if RB has pictures for it.** RB
   has 11 rivers (Sør 3, Vest 8), 8 of them not in the NINA data — those show up
   as new rows and map markers (Bjerkreimselva, Suldalslågen, Storelva (Arna),
   Frøysetelva, Vikja, Sogndalselva, Flekkeelva, Eidselva). 907 pictures in 1SW and
   920 in 2SW. No river-year has more than 10 RB pictures, so RB alone never
-  produces Excess.
+  produces Excess. RB's fish *are* its pictures (see below), so the RB view is
+  100% by construction: it shows how much RB has, not how much is still to do.
 
 How RB's pictures are read (`scripts/extract_rb.py`): the workbook's last column,
 *Eksisterande bildemateriale* ("existing image material"), is a plain `=SUM(AE:AM)`
 over the year columns on every RB row — so the years that count (2016–2024) are
 read from that formula, not hard-coded, and the script checks that the cells in
 that range add up to the column's own value before writing anything. RB material
-in years *outside* that range has no pictures yet: it is **not counted**, but
-`rb_pictures.json` records how much of it there is (`notCounted`) so nothing is
-silently dropped — if you ever want it to count toward the target, that is a
-decision to make, not a bug to fix. The 3SW sheet is ignored (the dashboard
+in years *outside* that range has no pictures yet: it is **not counted** (neither
+as imaged nor as required), but `rb_pictures.json` records how much of it there is
+(`notCounted`) so nothing is silently dropped — if you ever want it to count
+toward the target, that is a decision to make, not a bug to fix. The 3SW sheet is ignored (the dashboard
 tracks 1SW and 2SW). RB's pictures are a static snapshot of that workbook, so the
 timeline shows them as part of the first week's total, not as growth.
 
@@ -139,33 +142,36 @@ newest first, with the same Required / Imaged / % / Excess columns:
   box; the default windows show in full.
 
 Each river/year has a candidate pool of up to 15 randomly-selected fish (the
-NASCO sampling design), of which **10 per river per year** need imaging — the
-rest are kept in reserve in case of poor scale quality. `imaged` below means a
+NASCO sampling design), of which **up to 10 per river per year** need imaging —
+the rest are kept in reserve in case of poor scale quality. Some river-years have
+fewer than 10 fish selected at all (348 of the NINA river-year/age-class
+combinations, in 33 rivers); for those, every selected fish needs imaging.
+`imaged` below means a
 candidate row where the 0/1 `bilde` flag is 1 **or** a `Bilde_skjell` (scale
 image filename) is filled in. `bilde` is the broader flag: every row with a
 filename also has `bilde = 1`, but images from 2019–2025 are flagged by `bilde`
 alone with no filename recorded, so counting filenames only badly undercounts
 recent imaging.
 
-- **Required** — a fixed **10** for every river/year, for each age class (so
-  20 total per river per year, combined) — the imaging target itself, not
-  capped or reduced by how many candidates happen to exist that year. A
-  river/year with fewer than 10 candidates selected simply can't reach 100% —
-  that shortfall is real and intentionally visible rather than hidden by
-  shrinking the target to match.
-- **Imaged** — however many already-imaged candidates count toward that
-  target: `min(imaged count, required)`. Required + Imaged always describes a
-  0–100% target.
-- **Excess** — already-imaged candidates beyond the target:
-  `max(0, imaged count − required)`. Extra coverage that isn't needed to hit
-  100% but exists anyway — reported separately, never folded into the
-  percentage.
+- **Required** — all the fish selected for that river/year and age class, **up
+  to a maximum of 10**: `min(10, selected fish)`. A river/year with 7 selected
+  fish needs 7 images and reaches 100% when all 7 are imaged; one with 12–15
+  needs 10. (So 20 per river per year, combined, is the most it can be.) An
+  earlier version fixed Required at 10 regardless, which left river-years with
+  fewer than 10 selected fish unable to ever reach 100%.
+- **Imaged** — however many already-imaged fish count toward that:
+  `min(imaged count, required)`. Required + Imaged always describes a 0–100%
+  target.
+- **Excess** — imaged fish beyond what is required:
+  `max(0, imaged count − required)`. It can only be non-zero where more than 10
+  fish were selected. Extra coverage that isn't needed to hit 100% but exists
+  anyway — reported separately, never folded into the percentage.
 
 Many images predate this project — NASCO's own imaging (task: "Image scale
 samples") starts October 2026 — so this tracks *total* photographic coverage,
 not only new NASCO-funded imaging. If you'd rather track only new project
 imaging once that starts, that needs a cutoff date or a separate flag in the
-source data — not available yet. The 10/river/year target applies equally to
+source data — not available yet. The maximum of 10 per river/year applies equally to
 1SW and 2SW; adjust `PER_YEAR_TARGET` in `scripts/build_summary.py` (and the
 matching constant in `SETUP.md`'s Apps Script) if that's ever confirmed to
 differ by age class.

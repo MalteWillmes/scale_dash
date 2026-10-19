@@ -21,9 +21,9 @@ the output file; made by scripts/extract_rb.py from the project appendix) and
 are institution RB. Each river-year's Required / Analyzed / Excess is computed
 three ways, with the field-name infix saying which:
     ""      all institutions combined (sw1Required, ...)  -- a river-year counts
-            ONCE toward the target however many institutions contributed:
-            required = target if either has material there, imaged = NINA's
-            imaged candidates + RB's pictures
+            ONCE toward the target however many institutions contributed: the
+            fish available are NINA's selected fish + RB's pictures, and
+            imaged = NINA's imaged candidates + RB's pictures
     "Nina"  NINA only (sw1NinaRequired, ...)
     "Rb"    RB only   (sw1RbRequired, ...); RB's material is its pictures, so a
             river-year RB has no pictures for does not exist in this view
@@ -31,20 +31,24 @@ A river that only RB has pictures from (e.g. Bjerkreimselva) exists only in
 the combined and RB views.
 
 Each river/year has a candidate pool of up to 15 randomly-selected fish (per
-the NASCO sampling design), of which PER_YEAR_TARGET actually need to be
-imaged for that river/year -- the rest are kept in reserve in case of poor
-scale quality.
+the NASCO sampling design), of which up to PER_YEAR_TARGET need to be imaged
+for that river/year -- the rest are kept in reserve in case of poor scale
+quality. Some river-years have fewer than PER_YEAR_TARGET fish selected at all;
+for those, every selected fish needs imaging.
 
-"Required"  = PER_YEAR_TARGET, always -- a fixed per-river, per-year imaging
-              target (10 for 1SW, 10 for 2SW), independent of how many
-              candidates were actually selected that year. A year with fewer
-              than 10 candidates simply can't reach 100% -- that shortfall is
-              real and intentionally visible, not hidden by shrinking the target.
-"Analyzed"  = however many of those already-imaged candidates count toward
-              the target, i.e. min(imaged count, required).
-"Excess"    = already-imaged candidates beyond the target (imaged count minus
+"Required"  = the fish available for that river-year and age class, capped at
+              PER_YEAR_TARGET (10 for 1SW, 10 for 2SW): min(10, selected fish).
+              For NINA the available fish are the candidates selected that year
+              (up to 15), for RB the fish it has pictures for. So a river-year
+              with 7 selected fish needs 7 images and reaches 100% when all 7
+              are imaged, instead of being stuck below 100% for ever.
+"Analyzed"  = however many of the imaged fish count toward that, i.e.
+              min(imaged count, required).
+"Excess"    = imaged fish beyond what is required (imaged count minus
               required, floored at 0) -- extra coverage that isn't needed to
-              hit the target but exists anyway.
+              hit the target but exists anyway. Imaged never exceeds the fish
+              available, so this is only ever non-zero when more than 10 fish
+              are available.
 Required + Analyzed always describes a 0-100% target; Excess is reported
 separately and is never part of that percentage.
 
@@ -82,9 +86,11 @@ import openpyxl
 
 REQUIRED_COLUMNS = ["Objektnavn", "Vassdragsnr_hovedvassdrag", "Feltaar", "Bilde_skjell", "bilde", "region"]
 
-# Per-river, per-year imaging target. The candidate pool itself is usually
-# larger (up to 15) -- the remainder are reserve fish kept in case of poor
-# scale quality. Confirmed with the project lead: 10 for both age classes.
+# Per-river, per-year imaging target: at most this many fish per age class need
+# imaging (a river-year with fewer fish selected needs all of them). The
+# candidate pool itself is usually larger (up to 15) -- the remainder are
+# reserve fish kept in case of poor scale quality. Confirmed with the project
+# lead: 10 for both age classes.
 PER_YEAR_TARGET = {"sw1": 10, "sw2": 10}
 
 
@@ -138,8 +144,8 @@ def aggregate(rows_1sw, rows_2sw, rb=None):
     # Institutions: everything in the NINA workbooks is institution NINA; RB's
     # pictures come from `rb` (data/rb_pictures.json). A river-year counts ONCE
     # toward the target in the combined view, however many institutions
-    # contributed: required = target if either has material there, and imaged =
-    # NINA's imaged candidates + RB's pictures.
+    # contributed: the fish available are NINA's selected fish + RB's pictures,
+    # and imaged = NINA's imaged candidates + RB's pictures.
     rb = rb or {}
     watersheds = {}  # watershed id -> {watershedId, nameCounts, regionCounts, byYear: {year: {...}}}
     all_years = set()
@@ -178,17 +184,21 @@ def aggregate(rows_1sw, rows_2sw, rb=None):
             pool, nina_imaged = nina[sw_key][(ws, year)] if (ws, year) in nina[sw_key] else (0, 0)
             rb_n = pictures[sw_key].get((ws, year), 0)
             yr = entry_for(ws)["byYear"].setdefault(str(year), {k: 0 for k in FIELDS})
+            # (infix, fish available, fish imaged); imaged never exceeds available
             views = (
-                ("", pool > 0 or rb_n > 0, nina_imaged + rb_n),
-                ("Nina", pool > 0, nina_imaged),
-                ("Rb", rb_n > 0, rb_n),
+                ("", pool + rb_n, nina_imaged + rb_n),
+                ("Nina", pool, nina_imaged),
+                ("Rb", rb_n, rb_n),
             )
-            for infix, has_material, imaged_count in views:
-                if not has_material:
+            for infix, available, imaged_count in views:
+                if available == 0:
                     continue
-                yr[f"{sw_key}{infix}Required"] += target
-                yr[f"{sw_key}{infix}Analyzed"] += min(imaged_count, target)
-                yr[f"{sw_key}{infix}Excess"] += max(0, imaged_count - target)
+                # Every available fish needs imaging, up to the target: a river-year
+                # with fewer than `target` fish selected can still reach 100%.
+                required = min(target, available)
+                yr[f"{sw_key}{infix}Required"] += required
+                yr[f"{sw_key}{infix}Analyzed"] += min(imaged_count, required)
+                yr[f"{sw_key}{infix}Excess"] += max(0, imaged_count - required)
 
     totals = {k: 0 for k in FIELDS}
     river_list = []

@@ -143,9 +143,10 @@ function parseRows(csvText) {
   return rows;
 }
 
-// Per-river, per-year imaging target. The candidate pool is usually larger
-// (up to 15) -- the remainder are reserve fish. Must match PER_YEAR_TARGET
-// in scripts/build_summary.py.
+// Per-river, per-year imaging target: at most this many fish per age class need
+// imaging (a river-year with fewer fish selected needs all of them). The candidate
+// pool is usually larger (up to 15) -- the remainder are reserve fish. Must match
+// PER_YEAR_TARGET in scripts/build_summary.py.
 const PER_YEAR_TARGET = { sw1: 10, sw2: 10 };
 
 // Every river-year is computed three ways, field-name infix in brackets: all
@@ -187,17 +188,18 @@ function regionTotals(rivers) {
 // the most common Objektnavn seen for that watershed id (ties broken
 // alphabetically).
 //
-// Required = target, always -- a fixed per-river, per-year imaging target,
-//            independent of how many candidates exist that year.
-// Analyzed = min(imaged count, required) -- imaged candidates counted toward the target.
-// Excess   = max(0, imaged count - required) -- already-imaged candidates beyond the target.
+// Required = the fish available for that river-year and age class, capped at the target:
+//            min(target, selected fish). A river-year with only 7 fish selected needs 7
+//            images and reaches 100% when all 7 are imaged.
+// Analyzed = min(imaged count, required) -- imaged fish counted toward that.
+// Excess   = max(0, imaged count - required) -- imaged fish beyond what is required.
 //
 // Institutions: everything in the NINA workbooks is institution NINA; RB's pictures
 // come from `rb` (the `rivers` object of data/rb_pictures.json, made by
-// scripts/extract_rb.py). A river-year counts ONCE toward the target in the combined
-// view however many institutions contributed: required = target if either has
-// material there, imaged = NINA's imaged candidates + RB's pictures. In the RB view a
-// river-year RB has no pictures for does not exist.
+// scripts/extract_rb.py) and are the fish RB has available. A river-year counts ONCE
+// toward the target in the combined view however many institutions contributed:
+// available = NINA's selected fish + RB's pictures, imaged = NINA's imaged candidates +
+// RB's pictures. In the RB view a river-year RB has no pictures for does not exist.
 function aggregate(rows1sw, rows2sw, rb) {
   rb = rb || {};
   const watersheds = {}; // watershed id -> { watershedId, nameCounts, regionCounts, byYear: { year: {...} } }
@@ -249,15 +251,19 @@ function aggregate(rows1sw, rows2sw, rb) {
       const wsEntry = entryFor(ws);
       const key = String(year);
       if (!wsEntry.byYear[key]) wsEntry.byYear[key] = emptyFields();
+      // [infix, fish available, fish imaged]; imaged never exceeds available
       [
-        ["", pool > 0 || rbN > 0, ninaImaged + rbN],
-        ["Nina", pool > 0, ninaImaged],
-        ["Rb", rbN > 0, rbN],
-      ].forEach(([infix, hasMaterial, imagedCount]) => {
-        if (!hasMaterial) return;
-        wsEntry.byYear[key][swKey + infix + "Required"] += target; // fixed target -- not capped by pool size
-        wsEntry.byYear[key][swKey + infix + "Analyzed"] += Math.min(imagedCount, target);
-        wsEntry.byYear[key][swKey + infix + "Excess"] += Math.max(0, imagedCount - target);
+        ["", pool + rbN, ninaImaged + rbN],
+        ["Nina", pool, ninaImaged],
+        ["Rb", rbN, rbN],
+      ].forEach(([infix, available, imagedCount]) => {
+        if (available === 0) return;
+        // Every available fish needs imaging, up to the target: a river-year with
+        // fewer than `target` fish selected can still reach 100%.
+        const required = Math.min(target, available);
+        wsEntry.byYear[key][swKey + infix + "Required"] += required;
+        wsEntry.byYear[key][swKey + infix + "Analyzed"] += Math.min(imagedCount, required);
+        wsEntry.byYear[key][swKey + infix + "Excess"] += Math.max(0, imagedCount - required);
       });
     });
   });
