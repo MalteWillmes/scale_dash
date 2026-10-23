@@ -18,4 +18,4 @@ Shows how far the project has come in imaging salmon scales: for each river and 
 - **Required:** the fish to image for a river, year and age class — all the fish selected, up to 10.
 - **Imaged:** fish with a scale image, counted toward Required.
 - **Excess:** imaged fish beyond Required. Never part of the percentage.
-- **Institution:** NINA's own imaging, or RB's (a collaborator, whose imaging is still in progress).
+- **Institution:** NINA's own imaging, or Rådgivende Biologer (RB).

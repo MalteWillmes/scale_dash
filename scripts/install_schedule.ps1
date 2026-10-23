@@ -11,6 +11,8 @@
 # The task runs as you, only while you are logged in (it needs your git credentials and the
 # OneDrive/Dropbox files), starts hidden, doesn't need the PC to be plugged in, needs a network
 # connection, and a run missed because the PC was off or asleep is made up once when it is back.
+# A run is stopped after 30 minutes (a normal one takes about a minute), so a hung run can't block
+# the schedule for long; a run that is still going when the next one is due makes that one skip.
 # See run_scheduled_update.ps1 for what each run does; the log is
 # %LOCALAPPDATA%\scale_dash\update_dashboard.log.
 param(
@@ -48,9 +50,18 @@ Copy-Item (Join-Path $PSScriptRoot "run_scheduled_update.ps1") $runner -Force
 @{ mainRepo = $mainRepo; remote = $remote; workbooksDir = $workbooksDir } |
   ConvertTo-Json | Set-Content (Join-Path $root "config.json") -Encoding UTF8
 
-# conhost --headless keeps the console window from flashing up every hour.
-$action = New-ScheduledTaskAction -Execute "conhost.exe" `
-  -Argument "--headless powershell.exe -NoProfile -ExecutionPolicy Bypass -File `"$runner`""
+# A one-line script host starts PowerShell with no window at all (no console flashing up every
+# hour) and passes its exit code on. Unlike `conhost --headless`, which hung here (the job never
+# started its work, and Task Scheduler couldn't stop it because it wasn't in the task's process
+# tree), PowerShell started this way is a child of the task, so "stop" and the time limit work.
+$launcher = Join-Path $root "run_hidden.vbs"
+@'
+' Starts the scheduled update's PowerShell without a window and returns its exit code.
+Set shell = CreateObject("WScript.Shell")
+code = shell.Run("powershell.exe -NoProfile -ExecutionPolicy Bypass -File """ & WScript.Arguments(0) & """", 0, True)
+WScript.Quit code
+'@ | Set-Content $launcher -Encoding ASCII
+$action = New-ScheduledTaskAction -Execute "wscript.exe" -Argument "//B //Nologo `"$launcher`" `"$runner`""
 $trigger = New-ScheduledTaskTrigger -Daily -At $From
 $trigger.Repetition = (New-ScheduledTaskTrigger -Once -At $From `
     -RepetitionInterval (New-TimeSpan -Hours $EveryHours) `
