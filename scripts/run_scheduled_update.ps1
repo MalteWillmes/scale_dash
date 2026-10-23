@@ -1,5 +1,5 @@
 # One scheduled dashboard update. Task Scheduler starts this; you normally never run it yourself
-# (the one-command way is `Rscript scripts/update_dashboard.R`, see the README).
+# (the one-command way is `Rscript scripts/update_dashboard.R`).
 #
 # scripts/install_schedule.ps1 copies this file to %LOCALAPPDATA%\scale_dash\ and registers the task,
 # so the scheduled job keeps working however the repo in Dropbox is changed. Each run:

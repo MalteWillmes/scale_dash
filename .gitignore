@@ -5,3 +5,6 @@ __pycache__/
 # Raw fish-level source workbooks stay local -- only the aggregated
 # data/summary.json and data/history.json are published.
 data/*.xlsx
+
+# The maintainer's decision log and details: local only, never published.
+DECISIONS.md

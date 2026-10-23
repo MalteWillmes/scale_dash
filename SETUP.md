@@ -2,12 +2,13 @@
 
 > **Status: not wired up, and not the route in use.** New imaging is recorded in the
 > `Skjell_lister` files (operators write their name in the `Operator` column), and the
-> dashboard is refreshed from them with `Rscript scripts/update_dashboard.R` — see the
-> README. The Apps Script below knows only the `bilde` / `Bilde_skjell` rule, so if this
+> dashboard is refreshed from them with `Rscript scripts/update_dashboard.R`. The Apps Script below knows only the `bilde` / `Bilde_skjell` rule, so if this
 > route is ever used it must also treat a fish as imaged when its `EnkeltfiskID` has an
 > `Operator` in the merged list (`merged/scale_data_merged.xlsx`), which means getting
 > that file (or just the set of those ids) to the script as well. The `aggregate` function
-> below needs no change for that: only `hasImage` in `parseRows` does. The daily timeline
+> below needs no change for that: only `hasImage` in `parseRows` does (plus the extra
+> rows for operator-imaged fish that a re-selection dropped from the workbooks, see
+> `keep_dropped_fish` in `scripts/build_summary.py`). The daily timeline
 > also needs `data/imaging_log.json` and, in every `history.json` entry, the
 > `sw1OperatorNew` / `sw2OperatorNew` fields (total and per region) that
 > `scripts/build_summary.py` writes; this script writes neither, so the timeline would
