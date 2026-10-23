@@ -395,15 +395,45 @@ the map skips it and its legend says how many were left off.
 
 ## Keeping it updated automatically
 
-The source spreadsheet lives in OneDrive and gets edited daily. The intended
-pipeline to keep `data/summary.json` fresh without any Azure app registration or
-paid connectors is documented in [`SETUP.md`](SETUP.md) — a small Power Automate
-flow plus a Google Apps Script bridge that pushes the refreshed JSON straight to
-this repo via the GitHub API. That part is **not wired up yet** (and the approach
-is still undecided) — for now the data is refreshed by hand from the workbooks in
-`data/`; the current snapshot was generated on 2026-10-19. (The Apps Script in
-`SETUP.md` mirrors `build_summary.py`, RB institution included: it reads
-`data/rb_pictures.json` from the repo on every run.)
+**A Windows scheduled task runs the update for you** — `update_dashboard.R`, the
+same one-command update described above, **every hour from 07:00 to 19:00, every
+day**. A run that finds nothing new publishes nothing, so that costs nothing. Set
+it up (or change it) with:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\install_schedule.ps1                  # every hour, 07:00-19:00
+powershell -ExecutionPolicy Bypass -File scripts\install_schedule.ps1 -EveryHours 2 -From 08:00 -ForHours 10
+powershell -ExecutionPolicy Bypass -File scripts\install_schedule.ps1 -Remove          # turn it off
+```
+
+How it behaves:
+
+- **It runs on this PC, as you, while you are logged in.** It needs your files
+  (OneDrive's `Skjell_lister`, the workbooks in `data/`), R, Python and your git
+  credentials. If the PC is off or asleep at a scheduled time, the run is made up
+  once when it is back; it doesn't wake the PC and needs a network connection.
+- **It never touches your working copy.** Each run uses its own clone of the repo in
+  `%LOCALAPPDATA%\scale_dash\repo`, forced to match GitHub first, and only reads the two
+  top-15 workbooks from your `data/` folder. So it can't commit or push work in
+  progress, doesn't care which branch you are on, and can't collide with a git lock
+  while you edit. It always runs the *pushed* version of the scripts: a change to
+  `update_dashboard.R` or `build_summary.py` only takes effect once it is on
+  GitHub (editing `run_scheduled_update.ps1` needs `install_schedule.ps1` run
+  again, which copies it).
+- **Because it pushes the data files from elsewhere, your working copy falls
+  behind `origin/master`.** Run `git pull --rebase` before you push your own
+  changes (the data files are the only thing the schedule changes).
+- **If something is wrong it publishes nothing**: no network or credentials, a list
+  file that can't be read, fish that were marked before and aren't now (see *Imaging
+  lists*). The dashboard just stays as it was, and the reason is in
+  `%LOCALAPPDATA%\scale_dash\update_dashboard.log` (one block per run). Whether the
+  last run worked: `Get-ScheduledTaskInfo -TaskName "scale_dash dashboard update"` —
+  `LastTaskResult` 0 is success, 1 a failure.
+- To run it right now: `Start-ScheduledTask -TaskName "scale_dash dashboard update"`.
+  Check git access without publishing: run `%LOCALAPPDATA%\scale_dash\run_scheduled_update.ps1 -SelfTest`.
+
+(The Power Automate / Apps Script route in [`SETUP.md`](SETUP.md) was the earlier
+idea; it was never wired up and is not used.)
 
 ## Project structure
 
@@ -415,6 +445,8 @@ data/imaging_log.json             new images operators imaged per day/region/age
 data/rivers.json                  approximate map position per river (static, hand-curated)
 data/rb_pictures.json             RB's fish (material) and images so far, by river/age class/year (from extract_rb.py)
 scripts/update_dashboard.R        merge the lists, rebuild the data files, commit + push (one command)
+scripts/install_schedule.ps1      sets up / removes the hourly scheduled update (Windows Task Scheduler)
+scripts/run_scheduled_update.ps1  what each scheduled run does (own clone -> update_dashboard.R -> log)
 scripts/merge_skjell_lister.R     merges the Skjell_lister files into one (one row per fish)
 scripts/build_summary.py          regenerates both data files from the xlsx sources + imaging list + rb_pictures.json
 scripts/extract_rb.py             builds data/rb_pictures.json from RB's appendix workbook + image folder

@@ -14,6 +14,10 @@
 #      and the dashboard at https://maltewillmes.github.io/scale_dash/ updates within a
 #      minute or two.
 #
+#   --workbooks-dir=<folder>
+#                      where d_1SW_top15.xlsx and d_2SW_top15.xlsx are (default: this repo's
+#                      data/ folder). The scheduled update runs from its own clone of the repo,
+#                      where those git-ignored workbooks don't exist, and points here.
 #   --no-push          do steps 1-2 only (nothing is committed or pushed)
 #   --allow-decrease   accept a merged list with FEWER imaged fish than the last one
 #                      (otherwise the merge refuses -- see merge_skjell_lister.R)
@@ -62,7 +66,8 @@ merged <- tryCatch(
 
 # ---- 2. rebuild the dashboard data ------------------------------------------------------
 data_dir <- file.path(repo, "data")
-workbooks <- file.path(data_dir, c("d_1SW_top15.xlsx", "d_2SW_top15.xlsx"))
+workbooks_dir <- sub("^--workbooks-dir=", "", flags[startsWith(flags, "--workbooks-dir=")])
+workbooks <- file.path(if (length(workbooks_dir)) workbooks_dir[1] else data_dir, c("d_1SW_top15.xlsx", "d_2SW_top15.xlsx"))
 if (!all(file.exists(workbooks))) fail("The top-15 workbooks are missing: %s", paste(workbooks[!file.exists(workbooks)], collapse = ", "))
 python <- Sys.which("py")
 if (python == "") python <- Sys.which("python")
