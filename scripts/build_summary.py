@@ -11,7 +11,12 @@ Skjell_lister files, one row per fish, operators write their name in the Operato
 column of every fish they image). Each fish with an Operator counts as imaged, in
 addition to the fish already imaged according to `bilde` / `Bilde_skjell`; a fish
 counts once. The list is matched to the two workbooks by EnkeltfiskID. Nothing from
-the list is written to the output except through these counts.
+the list is written to the output except through counts: the totals above, and
+data/imaging_log.json, the number of NEW images (fish not already imaged in the
+workbooks) operators imaged per day, region and age class, dated by the date they
+wrote after their name ("Gunnel_23.10.26"). The daily timeline plots those on the
+day they were imaged; history entries record how many operator images they contain
+(`sw1OperatorNew`, `sw2OperatorNew`) so that nothing is counted twice.
 
 Rivers are grouped by Vassdragsnr_hovedvassdrag (the canonical watershed id),
 not by the free-text Objektnavn -- a couple of watersheds are recorded under
@@ -89,9 +94,10 @@ in one place.
 """
 import json
 import os
+import re
 import sys
 from collections import Counter, defaultdict
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 
 import openpyxl
 
@@ -112,9 +118,30 @@ def fish_key(value):
     return str(value).strip()
 
 
-def load_imaged_ids(path):
-    """EnkeltfiskID of every fish with a name in the Operator column of the merged imaging list
-    (made by scripts/merge_skjell_lister.R): those fish have been imaged in the NASCO imaging."""
+OPERATOR_DATE = re.compile(r"(\d{1,2})\.(\d{1,2})\.(\d{2}|\d{4})\s*$")
+
+
+def parse_operator_date(text, today):
+    """The date an operator wrote after their name ('Gunnel_23.10.26' -> 2026-10-23), or None
+    when there is none, it isn't a real date, or it lies in the future (a typo)."""
+    m = OPERATOR_DATE.search(str(text))
+    if not m:
+        return None
+    day, month, year = int(m.group(1)), int(m.group(2)), int(m.group(3))
+    if year < 100:
+        year += 2000
+    try:
+        d = date(year, month, day)
+    except ValueError:
+        return None
+    return d if d <= today else None
+
+
+def load_imaged_ids(path, today=None):
+    """{EnkeltfiskID: date the operator imaged it (or None if the Operator entry has no usable
+    date)} for every fish with a name in the Operator column of the merged imaging list (made by
+    scripts/merge_skjell_lister.R): those fish have been imaged in the NASCO imaging."""
+    today = today or datetime.now(timezone.utc).date()
     wb = openpyxl.load_workbook(path, data_only=True, read_only=True)
     ws = wb[wb.sheetnames[0]]
     header_row = next(ws.iter_rows(min_row=1, max_row=1, values_only=True))
@@ -122,22 +149,25 @@ def load_imaged_ids(path):
     missing = [c for c in ("EnkeltfiskID", "Operator") if c not in idx]
     if missing:
         raise SystemExit(f"{path}: missing expected columns {missing}")
-    ids = set()
+    imaged = {}
     for r in ws.iter_rows(min_row=2, values_only=True):
         operator = r[idx["Operator"]]
         if r[idx["EnkeltfiskID"]] is not None and operator is not None and str(operator).strip() != "":
-            ids.add(fish_key(r[idx["EnkeltfiskID"]]))
-    return ids
+            imaged[fish_key(r[idx["EnkeltfiskID"]])] = parse_operator_date(operator, today)
+    return imaged
 
 
-def load_rows(path, imaged_ids=frozenset(), stats=None):
+def load_rows(path, imaged_ids=frozenset(), stats=None, sw_key=None, op_log=None):
     """One tuple per fish: (river, watershed id, year, imaged?, region).
 
     A fish is imaged when `bilde` is 1, a `Bilde_skjell` filename is filled in, or its
     EnkeltfiskID is in `imaged_ids` (marked with an Operator in the imaging lists); it
     counts once however many of these apply. If `stats` (a Counter) is given it gets
-    `listed` (fish of this workbook that are in imaged_ids) and `listed_new` (of those,
-    the ones that were not already counted as imaged)."""
+    `listed` (fish of this workbook that are in imaged_ids), `listed_new` (of those,
+    the ones that were not already counted as imaged) and `new_undated` (of the new ones,
+    those whose Operator entry has no usable date). If `op_log` (a Counter) and `sw_key`
+    are given, every new image with a date is added to it as (date, region, sw_key) -- the
+    imaging log, one count per day the operators imaged fish."""
     wb = openpyxl.load_workbook(path, data_only=True, read_only=True)
     ws = wb[wb.sheetnames[0]]
     header_row = next(ws.iter_rows(min_row=1, max_row=1, values_only=True))
@@ -156,9 +186,13 @@ def load_rows(path, imaged_ids=frozenset(), stats=None):
         if river is None or year is None or watershed is None or str(watershed).strip() == "":
             continue
         if imaged_ids and r[idx["EnkeltfiskID"]] is not None and fish_key(r[idx["EnkeltfiskID"]]) in imaged_ids:
+            marked_on = imaged_ids[fish_key(r[idx["EnkeltfiskID"]])] if isinstance(imaged_ids, dict) else None
             if stats is not None:
                 stats["listed"] += 1
                 stats["listed_new"] += 0 if has_image else 1
+                stats["new_undated"] += 1 if (not has_image and marked_on is None) else 0
+            if not has_image and marked_on is not None and op_log is not None and sw_key is not None:
+                op_log[(marked_on.isoformat(), region, sw_key)] += 1
             has_image = True
         rows.append((str(river), str(watershed), int(year), has_image, region))
     return rows
@@ -299,8 +333,39 @@ def region_totals(rivers):
     return dict(sorted(by_region.items()))
 
 
-def update_history(history_path, date_str, totals, regions):
-    """Upsert one {date, ...totals, regions} entry into the history log, sorted by date."""
+def operator_counts(op_log, region=None, up_to=None):
+    """{sw1OperatorNew: n, sw2OperatorNew: n}: how many images operators have added (fish that
+    were not already imaged), from the imaging log -- a Counter {(date, region, sw_key): n}.
+    region=None counts every region (including rivers without one); `up_to` (an ISO date) only
+    counts days on or before it."""
+    counts = {f"{c}OperatorNew": 0 for c in CLASSES}
+    for (day, reg, sw_key), n in op_log.items():
+        if (region is None or reg == region) and (up_to is None or day <= up_to):
+            counts[f"{sw_key}OperatorNew"] += n
+    return counts
+
+
+def add_operator_fields(entry, op_log):
+    """A history entry from before the OperatorNew fields existed, with them reconstructed from
+    the imaging log: the images dated on or before the entry's own date."""
+    new = {k: v for k, v in entry.items() if k != "regions"}
+    new.update(operator_counts(op_log, up_to=entry["date"]))
+    if "regions" in entry:
+        new["regions"] = {
+            r: {**v, **operator_counts(op_log, region=r, up_to=entry["date"])} for r, v in entry["regions"].items()
+        }
+    return new
+
+
+def update_history(history_path, date_str, totals, regions, op_log=None):
+    """Upsert one {date, ...totals, OperatorNew, regions} entry into the history log, sorted by date.
+
+    Besides the imaged totals each entry records how many of those images were added by operators
+    (`sw1OperatorNew`, `sw2OperatorNew`; per region too). The dashboard needs that to draw the
+    daily timeline: operator images are plotted on the day they were imaged (the imaging log),
+    and everything else (RB's images, changes to the source workbooks) on the day it was first
+    seen, i.e. the change in "imaged total minus operator images" between two entries."""
+    op_log = op_log if op_log is not None else Counter()
     if os.path.exists(history_path):
         with open(history_path, encoding="utf-8") as f:
             history = json.load(f)
@@ -308,9 +373,11 @@ def update_history(history_path, date_str, totals, regions):
         history = []
 
     history = [h for h in history if h.get("date") != date_str]
+    history = [h if f"{CLASSES[0]}OperatorNew" in h else add_operator_fields(h, op_log) for h in history]
     entry = {"date": date_str}
     entry.update(totals)
-    entry["regions"] = regions
+    entry.update(operator_counts(op_log))
+    entry["regions"] = {r: {**v, **operator_counts(op_log, region=r)} for r, v in regions.items()}
     history.append(entry)
     history.sort(key=lambda h: h["date"])
 
@@ -318,6 +385,24 @@ def update_history(history_path, date_str, totals, regions):
         json.dump(history, f, ensure_ascii=False, indent=2)
 
     return history
+
+
+def write_imaging_log(path, op_log):
+    """data/imaging_log.json: new images added by operators per day, region and age class -- counts
+    only. The dashboard plots them on the day the operator imaged the fish."""
+    days = {}
+    for (day, region, sw_key), n in sorted(op_log.items()):
+        days.setdefault(day, {}).setdefault(region, {})[sw_key] = n
+    doc = {
+        "about": (
+            "New images added by operators (fish not already imaged in the source workbooks), by the day the "
+            "operator imaged them (the date in the Operator column of the imaging lists), region and age class. "
+            "Counts only. Regenerated by scripts/build_summary.py --imaged-list."
+        ),
+        "days": days,
+    }
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(doc, f, ensure_ascii=False, indent=2)
 
 
 def main():
@@ -338,10 +423,13 @@ def main():
 
     rb_path = os.path.join(os.path.dirname(out_path) or ".", "rb_pictures.json")
 
-    imaged_ids = load_imaged_ids(imaged_list) if imaged_list else frozenset()
+    log_path = os.path.join(os.path.dirname(out_path) or ".", "imaging_log.json")
+
+    imaged_ids = load_imaged_ids(imaged_list) if imaged_list else {}
     stats = Counter()
-    rows_1sw = load_rows(path_1sw, imaged_ids, stats)
-    rows_2sw = load_rows(path_2sw, imaged_ids, stats)
+    op_log = Counter()  # (date, region, sw_key) -> new images the operators imaged that day
+    rows_1sw = load_rows(path_1sw, imaged_ids, stats, "sw1", op_log)
+    rows_2sw = load_rows(path_2sw, imaged_ids, stats, "sw2", op_log)
     rb = load_rb(rb_path)
     summary = aggregate(rows_1sw, rows_2sw, rb)
     if imaged_list:
@@ -352,16 +440,24 @@ def main():
         )
         if stats["listed"] != len(imaged_ids):
             print(f"WARNING: {len(imaged_ids) - stats['listed']} fish with an operator are not in the workbooks and were not counted")
+        if stats["new_undated"]:
+            print(
+                f"WARNING: {stats['new_undated']} new images have no usable date in the Operator column "
+                f"(none, not a real date, or in the future): the timeline shows them on the day the data is refreshed"
+            )
+        days = sorted({day for day, _, _ in op_log})
+        print(f"Imaging log: {sum(op_log.values())} new images on {len(days)} day(s)" + (f", {days[0]} to {days[-1]}" if days else ""))
 
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(summary, f, ensure_ascii=False, indent=2)
+    write_imaging_log(log_path, op_log)
 
     today = summary["generatedAt"][:10]  # YYYY-MM-DD
-    history = update_history(history_path, today, summary["totals"], region_totals(summary["rivers"]))
+    history = update_history(history_path, today, summary["totals"], region_totals(summary["rivers"]), op_log)
 
     print(f"Wrote {out_path}: {len(summary['rivers'])} rivers ({len(rb)} with RB fish), years {summary['years'][0]}-{summary['years'][-1]}")
     print(f"Totals: {summary['totals']}")
-    print(f"Wrote {history_path}: {len(history)} dated entries")
+    print(f"Wrote {history_path}: {len(history)} dated entries; {log_path}")
 
 
 if __name__ == "__main__":

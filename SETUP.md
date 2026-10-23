@@ -7,7 +7,11 @@
 > route is ever used it must also treat a fish as imaged when its `EnkeltfiskID` has an
 > `Operator` in the merged list (`merged/scale_data_merged.xlsx`), which means getting
 > that file (or just the set of those ids) to the script as well. The `aggregate` function
-> below needs no change for that: only `hasImage` in `parseRows` does.
+> below needs no change for that: only `hasImage` in `parseRows` does. The daily timeline
+> also needs `data/imaging_log.json` and, in every `history.json` entry, the
+> `sw1OperatorNew` / `sw2OperatorNew` fields (total and per region) that
+> `scripts/build_summary.py` writes; this script writes neither, so the timeline would
+> double-count operator images.
 
 Goal: keep `data/summary.json` (and `data/history.json`, the daily-timeline
 log) in sync with the OneDrive spreadsheet every day, without an Azure app

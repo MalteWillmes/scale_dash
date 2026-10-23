@@ -6,11 +6,13 @@
 #
 #   1. merges all list files into one (scripts/merge_skjell_lister.R) --
 #      <input_folder>/merged/scale_data_merged.xlsx, one row per fish, duplicates removed;
-#   2. rebuilds data/summary.json and data/history.json from the two top-15 workbooks in
-#      data/ plus the merged list (scripts/build_summary.py --imaged-list ...): every fish
-#      with a name in the Operator column counts as imaged;
-#   3. if the numbers changed, commits those two files and pushes them to GitHub, and the
-#      dashboard at https://maltewillmes.github.io/scale_dash/ updates within a minute or two.
+#   2. rebuilds data/summary.json, data/history.json and data/imaging_log.json from the two
+#      top-15 workbooks in data/ plus the merged list (scripts/build_summary.py
+#      --imaged-list ...): every fish with a name in the Operator column counts as imaged,
+#      and the log records on which day (the date after the operator's name) it was imaged;
+#   3. if the numbers (or the log) changed, commits those files and pushes them to GitHub,
+#      and the dashboard at https://maltewillmes.github.io/scale_dash/ updates within a
+#      minute or two.
 #
 #   --no-push          do steps 1-2 only (nothing is committed or pushed)
 #   --allow-decrease   accept a merged list with FEWER imaged fish than the last one
@@ -66,19 +68,24 @@ python <- Sys.which("py")
 if (python == "") python <- Sys.which("python")
 if (python == "") fail("Python was not found (looked for `py` and `python`)")
 
-published <- file.path(data_dir, c("summary.json", "history.json"))
-rel <- c("data/summary.json", "data/history.json")
+published <- file.path(data_dir, c("summary.json", "history.json", "imaging_log.json"))
+rel <- c("data/summary.json", "data/history.json", "data/imaging_log.json")
 
 # What is published is what is committed: that is what the new numbers are compared with
-# (not the working copy, which may hold an earlier run that was never pushed).
-head_summary <- tempfile(fileext = ".json")
-head_status <- suppressWarnings(system2(
-  "git", shQuote(c("-C", repo, "show", paste0("HEAD:", rel[1])), type = "cmd"), stdout = head_summary, stderr = FALSE
-))
-have_head <- identical(as.integer(head_status), 0L)
+# (not the working copy, which may hold an earlier run that was never pushed). Returns the
+# path of a copy of the committed file, or NULL if it isn't committed yet.
+committed_copy <- function(rel_path) {
+  copy <- tempfile(fileext = ".json")
+  status <- suppressWarnings(system2(
+    "git", shQuote(c("-C", repo, "show", paste0("HEAD:", rel_path)), type = "cmd"), stdout = copy, stderr = FALSE
+  ))
+  if (identical(as.integer(status), 0L)) copy else NULL
+}
+head_summary <- committed_copy(rel[1])
+head_log <- committed_copy(rel[3])
 
 say("")
-say("Rebuilding %s ...", "data/summary.json and data/history.json")
+say("Rebuilding %s ...", "data/summary.json, data/history.json and data/imaging_log.json")
 out <- run(
   python,
   c(file.path(repo, "scripts", "build_summary.py"), workbooks, file.path(data_dir, "summary.json"),
@@ -88,10 +95,13 @@ out <- run(
 for (line in grep("^(Imaging list|WARNING)", out, value = TRUE)) say("%s", line)
 
 # The summary carries a timestamp, so compare everything else: nothing to publish if the
-# numbers are the same as in the published version. (A new day's history entry with the same
-# totals changes nothing on the page, so history.json doesn't count either.)
+# numbers and the imaging log are the same as in the published version. (A new day's history
+# entry with the same totals changes nothing on the page, so history.json doesn't count.)
 strip_time <- function(f) { s <- jsonlite::fromJSON(f, simplifyVector = FALSE); s$generatedAt <- NULL; s }
-if (have_head && identical(strip_time(head_summary), strip_time(published[1]))) {
+same_as_published <- !is.null(head_summary) && !is.null(head_log) &&
+  identical(strip_time(head_summary), strip_time(published[1])) &&
+  identical(jsonlite::fromJSON(head_log, simplifyVector = FALSE), jsonlite::fromJSON(published[3], simplifyVector = FALSE))
+if (same_as_published) {
   run("git", c("-C", repo, "checkout", "--", rel), "git checkout") # drop the timestamp-only change
   say("")
   say("No change in the numbers since the published version (%d fish imaged by operators): nothing to publish.", merged$marked)
@@ -102,7 +112,7 @@ summary <- jsonlite::fromJSON(published[1], simplifyVector = FALSE)
 say("Dashboard data updated (%d rivers, data as of %s).", length(summary$rivers), summary$generatedAt)
 
 if ("--no-push" %in% flags) {
-  say("--no-push: the two data files are rebuilt in %s but not committed or pushed.", data_dir)
+  say("--no-push: the data files are rebuilt in %s but not committed or pushed.", data_dir)
   quit(status = 0)
 }
 
@@ -113,7 +123,7 @@ if (branch != "master") fail("The repo is on branch '%s'; the dashboard is publi
 
 invisible(git("add", "--", rel))
 message_text <- sprintf("Update imaging data: %d fish imaged by operators (%s)", merged$marked, format(Sys.time(), "%Y-%m-%d %H:%M"))
-invisible(git("commit", "-m", message_text, "--", rel)) # only these two files, whatever else is staged
+invisible(git("commit", "-m", message_text, "--", rel)) # only these data files, whatever else is staged
 invisible(tryCatch(git("push"), error = function(e) fail("%s\nIf the remote has newer commits: git pull --rebase, then run this again.", conditionMessage(e))))
 say("")
 say("Committed and pushed: %s", message_text)

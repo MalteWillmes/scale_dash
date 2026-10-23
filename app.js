@@ -8,7 +8,8 @@
     institution: "all", // "all" | "nina" | "rb" -- whose images are counted
     sort: "name",
     data: null,
-    history: [], // [{date, sw1Required, ..., sw2RbExcess, regions}, ...]: every field in FIELDS (see build_summary.py)
+    history: [], // [{date, sw1Required, ..., sw2RbExcess, sw1OperatorNew, sw2OperatorNew, regions}, ...] (see build_summary.py)
+    imagingLog: null, // data/imaging_log.json: new images operators imaged per day/region/age class, or null if unavailable
     geo: {}, // watershedId -> {lat, lon}, from data/rivers.json (map positions)
     regionKeys: [], // raw region values in display order; also fixes each region's map colour
     expanded: new Set(), // watershed ids of river rows opened to their year-by-year detail
@@ -156,37 +157,65 @@
     return d.toISOString().slice(0, 10);
   }
 
+  // New images the operators imaged on `day` (or on every day up to and including it, when
+  // `upTo` is set), for the given age classes and region, from the imaging log
+  // (data/imaging_log.json: {days: {date: {region: {sw1: n, sw2: n}}}}).
+  function operatorImaged(log, day, classes, region, upTo) {
+    let n = 0;
+    for (const d of Object.keys(log.days)) {
+      if (upTo ? d > day : d !== day) continue;
+      for (const reg of Object.keys(log.days[d])) {
+        if (region !== "all" && reg !== region) continue;
+        for (const c of classes) n += log.days[d][reg][c] || 0;
+      }
+    }
+    return n;
+  }
+
   // Turns the daily history log into a daily timeline: one bar per day from the day after
-  // the first logged snapshot to the most recent one, each the net images added that day
-  // (that day's imaged total minus the previous day's). A day with no snapshot (the data
-  // wasn't refreshed) carries the previous total forward, so it reads 0 and the next
-  // refreshed day gets the images of both. The first snapshot is not a bar: it is the
-  // `baseline`, everything that was already imaged when tracking began, which would
-  // otherwise dwarf the daily progress (the caption reports it instead). With a region
+  // the first logged snapshot to the most recent one, each the images added that day.
+  //
+  // Images that operators imaged are plotted on the day they were imaged (the date in the
+  // Operator column, kept in the imaging log), whenever the data was refreshed. Everything
+  // else (RB's images, changes to the source workbooks) has no date of its own and is
+  // plotted on the day it was first seen: each snapshot's `other` is its imaged total minus
+  // the operator images it already contained (stored in the snapshot as *OperatorNew), and
+  // the day's bar adds the change in `other` since the previous snapshot. A day with no
+  // snapshot (the data wasn't refreshed) carries `other` forward, so it only shows the
+  // operator images dated that day. Without an imaging log (or for RB, which has no
+  // operator images) this is simply the change in the imaged total between snapshots.
+  //
+  // The first snapshot is not a bar: it is the `baseline`, everything that was already
+  // imaged when tracking began, which would otherwise dwarf the daily progress (the caption
+  // reports it instead). baseline + all bars = the latest imaged total. With a region
   // selected, each entry's per-region totals (entry.regions) are used instead of the
   // project-wide ones; an entry without them is skipped, not guessed at.
-  function computeDailyTimeline(history, anKeys, exKeys, region) {
-    const byDay = {};
+  function computeDailyTimeline(history, log, { anKeys, exKeys, classes, region, withOperator }) {
+    const useLog = !!(withOperator && log && log.days);
+    const opKeys = useLog ? classes.map((c) => c + "OperatorNew") : [];
+    const otherOn = {};
     for (const entry of history) {
       const totals = region === "all" ? entry : entry.regions && entry.regions[region];
       if (!totals) continue;
-      byDay[entry.date] = sumFor(totals, anKeys) + sumFor(totals, exKeys); // one entry per day; later ones win
+      // one entry per day; later ones win
+      otherOn[entry.date] = sumFor(totals, anKeys) + sumFor(totals, exKeys) - sumFor(totals, opKeys);
     }
-    const dayKeys = Object.keys(byDay).sort();
+    const dayKeys = Object.keys(otherOn).sort();
     if (!dayKeys.length) return { start: null, baseline: 0, days: [], added: [] };
 
     const start = dayKeys[0];
     const last = dayKeys[dayKeys.length - 1];
     const days = [];
     const added = [];
-    let previous = byDay[start];
+    let previous = otherOn[start];
     for (let d = addDaysIso(start, 1); d <= last; d = addDaysIso(d, 1)) {
-      const total = Object.prototype.hasOwnProperty.call(byDay, d) ? byDay[d] : previous;
+      const other = Object.prototype.hasOwnProperty.call(otherOn, d) ? otherOn[d] : previous;
       days.push(d);
-      added.push(total - previous);
-      previous = total;
+      added.push((useLog ? operatorImaged(log, d, classes, region, false) : 0) + (other - previous));
+      previous = other;
     }
-    return { start, baseline: byDay[start], days, added };
+    const baseline = otherOn[start] + (useLog ? operatorImaged(log, start, classes, region, true) : 0);
+    return { start, baseline, days, added };
   }
 
   function timelineCaptionText({ start, baseline, days }) {
@@ -201,7 +230,13 @@
   }
 
   function renderTimeline(anKeys, exKeys) {
-    const timeline = computeDailyTimeline(state.history, anKeys, exKeys, state.region);
+    const timeline = computeDailyTimeline(state.history, state.imagingLog, {
+      anKeys,
+      exKeys,
+      classes: ageClasses(),
+      region: state.region,
+      withOperator: state.institution !== "rb", // operators are NINA: no operator images in the RB view
+    });
     const { days, added } = timeline;
     els.timelineCaption.textContent = timelineCaptionText(timeline);
 
@@ -668,6 +703,15 @@
       } catch (err) {
         state.history = [];
         console.warn("Could not load data/history.json — timeline will be empty.", err);
+      }
+
+      // The imaging log dates the operators' images; without it the timeline falls back to the
+      // change between daily snapshots.
+      try {
+        state.imagingLog = await fetchJson("data/imaging_log.json");
+      } catch (err) {
+        state.imagingLog = null;
+        console.warn("Could not load data/imaging_log.json — operator images will be dated by when the data was refreshed.", err);
       }
 
       // River positions are likewise supplementary: without them only the map is affected.

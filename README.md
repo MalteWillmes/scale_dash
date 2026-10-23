@@ -34,8 +34,9 @@ a separate workbook and whose images are counted from its image folder — see
   Rscript scripts/update_dashboard.R
   ```
 
-  It (1) merges all lists into one file, (2) rebuilds `data/summary.json` and
-  `data/history.json`, and (3) if the numbers changed, commits just those two files
+  It (1) merges all lists into one file, (2) rebuilds `data/summary.json`,
+  `data/history.json` and `data/imaging_log.json`, and (3) if the numbers or the
+  imaging log changed, commits just those three files
   and pushes to `master`, and GitHub Pages redeploys within a minute or two. Run it
   as often as you like — several times a day is fine; when nothing changed it says so
   and publishes nothing. `--no-push` stops after step 2 so you can look first.
@@ -43,8 +44,8 @@ a separate workbook and whose images are counted from its image folder — see
   `openpyxl`, and git with push access to this repo.
 - `scripts/merge_skjell_lister.R` is step 1 on its own: it merges the lists into
   `Skjell_lister/merged/scale_data_merged.xlsx` (see *Imaging lists*).
-- `scripts/build_summary.py` regenerates both `data/summary.json` and
-  `data/history.json` from the two source workbooks (`d_1SW_top15.xlsx` for
+- `scripts/build_summary.py` regenerates `data/summary.json`,
+  `data/history.json` and `data/imaging_log.json` from the two source workbooks (`d_1SW_top15.xlsx` for
   1SW, `d_2SW_top15.xlsx` for 2SW — the 15 fish selected per river per year),
   the merged imaging list, and RB's fish and images from `data/rb_pictures.json`
   (if that file is there). The workbooks live in `data/` (git-ignored via
@@ -54,11 +55,11 @@ a separate workbook and whose images are counted from its image folder — see
   ```bash
   pip install openpyxl
   python scripts/build_summary.py data/d_1SW_top15.xlsx data/d_2SW_top15.xlsx data/summary.json --imaged-list "<Skjell_lister>/merged/scale_data_merged.xlsx"
-  git add data/summary.json data/history.json && git commit -m "Refresh sample data" && git push
+  git add data/summary.json data/history.json data/imaging_log.json && git commit -m "Refresh sample data" && git push
   ```
 
   **Always pass `--imaged-list`**: without it the images recorded by operators
-  are not counted and the numbers drop back. Stage the two JSON files by name as
+  are not counted and the numbers drop back. Stage the JSON files by name as
   above rather than `git add -A`. Pushing to `master` is enough.
 - `scripts/extract_rb.py` builds `data/rb_pictures.json` from RB's appendix
   workbook and RB's image folder. **Re-run it whenever RB has imaged more fish**
@@ -269,28 +270,48 @@ differ by age class.
 
 ## Images-added-per-day timeline
 
-The source spreadsheet has no "date image added" column — the image flag only
-says whether an image exists *now*, not when it appeared — so there's no way
-to reconstruct history retroactively. Instead, every pipeline run (manual or
-automated) upserts today's totals into `data/history.json` — one entry per day,
-so running it several times a day just updates that day's entry — and the
-dashboard turns that log into a daily timeline itself (nothing is pre-aggregated
-by day in the data files, so the logic lives in one place:
-`computeDailyTimeline` in `app.js`):
+The source workbooks have no "date image added" column — the image flag only
+says whether an image exists *now*, not when it appeared. Two things give the
+timeline its dates:
+
+- **Operator images carry their own date.** An operator writes name *and date*
+  (`Gunnel_23.10.26`) in the imaging list, and `build_summary.py` records, in
+  `data/imaging_log.json`, how many **new** images (fish not already imaged in the
+  source workbooks) were imaged on each day, by region and age class — counts only. So
+  these images are plotted on the day they were actually imaged, even if the
+  dashboard is updated days later. A name without a usable date (missing, not a real
+  date, or in the future) is treated like the rest, below, and the build warns.
+- **Everything else has no date of its own** (RB's images, changes to the source
+  workbooks), so every pipeline run (manual or automated) upserts today's totals
+  into `data/history.json` — one entry per day, so running it several times a day
+  just updates that day's entry — and such an image is plotted on the day the data
+  was first refreshed with it.
+
+Each history entry also stores how many operator images it already contained
+(`sw1OperatorNew`, `sw2OperatorNew`; per region too). That is what keeps an image
+from being counted twice, once on its own day and once on the refresh day: a day's bar
+is *(operator images dated that day)* + *(the change in "imaged total minus operator
+images" since the previous entry)*. The dashboard does this itself — nothing is
+pre-aggregated by day — in `computeDailyTimeline` in `app.js`:
 
 - One bar per calendar day, from the day *after* the first logged snapshot to the
-  most recent one. A bar is that day's imaged count (`Analyzed + Excess`, i.e.
-  every imaged candidate regardless of the target) minus the previous day's.
+  most recent one. Imaged means `Analyzed + Excess`, i.e. every imaged candidate
+  regardless of the target.
 - **The first snapshot is not a bar.** It is everything that was already imaged
   when tracking began (5,536 images on 19 October), which would dwarf the daily
   progress (usually a few dozen images), so it is reported in the caption above the
   chart instead ("Tracking began Oct 19, when 5,536 images were already imaged").
-  It changes with the filters like the bars do.
-- A day with no snapshot (the pipeline wasn't run) carries the previous total
-  forward, so it shows as zero *added* — and the next day that is refreshed gets the
-  images of both days. Run the update every working day to keep the bars honest.
+  It changes with the filters like the bars do, and *starting total + all bars =
+  today's imaged total* always holds. (Operator images dated before tracking began but
+  only reported later belong to the starting total.)
+- A day on which the data wasn't refreshed still shows the operator images dated that
+  day; only the undated changes wait for the next refresh. So the update can lag
+  without the daily picture going wrong.
 - A fall in the imaged count (e.g. a fish un-marked after a mistake) shows as a
   negative bar rather than being hidden.
+- The RB view has no operator images, so it shows RB's images on the day the data
+  was first refreshed with them. If `imaging_log.json` can't be loaded, the chart falls
+  back to the change between snapshots for everything.
 - Respects the Age class and Institution filters like the rest of the
   dashboard; not affected by the Years filter, since that filters by sampling
   year (`Feltaar`), not by when an image was actually added.
@@ -381,6 +402,7 @@ is still undecided) — for now the data is refreshed by hand from the workbooks
 index.html / style.css / app.js   the dashboard (static, no build step)
 data/summary.json                 pre-aggregated current-state data the page reads
 data/history.json                 daily-snapshot log the page turns into the daily timeline
+data/imaging_log.json             new images operators imaged per day/region/age class (dates the timeline bars)
 data/rivers.json                  approximate map position per river (static, hand-curated)
 data/rb_pictures.json             RB's fish (material) and images so far, by river/age class/year (from extract_rb.py)
 scripts/update_dashboard.R        merge the lists, rebuild the data files, commit + push (one command)
