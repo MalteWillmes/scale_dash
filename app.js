@@ -150,67 +150,60 @@
     renderTimeline(an, ex);
   }
 
-  // Monday (UTC) of the week containing dateStr, as "YYYY-MM-DD".
-  function weekStart(dateStr) {
-    const d = new Date(dateStr + "T00:00:00Z");
-    const day = d.getUTCDay(); // 0=Sun..6=Sat
-    const diffToMonday = day === 0 ? -6 : 1 - day;
-    d.setUTCDate(d.getUTCDate() + diffToMonday);
-    return d.toISOString().slice(0, 10);
-  }
-
   function addDaysIso(dateStr, days) {
     const d = new Date(dateStr + "T00:00:00Z");
     d.setUTCDate(d.getUTCDate() + days);
     return d.toISOString().slice(0, 10);
   }
 
-  // Buckets the daily history log into a continuous weekly timeline: one
-  // point per week from the first logged snapshot to the most recent, with
-  // gap weeks (no snapshot that week) carrying the prior known total forward
-  // (so their own delta reads as 0, not "unknown"). Returns weeks (Monday
-  // dates) and added (net new imaged count that week, first week = its own
-  // total since tracking effectively starts from zero). With a region
-  // selected, each entry's per-region totals (entry.regions) are used instead of
-  // the project-wide ones; an entry without them is skipped, not guessed at.
-  function computeWeeklyTimeline(history, anKeys, exKeys, region) {
-    const byWeek = {};
+  // Turns the daily history log into a daily timeline: one bar per day from the day after
+  // the first logged snapshot to the most recent one, each the net images added that day
+  // (that day's imaged total minus the previous day's). A day with no snapshot (the data
+  // wasn't refreshed) carries the previous total forward, so it reads 0 and the next
+  // refreshed day gets the images of both. The first snapshot is not a bar: it is the
+  // `baseline`, everything that was already imaged when tracking began, which would
+  // otherwise dwarf the daily progress (the caption reports it instead). With a region
+  // selected, each entry's per-region totals (entry.regions) are used instead of the
+  // project-wide ones; an entry without them is skipped, not guessed at.
+  function computeDailyTimeline(history, anKeys, exKeys, region) {
+    const byDay = {};
     for (const entry of history) {
       const totals = region === "all" ? entry : entry.regions && entry.regions[region];
       if (!totals) continue;
-      const imaged = sumFor(totals, anKeys) + sumFor(totals, exKeys);
-      byWeek[weekStart(entry.date)] = imaged; // later (sorted) entries overwrite earlier ones in the same week
+      byDay[entry.date] = sumFor(totals, anKeys) + sumFor(totals, exKeys); // one entry per day; later ones win
     }
-    if (!Object.keys(byWeek).length) return { weeks: [], added: [] };
+    const dayKeys = Object.keys(byDay).sort();
+    if (!dayKeys.length) return { start: null, baseline: 0, days: [], added: [] };
 
-    const weekKeys = Object.keys(byWeek).sort();
-    const firstWeek = weekKeys[0];
-    const lastWeek = weekKeys[weekKeys.length - 1];
-
-    const weeks = [];
-    const totals = [];
-    let running = 0;
-    for (let w = firstWeek; w <= lastWeek; w = addDaysIso(w, 7)) {
-      if (Object.prototype.hasOwnProperty.call(byWeek, w)) running = byWeek[w];
-      weeks.push(w);
-      totals.push(running);
+    const start = dayKeys[0];
+    const last = dayKeys[dayKeys.length - 1];
+    const days = [];
+    const added = [];
+    let previous = byDay[start];
+    for (let d = addDaysIso(start, 1); d <= last; d = addDaysIso(d, 1)) {
+      const total = Object.prototype.hasOwnProperty.call(byDay, d) ? byDay[d] : previous;
+      days.push(d);
+      added.push(total - previous);
+      previous = total;
     }
+    return { start, baseline: byDay[start], days, added };
+  }
 
-    const added = totals.map((t, i) => (i === 0 ? t : t - totals[i - 1]));
-    return { weeks, added };
+  function timelineCaptionText({ start, baseline, days }) {
+    if (!start) return "No history yet — this starts accumulating once the data is refreshed.";
+    const already = baseline === 0
+      ? "no images were imaged yet"
+      : baseline.toLocaleString() + (baseline === 1 ? " image was" : " images were") + " already imaged";
+    const began = "Tracking began " + formatDayLabel(start) + ", when " + already;
+    return days.length
+      ? began + " (not shown). Bars show the images added each day since."
+      : began + ". New images will show here day by day.";
   }
 
   function renderTimeline(anKeys, exKeys) {
-    const { weeks, added } = computeWeeklyTimeline(state.history, anKeys, exKeys, state.region);
-
-    if (!weeks.length) {
-      els.timelineCaption.textContent = "No history yet — this starts accumulating once the daily refresh runs.";
-    } else if (weeks.length === 1) {
-      els.timelineCaption.textContent =
-        "Tracking began " + formatWeekLabel(weeks[0]) + " — check back next week to see a trend.";
-    } else {
-      els.timelineCaption.textContent = "Tracking since " + formatWeekLabel(weeks[0]) + ".";
-    }
+    const timeline = computeDailyTimeline(state.history, anKeys, exKeys, state.region);
+    const { days, added } = timeline;
+    els.timelineCaption.textContent = timelineCaptionText(timeline);
 
     const style = getComputedStyle(document.documentElement);
     const barColor = style.getPropertyValue("--excess-color").trim();
@@ -221,7 +214,7 @@
     const cfg = {
       type: "bar",
       data: {
-        labels: weeks.map(formatWeekLabel),
+        labels: days.map(formatDayLabel),
         datasets: [
           { label: "Images added", data: added, backgroundColor: barColor, borderRadius: 3, maxBarThickness: 26 },
         ],
@@ -238,8 +231,12 @@
           legend: { display: false },
           tooltip: {
             callbacks: {
-              title: (items) => "Week of " + items[0].label,
-              label: (item) => item.parsed.y + " image" + (item.parsed.y === 1 ? "" : "s") + " added",
+              title: (items) => formatFullDate(days[items[0].dataIndex]),
+              label: (item) => {
+                const n = item.parsed.y;
+                if (n < 0) return Math.abs(n) + " fewer (a correction)";
+                return n + " image" + (n === 1 ? "" : "s") + " added";
+              },
             },
           },
         },
@@ -255,9 +252,14 @@
     }
   }
 
-  function formatWeekLabel(dateStr) {
+  function formatDayLabel(dateStr) {
     const d = new Date(dateStr + "T00:00:00Z");
     return d.toLocaleDateString(undefined, { month: "short", day: "numeric", timeZone: "UTC" });
+  }
+
+  function formatFullDate(dateStr) {
+    const d = new Date(dateStr + "T00:00:00Z");
+    return d.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
   }
 
   // The source data writes the southern region as "Sor" (no ø); show it spelled properly.
@@ -659,7 +661,7 @@
     try {
       state.data = await fetchJson("data/summary.json");
 
-      // History (the weekly timeline) is supplementary: don't block the
+      // History (the daily timeline) is supplementary: don't block the
       // whole dashboard if it's missing or fails to load.
       try {
         state.history = await fetchJson("data/history.json");

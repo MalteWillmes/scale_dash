@@ -19,7 +19,7 @@ a separate workbook and whose images are counted from its image folder — see
   ...totals, regions}` entry per calendar day the pipeline has run (`regions`
   repeats the totals for each region), upserted (not appended) so
   re-running the same day updates that day's entry rather than duplicating it.
-  The dashboard buckets this into the "Images added per week" chart — see below.
+  The dashboard turns this into the "Images added per day" chart — see below.
 - `index.html` / `style.css` / `app.js` are a plain static site — no build step,
   no framework, so GitHub Pages can serve the repo directly. GitHub Pages lets
   browsers cache these files for ~10 minutes, and a plain reload re-fetches only
@@ -192,8 +192,8 @@ exists yet, and the column's formulas are not consistent across rows. Those year
 are RB material still to be imaged, like every other year the appendix lists.
 
 RB's images are a snapshot of the folder when the script last ran, so each re-run
-shows up in the weekly timeline as new images (the first run is the first week's
-bar).
+shows up in the daily timeline as new images on the day of the next dashboard update
+(the 1,100 images counted when tracking began are in the starting total, not a bar).
 
 In `summary.json` every river-year carries 18 numbers: Required / Analyzed /
 Excess for 1SW and 2SW, each three ways — all institutions combined
@@ -206,7 +206,7 @@ Region has two more roles on the page:
 
 - **Region filter** (All regions plus one button per region in the data — Midt /
   Nord / Sør / Vest at the moment): narrows the stat tiles, the *Samples by year* chart,
-  the weekly *Images added per week* timeline and the *Progress by river* table
+  the daily *Images added per day* timeline and the *Progress by river* table
   to that region, and combines with the Age class and Institution filters (and,
   for everything but the timeline, the Years filter).
 - **Progress by region** table: the per-region subtotals (rivers, required,
@@ -267,31 +267,36 @@ source data — not available yet. The maximum of 10 per river/year applies equa
 matching constant in `SETUP.md`'s Apps Script) if that's ever confirmed to
 differ by age class.
 
-## Images-added-per-week timeline
+## Images-added-per-day timeline
 
 The source spreadsheet has no "date image added" column — the image flag only
 says whether an image exists *now*, not when it appeared — so there's no way
 to reconstruct history retroactively. Instead, every pipeline run (manual or
-automated) upserts today's totals into `data/history.json`, and the dashboard
-buckets that log into a continuous weekly timeline itself (nothing is
-pre-aggregated by week in the data files, so the bucketing logic lives in one
-place: `computeWeeklyTimeline` in `app.js`):
+automated) upserts today's totals into `data/history.json` — one entry per day,
+so running it several times a day just updates that day's entry — and the
+dashboard turns that log into a daily timeline itself (nothing is pre-aggregated
+by day in the data files, so the logic lives in one place:
+`computeDailyTimeline` in `app.js`):
 
-- Weeks run Monday–Sunday. Each week's value is the imaged count (`Analyzed +
-  Excess`, i.e. every imaged candidate regardless of the target) from the
-  *last* snapshot logged that week.
-- The timeline spans every week from the first logged snapshot to the most
-  recent — a week with no snapshot (the pipeline didn't run, or didn't run
-  before the site was loaded) carries the prior known total forward, so it
-  shows as zero *added* that week rather than a gap.
-- The first bar is the total imaged count discovered when tracking began, not
-  a real "this week" delta — there's no prior snapshot to diff against.
+- One bar per calendar day, from the day *after* the first logged snapshot to the
+  most recent one. A bar is that day's imaged count (`Analyzed + Excess`, i.e.
+  every imaged candidate regardless of the target) minus the previous day's.
+- **The first snapshot is not a bar.** It is everything that was already imaged
+  when tracking began (5,536 images on 19 October), which would dwarf the daily
+  progress (usually a few dozen images), so it is reported in the caption above the
+  chart instead ("Tracking began Oct 19, when 5,536 images were already imaged").
+  It changes with the filters like the bars do.
+- A day with no snapshot (the pipeline wasn't run) carries the previous total
+  forward, so it shows as zero *added* — and the next day that is refreshed gets the
+  images of both days. Run the update every working day to keep the bars honest.
+- A fall in the imaged count (e.g. a fish un-marked after a mistake) shows as a
+  negative bar rather than being hidden.
 - Respects the Age class and Institution filters like the rest of the
   dashboard; not affected by the Years filter, since that filters by sampling
   year (`Feltaar`), not by when an image was actually added.
 - Follows the Region filter: each history entry stores the project-wide totals
   *and* the same totals per region (`regions`), so selecting a region shows that
-  region's weekly additions. An entry without a `regions` breakdown is skipped
+  region's daily additions. An entry without a `regions` breakdown is skipped
   when a region is selected rather than guessed at. Rivers with no region count
   only toward the project-wide numbers.
 - **The log is restarted whenever the set of rivers changes**, because totals
@@ -375,7 +380,7 @@ is still undecided) — for now the data is refreshed by hand from the workbooks
 ```
 index.html / style.css / app.js   the dashboard (static, no build step)
 data/summary.json                 pre-aggregated current-state data the page reads
-data/history.json                 daily-snapshot log the page buckets into the weekly timeline
+data/history.json                 daily-snapshot log the page turns into the daily timeline
 data/rivers.json                  approximate map position per river (static, hand-curated)
 data/rb_pictures.json             RB's fish (material) and images so far, by river/age class/year (from extract_rb.py)
 scripts/update_dashboard.R        merge the lists, rebuild the data files, commit + push (one command)

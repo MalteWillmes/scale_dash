@@ -83,9 +83,9 @@ holds the project-wide totals plus a `regions` object with the same totals per
 region, so the timeline can follow the dashboard's Region filter -- and because
 history can't be rebuilt after the fact, every entry has to carry that
 breakdown from the start. (Rivers with no region only count toward the
-project-wide totals.) The dashboard buckets that log into a weekly timeline
-itself -- nothing here is pre-aggregated by week, so the bucketing logic only
-has to live in one place.
+project-wide totals.) The dashboard turns that log into a daily timeline
+itself -- nothing here is pre-aggregated by day, so that logic only has to live
+in one place.
 """
 import json
 import os

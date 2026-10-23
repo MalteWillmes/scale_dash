@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>NASCO Salmon Growth — Sample Progress</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
-<link rel="stylesheet" href="style.css?v=2026-10-19a" />
+<link rel="stylesheet" href="style.css?v=2026-10-23a" />
 </head>
 <body>
   <header class="page-header">
@@ -96,11 +96,11 @@
       </div>
     </section>
 
-    <section class="panel" aria-label="Images added per week">
-      <h2>Images added per week</h2>
+    <section class="panel" aria-label="Images added per day">
+      <h2>Images added per day</h2>
       <p class="panel-caption" id="timelineCaption"></p>
       <div class="chart-wrap">
-        <canvas id="timelineChart" height="180" role="img" aria-label="Bar chart of new scale images added each week since tracking began"></canvas>
+        <canvas id="timelineChart" height="180" role="img" aria-label="Bar chart of new scale images added each day since tracking began"></canvas>
       </div>
     </section>
 
@@ -172,14 +172,15 @@
       of the two institutions contributed images there; the NINA and RB views show each
       institution's images on their own.</p>
       <p>Data are refreshed from the project source spreadsheet and from the imaging lists in
-      which operators record each fish they have imaged. The weekly timeline above
+      which operators record each fish they have imaged. The daily timeline above
       tracks new images going forward from when this tracking began — the source data has no
-      record of when past images were added, so earlier history can't be reconstructed.</p>
+      record of when past images were added, so earlier history can't be reconstructed. A day on
+      which the data wasn't refreshed shows 0, and its images are counted on the next refreshed day.</p>
     </div>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="app.js?v=2026-10-19a"></script>
+  <script src="app.js?v=2026-10-23a"></script>
 </body>
 </html>
