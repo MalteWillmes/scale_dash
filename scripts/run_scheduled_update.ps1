@@ -72,8 +72,13 @@ if ((Invoke-Logged $git @("-C", $clone, "checkout", "--quiet", "--force", "-B", 
 }
 
 if ($SelfTest) {
+  # What a publishing run needs: an identity to commit as, and access to push (nothing is pushed).
+  $name = (& $git -C $clone config user.name 2>$null)
+  $email = (& $git -C $clone config user.email 2>$null)
+  Write-Log "self-test: commits would be made as '$name' <$email>"
   $code = Invoke-Logged $git @("-C", $clone, "push", "--dry-run", "origin", "master")
   Write-Log "self-test: git push --dry-run exit code $code"
+  if (-not $name -or -not $email) { Write-Log "self-test: ERROR no git identity (git config --global user.name / user.email)"; $code = 1 }
   exit $code
 }
 

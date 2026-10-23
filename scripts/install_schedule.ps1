@@ -65,7 +65,7 @@ Register-ScheduledTask -TaskName $taskName -Action $action -Trigger $trigger -Se
   -Force | Out-Null
 
 $info = Get-ScheduledTaskInfo -TaskName $taskName
-Write-Host "Scheduled '$taskName' as $user: every $EveryHours h from $From for $ForHours h, every day."
+Write-Host "Scheduled '$taskName' as ${user}: every $EveryHours h from $From for $ForHours h, every day."
 Write-Host "Next run: $($info.NextRunTime)"
 Write-Host "Log:      $(Join-Path $root 'update_dashboard.log')"
 Write-Host "Check:    Get-ScheduledTaskInfo -TaskName '$taskName'   (LastTaskResult 0 = last run succeeded)"
