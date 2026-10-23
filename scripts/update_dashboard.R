@@ -85,7 +85,7 @@ out <- run(
     "--imaged-list", merged$output),
   "build_summary.py"
 )
-cat(grep("^(Imaging list|WARNING)", out, value = TRUE), sep = "\n")
+for (line in grep("^(Imaging list|WARNING)", out, value = TRUE)) say("%s", line)
 
 # The summary carries a timestamp, so compare everything else: nothing to publish if the
 # numbers are the same as in the published version. (A new day's history entry with the same
@@ -111,10 +111,10 @@ git <- function(...) run("git", c("-C", repo, ...), paste("git", ..1))
 branch <- trimws(git("rev-parse", "--abbrev-ref", "HEAD"))
 if (branch != "master") fail("The repo is on branch '%s'; the dashboard is published from 'master'. Check out master first.", branch)
 
-git("add", "--", rel)
+invisible(git("add", "--", rel))
 message_text <- sprintf("Update imaging data: %d fish imaged by operators (%s)", merged$marked, format(Sys.time(), "%Y-%m-%d %H:%M"))
-git("commit", "-m", message_text, "--", rel) # only these two files, whatever else is staged
-push_out <- tryCatch(git("push"), error = function(e) fail("%s\nIf the remote has newer commits: git pull --rebase, then run this again.", conditionMessage(e)))
+invisible(git("commit", "-m", message_text, "--", rel)) # only these two files, whatever else is staged
+invisible(tryCatch(git("push"), error = function(e) fail("%s\nIf the remote has newer commits: git pull --rebase, then run this again.", conditionMessage(e))))
 say("")
 say("Committed and pushed: %s", message_text)
 say("Live in a minute or two: https://maltewillmes.github.io/scale_dash/")
