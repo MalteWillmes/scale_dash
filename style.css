@@ -9,10 +9,15 @@
   --baseline: #c3c2b7;
   --border: rgba(11, 11, 11, 0.10);
   --track: #e1e0d9;
-  --fill-good: #0ca30c;
+  /* Data colours for the three measures. The map's four region colours (blue / orange / aqua /
+     violet, below) own those hues, so Imaged and Excess deliberately use none of them: Imaged is
+     a deep raspberry (a hue the regions leave free) and Excess is a neutral, near-black ink.
+     Checked with the dataviz palette validator against the four region colours and the neutral
+     Required bar: every pair is >= 12.7 apart under colour-blindness simulation and >= 19 in
+     normal vision, and every mark has >= 3:1 contrast on its surface. */
   --required-bar: #898781;
-  --accent-tint: #cde2fb;
-  --excess-color: #2a78d6;
+  --imaged-color: #a2215d;
+  --excess-color: #26251f;
   /* Map: one categorical colour per region (blue / orange / aqua / violet). The map is always
      white, so these are the light-mode values in BOTH themes (deliberately not overridden under
      dark): that four-colour set passes the palette validator for every pairing on white, which
@@ -36,10 +41,11 @@
     --baseline: #383835;
     --border: rgba(255, 255, 255, 0.10);
     --track: #2c2c2a;
-    --fill-good: #0ca30c;
+    /* the same colours stepped for the dark surface (raspberry lightened to an orchid; the ink
+       flips to a light neutral): >= 9.4 from the region colours under colour-blindness simulation */
     --required-bar: #6b6a64;
-    --accent-tint: #184f95;
-    --excess-color: #3987e5;
+    --imaged-color: #c7469f;
+    --excess-color: #d9d8d0;
   }
 }
 
@@ -167,7 +173,7 @@ main {
 .segmented button:focus-visible,
 select:focus-visible,
 table a:focus-visible {
-  outline: 2px solid var(--fill-good);
+  outline: 2px solid var(--text-primary);
   outline-offset: 2px;
 }
 
@@ -197,7 +203,7 @@ select#riverSort {
   gap: 4px;
 }
 
-.stat-tile-accent .stat-value { color: var(--fill-good); }
+.stat-tile-accent .stat-value { color: var(--imaged-color); }
 .stat-tile-excess .stat-value { color: var(--excess-color); }
 
 .stat-label {
@@ -266,7 +272,7 @@ tbody tr:last-child td { border-bottom: none; }
    (not a background, which would swallow the progress-bar track), and the
    all-regions total row sits under a heavier rule. */
 tr.is-selected td:first-child {
-  box-shadow: inset 3px 0 0 var(--fill-good);
+  box-shadow: inset 3px 0 0 var(--text-primary);
   font-weight: 600;
 }
 
@@ -287,7 +293,7 @@ tr.total-row td {
 }
 
 .bar-fill {
-  background: var(--fill-good);
+  background: var(--imaged-color);
   height: 100%;
   border-radius: 4px 0 0 4px;
 }
@@ -340,7 +346,7 @@ tr.total-row td {
 }
 
 .row-toggle:focus-visible {
-  outline: 2px solid var(--fill-good);
+  outline: 2px solid var(--text-primary);
   outline-offset: 3px;
   border-radius: 2px;
 }

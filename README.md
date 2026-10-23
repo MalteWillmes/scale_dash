@@ -347,6 +347,15 @@ A panel above *Progress by region* with one circle marker per river:
   map is always white (the dark-mode palette doesn't hold up at four colours).
   Size and the popups carry the same information, so colour is never the only
   cue. A fifth region would need a new colour and a fresh validator run.
+  **The data colours stay out of these hues:** *Imaged* (progress bars, the
+  *Samples by year* and *Images added per day* charts, the % tile) is a deep
+  raspberry, `#a2215d` in light mode and `#c7469f` in dark, and *Excess* is a
+  neutral near-black ink (light `#26251f`, dark `#d9d8d0`), with *Required* in
+  gray — so a bar is never mistaken for a region. Each was checked with the
+  validator against the four region colours (≥ 12.7 apart under colour-blindness
+  simulation in light mode, ≥ 9.4 in dark, ≥ 19 in normal vision). The
+  tokens are `--imaged-color`, `--excess-color` and `--required-bar` in
+  `style.css`; re-run the validator if one is changed.
   **Size = % of target imaged.** Click or tap a marker for that river's numbers.
 - It follows the Age class, Institution, Years and Region filters, with the same
   "has candidates in the selected range" rule as the tables, and reframes to whatever

@@ -241,7 +241,7 @@
     els.timelineCaption.textContent = timelineCaptionText(timeline);
 
     const style = getComputedStyle(document.documentElement);
-    const barColor = style.getPropertyValue("--excess-color").trim();
+    const barColor = style.getPropertyValue("--imaged-color").trim(); // images added are imaged images
     const textColor = style.getPropertyValue("--text-secondary").trim();
     const gridColor = style.getPropertyValue("--gridline").trim();
 
@@ -568,7 +568,7 @@
 
     const style = getComputedStyle(document.documentElement);
     const requiredColor = style.getPropertyValue("--required-bar").trim();
-    const analyzedColor = style.getPropertyValue("--fill-good").trim();
+    const analyzedColor = style.getPropertyValue("--imaged-color").trim();
     const excessColor = style.getPropertyValue("--excess-color").trim();
     const textColor = style.getPropertyValue("--text-secondary").trim();
     const gridColor = style.getPropertyValue("--gridline").trim();
