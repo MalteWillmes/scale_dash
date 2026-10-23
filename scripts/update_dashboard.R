@@ -98,6 +98,10 @@ out <- run(
   "build_summary.py"
 )
 for (line in grep("^(Imaging list|WARNING)", out, value = TRUE)) say("%s", line)
+# Fish with an operator that the top-15 workbooks contain (the others -- e.g. dropped by a new
+# selection -- are not counted): that is the number that matters for the dashboard.
+counted <- suppressWarnings(as.integer(sub(".* ([0-9]+) found in the workbooks.*", "\\1", grep("found in the workbooks", out, value = TRUE)[1])))
+if (is.na(counted)) counted <- merged$marked
 
 # The summary carries a timestamp, so compare everything else: nothing to publish if the
 # numbers and the imaging log are the same as in the published version. (A new day's history
@@ -109,7 +113,7 @@ same_as_published <- !is.null(head_summary) && !is.null(head_log) &&
 if (same_as_published) {
   run("git", c("-C", repo, "checkout", "--", rel), "git checkout") # drop the timestamp-only change
   say("")
-  say("No change in the numbers since the published version (%d fish imaged by operators): nothing to publish.", merged$marked)
+  say("No change in the numbers since the published version (%d fish imaged by operators): nothing to publish.", counted)
   quit(status = 0)
 }
 
@@ -127,7 +131,7 @@ branch <- trimws(git("rev-parse", "--abbrev-ref", "HEAD"))
 if (branch != "master") fail("The repo is on branch '%s'; the dashboard is published from 'master'. Check out master first.", branch)
 
 invisible(git("add", "--", rel))
-message_text <- sprintf("Update imaging data: %d fish imaged by operators (%s)", merged$marked, format(Sys.time(), "%Y-%m-%d %H:%M"))
+message_text <- sprintf("Update imaging data: %d fish imaged by operators (%s)", counted, format(Sys.time(), "%Y-%m-%d %H:%M"))
 invisible(git("commit", "-m", message_text, "--", rel)) # only these data files, whatever else is staged
 invisible(tryCatch(git("push"), error = function(e) fail("%s\nIf the remote has newer commits: git pull --rebase, then run this again.", conditionMessage(e))))
 say("")

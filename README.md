@@ -113,6 +113,22 @@ matches them to the top-15 workbooks by `EnkeltfiskID` and counts each as imaged
 (see *Definitions*). The merged file holds fish-level records, so it stays in
 SharePoint/OneDrive; only the counts reach this public repo.
 
+**When the top-15 selection is redone.** The two workbooks
+(`4. Data/Skjellmateriale/d_1SW_top15.xlsx` and `d_2SW_top15.xlsx` in the project
+library; copy them into `data/` to update the dashboard) define which fish count: a
+fish an operator marked that is **not** in the current workbooks is not counted, and
+`build_summary.py` prints how many ("N fish with an operator are not in the
+workbooks"). That happened on 23 October: the new selection kept the same number of
+fish per river-year and the same imaged fish (`bilde`) in each, but swapped about 40%
+of the 2016–2026 candidates for other fish — 11 fish operators had already imaged
+(all Numedalslågen 2023) dropped out, because the selection only knows about
+`bilde`, not about the operators' marks. To keep such fish, the selection has to treat
+the marked fish (the `Operator` column of `merged/scale_data_merged.xlsx`) as already
+imaged, as it does for `bilde`. The new selection also comes with a new master list
+(`scale_data.xlsx`); lists made from the *old* master still hold fish the new pool
+doesn't contain, so operators should work from lists made from the new one. The merge
+copes with both (it unions them, and reports that some fish differ between files).
+
 ## Definitions used in this dashboard
 
 Rivers are grouped by `Vassdragsnr_hovedvassdrag` (the canonical watershed id),
