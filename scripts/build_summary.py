@@ -10,7 +10,10 @@ Usage:
 Skjell_lister files, one row per fish, operators write their name in the Operator
 column of every fish they image). Each fish with an Operator counts as imaged, in
 addition to the fish already imaged according to `bilde` / `Bilde_skjell`; a fish
-counts once. The list is matched to the two workbooks by EnkeltfiskID. Nothing from
+counts once. The list is matched to the two workbooks by EnkeltfiskID. A fish an
+operator imaged stays imaged even if a later selection dropped it from the workbooks
+(keep_dropped_fish: it is added to its own river-year and age class, which must still
+exist in the workbooks, using its row in the list). Nothing from
 the list is written to the output except through counts: the totals above, and
 data/imaging_log.json, the number of NEW images (fish not already imaged in the
 workbooks) operators imaged per day, region and age class, dated by the date they
@@ -96,7 +99,7 @@ import json
 import os
 import re
 import sys
-from collections import Counter, defaultdict
+from collections import Counter, defaultdict, namedtuple
 from datetime import date, datetime, timezone
 
 import openpyxl
@@ -137,10 +140,16 @@ def parse_operator_date(text, today):
     return d if d <= today else None
 
 
+Marked = namedtuple("Marked", "date river year sea region lregnr")
+
+
 def load_imaged_ids(path, today=None):
-    """{EnkeltfiskID: date the operator imaged it (or None if the Operator entry has no usable
-    date)} for every fish with a name in the Operator column of the merged imaging list (made by
-    scripts/merge_skjell_lister.R): those fish have been imaged in the NASCO imaging."""
+    """{EnkeltfiskID: Marked(date, river, year, sea, region, lregnr)} for every fish with a name in
+    the Operator column of the merged imaging list (made by scripts/merge_skjell_lister.R): those
+    fish have been imaged in the NASCO imaging. `date` is the day the operator imaged it (None if the
+    Operator entry has no usable date); the rest is the fish's own row in the list (Objektnavn,
+    Feltaar, Sjoalder, region, Lregnr; None where the list has no such column), which is what lets
+    a fish that a later selection dropped from the top-15 workbooks be counted anyway."""
     today = today or datetime.now(timezone.utc).date()
     wb = openpyxl.load_workbook(path, data_only=True, read_only=True)
     ws = wb[wb.sheetnames[0]]
@@ -149,15 +158,26 @@ def load_imaged_ids(path, today=None):
     missing = [c for c in ("EnkeltfiskID", "Operator") if c not in idx]
     if missing:
         raise SystemExit(f"{path}: missing expected columns {missing}")
+
+    def cell(r, name):
+        return r[idx[name]] if name in idx else None
+
     imaged = {}
     for r in ws.iter_rows(min_row=2, values_only=True):
         operator = r[idx["Operator"]]
         if r[idx["EnkeltfiskID"]] is not None and operator is not None and str(operator).strip() != "":
-            imaged[fish_key(r[idx["EnkeltfiskID"]])] = parse_operator_date(operator, today)
+            imaged[fish_key(r[idx["EnkeltfiskID"]])] = Marked(
+                parse_operator_date(operator, today),
+                cell(r, "Objektnavn"),
+                cell(r, "Feltaar"),
+                cell(r, "Sjoalder"),
+                str(cell(r, "region")).strip() if cell(r, "region") is not None else "",
+                fish_key(cell(r, "Lregnr")) if cell(r, "Lregnr") is not None else None,
+            )
     return imaged
 
 
-def load_rows(path, imaged_ids=frozenset(), stats=None, sw_key=None, op_log=None):
+def load_rows(path, imaged_ids=frozenset(), stats=None, sw_key=None, op_log=None, seen=None, lregnr_map=None):
     """One tuple per fish: (river, watershed id, year, imaged?, region).
 
     A fish is imaged when `bilde` is 1, a `Bilde_skjell` filename is filled in, or its
@@ -167,7 +187,9 @@ def load_rows(path, imaged_ids=frozenset(), stats=None, sw_key=None, op_log=None
     the ones that were not already counted as imaged) and `new_undated` (of the new ones,
     those whose Operator entry has no usable date). If `op_log` (a Counter) and `sw_key`
     are given, every new image with a date is added to it as (date, region, sw_key) -- the
-    imaging log, one count per day the operators imaged fish."""
+    imaging log, one count per day the operators imaged fish. `seen` (a set) collects the
+    EnkeltfiskID of every marked fish found, and `lregnr_map` (a dict) learns which watershed
+    id and river name each Lregnr belongs to, for keep_dropped_fish()."""
     wb = openpyxl.load_workbook(path, data_only=True, read_only=True)
     ws = wb[wb.sheetnames[0]]
     header_row = next(ws.iter_rows(min_row=1, max_row=1, values_only=True))
@@ -185,8 +207,13 @@ def load_rows(path, imaged_ids=frozenset(), stats=None, sw_key=None, op_log=None
         region = str(r[idx["region"]]).strip() if r[idx["region"]] is not None else ""
         if river is None or year is None or watershed is None or str(watershed).strip() == "":
             continue
+        if lregnr_map is not None and "Lregnr" in idx and r[idx["Lregnr"]] is not None:
+            lregnr_map.setdefault(fish_key(r[idx["Lregnr"]]), Counter())[(str(watershed), str(river))] += 1
         if imaged_ids and r[idx["EnkeltfiskID"]] is not None and fish_key(r[idx["EnkeltfiskID"]]) in imaged_ids:
-            marked_on = imaged_ids[fish_key(r[idx["EnkeltfiskID"]])] if isinstance(imaged_ids, dict) else None
+            marked = imaged_ids[fish_key(r[idx["EnkeltfiskID"]])]
+            marked_on = marked.date if isinstance(marked, Marked) else None
+            if seen is not None:
+                seen.add(fish_key(r[idx["EnkeltfiskID"]]))
             if stats is not None:
                 stats["listed"] += 1
                 stats["listed_new"] += 0 if has_image else 1
@@ -196,6 +223,46 @@ def load_rows(path, imaged_ids=frozenset(), stats=None, sw_key=None, op_log=None
             has_image = True
         rows.append((str(river), str(watershed), int(year), has_image, region))
     return rows
+
+
+def keep_dropped_fish(rows_by_class, imaged_ids, seen, lregnr_map, stats, op_log):
+    """Fish an operator has imaged stay imaged, even if a later selection dropped them from the
+    top-15 workbooks (as happened on 2026-10-23 for 11 fish in Numedalslagen 2023: the selection
+    keeps the fish that `bilde` says are imaged, but doesn't know about the operators' marks).
+
+    Each such fish (marked in `imaged_ids`, not in `seen`) is added to the rows of its own river-year
+    and age class as an imaged fish, provided that river-year still has candidates in the workbooks
+    (so no river-year is created from a single stray fish). It also goes into the imaging log on the
+    day it was imaged. The fish's river, year, age class and region come from its row in the imaging
+    list; the watershed id from the workbooks' Lregnr. Returns ({(river, year, class): n} kept,
+    [reasons for fish that could not be kept])."""
+    groups = {c: {(ws, year) for _, ws, year, _, _ in rows} for c, rows in rows_by_class.items()}
+    kept = Counter()
+    skipped = Counter()
+    for fid, m in imaged_ids.items():
+        if fid in seen:
+            continue
+        sw_key = {1: "sw1", 2: "sw2"}.get(int(m.sea)) if isinstance(m.sea, (int, float)) else None
+        place = lregnr_map.get(m.lregnr) if m.lregnr else None
+        if sw_key is None:
+            skipped["not 1SW or 2SW"] += 1
+            continue
+        if not place or m.year is None:
+            skipped["its river/year is unknown"] += 1
+            continue
+        watershed, river = place.most_common(1)[0][0]
+        year = int(m.year)
+        if (watershed, year) not in groups[sw_key]:
+            skipped["its river-year is no longer in the workbooks"] += 1
+            continue
+        rows_by_class[sw_key].append((river, watershed, year, True, m.region))
+        kept[(river, year, sw_key)] += 1
+        stats["kept"] += 1
+        if m.date is None:
+            stats["new_undated"] += 1
+        elif op_log is not None:
+            op_log[(m.date.isoformat(), m.region, sw_key)] += 1
+    return kept, skipped
 
 
 # Every river-year is computed three ways so the dashboard can filter by
@@ -425,21 +492,35 @@ def main():
 
     log_path = os.path.join(os.path.dirname(out_path) or ".", "imaging_log.json")
 
+    sys.stdout.reconfigure(errors="replace")  # river names with å/ø must not break a run with an ASCII console
     imaged_ids = load_imaged_ids(imaged_list) if imaged_list else {}
     stats = Counter()
     op_log = Counter()  # (date, region, sw_key) -> new images the operators imaged that day
-    rows_1sw = load_rows(path_1sw, imaged_ids, stats, "sw1", op_log)
-    rows_2sw = load_rows(path_2sw, imaged_ids, stats, "sw2", op_log)
+    seen = set()  # marked fish found in the workbooks
+    lregnr_map = {}  # Lregnr -> Counter of (watershed id, river name)
+    rows_1sw = load_rows(path_1sw, imaged_ids, stats, "sw1", op_log, seen, lregnr_map)
+    rows_2sw = load_rows(path_2sw, imaged_ids, stats, "sw2", op_log, seen, lregnr_map)
+    kept, kept_skipped = keep_dropped_fish({"sw1": rows_1sw, "sw2": rows_2sw}, imaged_ids, seen, lregnr_map, stats, op_log)
     rb = load_rb(rb_path)
     summary = aggregate(rows_1sw, rows_2sw, rb)
     if imaged_list:
+        counted = stats["listed"] + stats["kept"]
         print(
             f"Imaging list {os.path.basename(imaged_list)}: {len(imaged_ids)} fish with an operator, "
-            f"{stats['listed']} found in the workbooks, {stats['listed_new']} of them new images"
+            f"{counted} counted ({stats['listed']} found in the workbooks, {stats['kept']} kept although the "
+            f"workbooks no longer contain them), {stats['listed_new'] + stats['kept']} of them new images"
             f" (not already counted from bilde / Bilde_skjell)"
         )
-        if stats["listed"] != len(imaged_ids):
-            print(f"WARNING: {len(imaged_ids) - stats['listed']} fish with an operator are not in the workbooks and were not counted")
+        if kept:
+            by_group = {}
+            for (river, year, sw_key), n in sorted(kept.items()):
+                by_group.setdefault((river, year), []).append(f"{sw_key[2]}SW {n}")
+            print(
+                "Kept operator-imaged fish that the workbooks no longer list (a re-selection dropped them): "
+                + "; ".join(f"{river} {year} ({', '.join(parts)})" for (river, year), parts in by_group.items())
+            )
+        for reason, n in kept_skipped.items():
+            print(f"WARNING: {n} fish with an operator are not in the workbooks and were not counted: {reason}")
         if stats["new_undated"]:
             print(
                 f"WARNING: {stats['new_undated']} new images have no usable date in the Operator column "

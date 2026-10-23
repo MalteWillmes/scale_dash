@@ -89,6 +89,7 @@ committed_copy <- function(rel_path) {
 head_summary <- committed_copy(rel[1])
 head_log <- committed_copy(rel[3])
 
+Sys.setenv(PYTHONIOENCODING = "utf-8") # river names with å/ø must reach R intact
 say("")
 say("Rebuilding %s ...", "data/summary.json, data/history.json and data/imaging_log.json")
 out <- run(
@@ -98,9 +99,9 @@ out <- run(
   "build_summary.py"
 )
 for (line in grep("^(Imaging list|WARNING)", out, value = TRUE)) say("%s", line)
-# Fish with an operator that the top-15 workbooks contain (the others -- e.g. dropped by a new
-# selection -- are not counted): that is the number that matters for the dashboard.
-counted <- suppressWarnings(as.integer(sub(".* ([0-9]+) found in the workbooks.*", "\\1", grep("found in the workbooks", out, value = TRUE)[1])))
+# The number of operator-imaged fish that count (build_summary.py reports it; a fish that can't
+# be placed in any river-year is not counted): that is the number that matters for the dashboard.
+counted <- suppressWarnings(as.integer(sub(".*[0-9]+ fish with an operator, ([0-9]+) counted.*", "\\1", grep(" counted \\(", out, value = TRUE)[1])))
 if (is.na(counted)) counted <- merged$marked
 
 # The summary carries a timestamp, so compare everything else: nothing to publish if the
