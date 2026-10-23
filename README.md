@@ -26,22 +26,40 @@ a separate workbook and whose images are counted from its image folder — see
   `index.html`, so an old `app.js` can end up paired with a new page (panels stuck
   on "Loading…"). To prevent that, `index.html` links them as `style.css?v=…` /
   `app.js?v=…` — **bump that date whenever `style.css` or `app.js` changes.**
+- **Updating the dashboard after new imaging — one command.** Operators record
+  what they have imaged in the `Skjell_lister` folder (see *Imaging lists* below);
+  to merge those lists and publish the new numbers:
+
+  ```bash
+  Rscript scripts/update_dashboard.R
+  ```
+
+  It (1) merges all lists into one file, (2) rebuilds `data/summary.json` and
+  `data/history.json`, and (3) if the numbers changed, commits just those two files
+  and pushes to `master`, and GitHub Pages redeploys within a minute or two. Run it
+  as often as you like — several times a day is fine; when nothing changed it says so
+  and publishes nothing. `--no-push` stops after step 2 so you can look first.
+  It needs R (packages `readxl`, `dplyr`, `writexl`, `jsonlite`), Python with
+  `openpyxl`, and git with push access to this repo.
+- `scripts/merge_skjell_lister.R` is step 1 on its own: it merges the lists into
+  `Skjell_lister/merged/scale_data_merged.xlsx` (see *Imaging lists*).
 - `scripts/build_summary.py` regenerates both `data/summary.json` and
   `data/history.json` from the two source workbooks (`d_1SW_top15.xlsx` for
-  1SW, `d_2SW_top15.xlsx` for 2SW — the 15 fish selected per river per year)
-  plus RB's fish and images from `data/rb_pictures.json` (if that file is there).
-  Drop the current workbooks into `data/` (they're git-ignored via
+  1SW, `d_2SW_top15.xlsx` for 2SW — the 15 fish selected per river per year),
+  the merged imaging list, and RB's fish and images from `data/rb_pictures.json`
+  (if that file is there). The workbooks live in `data/` (git-ignored via
   `data/*.xlsx`, since they hold raw fish-level records and must never be
-  published) and run it whenever you want to refresh the numbers by hand:
+  published). `update_dashboard.R` runs it for you; by hand it is:
 
   ```bash
   pip install openpyxl
-  python scripts/build_summary.py data/d_1SW_top15.xlsx data/d_2SW_top15.xlsx data/summary.json
+  python scripts/build_summary.py data/d_1SW_top15.xlsx data/d_2SW_top15.xlsx data/summary.json --imaged-list "<Skjell_lister>/merged/scale_data_merged.xlsx"
   git add data/summary.json data/history.json && git commit -m "Refresh sample data" && git push
   ```
 
-  Stage the two JSON files by name as above rather than `git add -A`. Pushing
-  to `master` is enough — GitHub Pages redeploys automatically.
+  **Always pass `--imaged-list`**: without it the images recorded by operators
+  are not counted and the numbers drop back. Stage the two JSON files by name as
+  above rather than `git add -A`. Pushing to `master` is enough.
 - `scripts/extract_rb.py` builds `data/rb_pictures.json` from RB's appendix
   workbook and RB's image folder. **Re-run it whenever RB has imaged more fish**
   (then run `build_summary.py` again, and stage `data/rb_pictures.json` too). It
@@ -51,6 +69,48 @@ a separate workbook and whose images are counted from its image folder — see
   ```bash
   python scripts/extract_rb.py data/Vedlegg1_materiale_1989_2024.xlsx "P:/132453_digital_skjell/images/RB" data/rb_pictures.json
   ```
+
+## Imaging lists (Skjell_lister)
+
+The project's new imaging is recorded in
+`…/132668 - NASCO Skjellvekst - Documents/Skjell_lister`. Each file there
+(`scale_data_<date>_<operator>.xlsx`) is a copy of the **same master list** — one
+row per fish, 18 columns, 7,515 fish (the 2016–2026 candidates of 32 NINA rivers,
+each flagged `selected` or `backup`; `selected` is exactly the 10 per river, year and
+age class that the dashboard counts as Required). When an operator has imaged a fish
+they write their name and the date (e.g. `Gunnel_23.10.26`) in its `Operator` column,
+and optionally a note in `Comments` (and blank `Bildnavn_B` when only one scale could
+be imaged). So the files differ only in which fish are marked, and the same fish
+appears in every file.
+
+`scripts/merge_skjell_lister.R` merges them into one file with one row per fish
+(`Skjell_lister/merged/scale_data_merged.xlsx`, the same 18 columns, so it can also be
+used as a master). It reads every `.xlsx` in the folder each time, so it can be re-run
+any time, and:
+
+- a fish marked in one file and unmarked in the others is taken from the marked row
+  (which also carries that operator's other edits);
+- the same fish marked in several files by the same operator and date is a duplicate,
+  and the most recently saved file wins;
+- a fish marked by **different** operators keeps the latest operator date, and is
+  listed in `merged/merge_conflicts.csv` for someone to check;
+- a comment on any copy is kept; a file that is open in Excel (`~$…`) is skipped; files
+  in the `backup` sub-folder are ignored unless you pass `--include-backup`;
+- it stops without writing anything if a file can't be read or lacks one of the 18
+  columns, and **if fish that were marked in the previous merged file are no longer
+  marked** (typically because a list file was moved or deleted — nothing is carried
+  over between runs, so keep every list in the folder). Pass `--allow-decrease` if
+  the drop is intended, e.g. after correcting a mistakenly marked fish.
+
+```bash
+Rscript scripts/merge_skjell_lister.R                  # default folder -> merged/scale_data_merged.xlsx
+Rscript scripts/merge_skjell_lister.R "<folder>" "<output.xlsx>"
+```
+
+The dashboard only uses the set of marked fish: `build_summary.py --imaged-list`
+matches them to the top-15 workbooks by `EnkeltfiskID` and counts each as imaged
+(see *Definitions*). The merged file holds fish-level records, so it stays in
+SharePoint/OneDrive; only the counts reach this public repo.
 
 ## Definitions used in this dashboard
 
@@ -175,11 +235,14 @@ the rest are kept in reserve in case of poor scale quality. Some river-years hav
 fewer than 10 fish selected at all (348 of the NINA river-year/age-class
 combinations, in 33 rivers); for those, every selected fish needs imaging.
 `imaged` below means a
-candidate row where the 0/1 `bilde` flag is 1 **or** a `Bilde_skjell` (scale
-image filename) is filled in. `bilde` is the broader flag: every row with a
-filename also has `bilde = 1`, but images from 2019–2025 are flagged by `bilde`
-alone with no filename recorded, so counting filenames only badly undercounts
-recent imaging.
+candidate row where the 0/1 `bilde` flag is 1, **or** a `Bilde_skjell` (scale
+image filename) is filled in, **or** an operator has marked the fish in the imaging
+lists (see above). A fish counts once however many of these apply. `bilde` is the
+broader of the first two: every row with a filename also has `bilde = 1`, but images
+from 2019–2025 are flagged by `bilde` alone with no filename recorded, so counting
+filenames only badly undercounts recent imaging. Backup fish count as imaged just
+like selected ones (2 of the first 38 marked fish are backups), as before: Required
+is the number of fish to image, and any imaged fish in the pool counts toward it.
 
 - **Required** — all the fish selected for that river/year and age class, **up
   to a maximum of 10**: `min(10, selected fish)`. A river/year with 7 selected
@@ -315,7 +378,9 @@ data/summary.json                 pre-aggregated current-state data the page rea
 data/history.json                 daily-snapshot log the page buckets into the weekly timeline
 data/rivers.json                  approximate map position per river (static, hand-curated)
 data/rb_pictures.json             RB's fish (material) and images so far, by river/age class/year (from extract_rb.py)
-scripts/build_summary.py          regenerates both data files from the xlsx sources + rb_pictures.json
+scripts/update_dashboard.R        merge the lists, rebuild the data files, commit + push (one command)
+scripts/merge_skjell_lister.R     merges the Skjell_lister files into one (one row per fish)
+scripts/build_summary.py          regenerates both data files from the xlsx sources + imaging list + rb_pictures.json
 scripts/extract_rb.py             builds data/rb_pictures.json from RB's appendix workbook + image folder
 SETUP.md                          daily-refresh automation plan (Power Automate + Apps Script)
 ```

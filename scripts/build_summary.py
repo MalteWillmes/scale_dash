@@ -4,7 +4,14 @@ Builds data/summary.json from the two NASCO scale-sample source files
 (d_1SW_top15.xlsx, d_2SW_top15.xlsx).
 
 Usage:
-    python scripts/build_summary.py <path_to_1SW.xlsx> <path_to_2SW.xlsx> [output_path]
+    python scripts/build_summary.py <path_to_1SW.xlsx> <path_to_2SW.xlsx> [output_path] [--imaged-list <merged.xlsx>]
+
+--imaged-list is the merged imaging list made by scripts/merge_skjell_lister.R (the
+Skjell_lister files, one row per fish, operators write their name in the Operator
+column of every fish they image). Each fish with an Operator counts as imaged, in
+addition to the fish already imaged according to `bilde` / `Bilde_skjell`; a fish
+counts once. The list is matched to the two workbooks by EnkeltfiskID. Nothing from
+the list is written to the output except through these counts.
 
 Rivers are grouped by Vassdragsnr_hovedvassdrag (the canonical watershed id),
 not by the free-text Objektnavn -- a couple of watersheds are recorded under
@@ -59,8 +66,9 @@ This same logic is meant to be re-implemented by the daily refresh pipeline
 (see SETUP.md) so a manual re-run of this script and the automated pipeline
 always produce the identical JSON shape.
 
-A candidate counts as "imaged" when the 0/1 `bilde` flag is 1 or a
-`Bilde_skjell` filename is filled in. `bilde` is the broader of the two: every
+A candidate counts as "imaged" when the 0/1 `bilde` flag is 1, a
+`Bilde_skjell` filename is filled in, or (with --imaged-list) an operator has marked
+it in the imaging lists. `bilde` is the broader of the first two: every
 row with a filename also has bilde = 1, but recent images (2019-2025) are
 flagged by `bilde` alone with no filename recorded, so filename-only badly
 undercounts them.
@@ -87,7 +95,7 @@ from datetime import datetime, timezone
 
 import openpyxl
 
-REQUIRED_COLUMNS = ["Objektnavn", "Vassdragsnr_hovedvassdrag", "Feltaar", "Bilde_skjell", "bilde", "region"]
+REQUIRED_COLUMNS = ["EnkeltfiskID", "Objektnavn", "Vassdragsnr_hovedvassdrag", "Feltaar", "Bilde_skjell", "bilde", "region"]
 
 # Per-river, per-year imaging target: at most this many fish per age class need
 # imaging (a river-year with fewer fish selected needs all of them). The
@@ -97,7 +105,39 @@ REQUIRED_COLUMNS = ["Objektnavn", "Vassdragsnr_hovedvassdrag", "Feltaar", "Bilde
 PER_YEAR_TARGET = {"sw1": 10, "sw2": 10}
 
 
-def load_rows(path):
+def fish_key(value):
+    """EnkeltfiskID as a comparable string (Excel hands back 2594921 or 2594921.0 depending on the cell)."""
+    if isinstance(value, float) and value.is_integer():
+        value = int(value)
+    return str(value).strip()
+
+
+def load_imaged_ids(path):
+    """EnkeltfiskID of every fish with a name in the Operator column of the merged imaging list
+    (made by scripts/merge_skjell_lister.R): those fish have been imaged in the NASCO imaging."""
+    wb = openpyxl.load_workbook(path, data_only=True, read_only=True)
+    ws = wb[wb.sheetnames[0]]
+    header_row = next(ws.iter_rows(min_row=1, max_row=1, values_only=True))
+    idx = {name: i for i, name in enumerate(header_row)}
+    missing = [c for c in ("EnkeltfiskID", "Operator") if c not in idx]
+    if missing:
+        raise SystemExit(f"{path}: missing expected columns {missing}")
+    ids = set()
+    for r in ws.iter_rows(min_row=2, values_only=True):
+        operator = r[idx["Operator"]]
+        if r[idx["EnkeltfiskID"]] is not None and operator is not None and str(operator).strip() != "":
+            ids.add(fish_key(r[idx["EnkeltfiskID"]]))
+    return ids
+
+
+def load_rows(path, imaged_ids=frozenset(), stats=None):
+    """One tuple per fish: (river, watershed id, year, imaged?, region).
+
+    A fish is imaged when `bilde` is 1, a `Bilde_skjell` filename is filled in, or its
+    EnkeltfiskID is in `imaged_ids` (marked with an Operator in the imaging lists); it
+    counts once however many of these apply. If `stats` (a Counter) is given it gets
+    `listed` (fish of this workbook that are in imaged_ids) and `listed_new` (of those,
+    the ones that were not already counted as imaged)."""
     wb = openpyxl.load_workbook(path, data_only=True, read_only=True)
     ws = wb[wb.sheetnames[0]]
     header_row = next(ws.iter_rows(min_row=1, max_row=1, values_only=True))
@@ -115,6 +155,11 @@ def load_rows(path):
         region = str(r[idx["region"]]).strip() if r[idx["region"]] is not None else ""
         if river is None or year is None or watershed is None or str(watershed).strip() == "":
             continue
+        if imaged_ids and r[idx["EnkeltfiskID"]] is not None and fish_key(r[idx["EnkeltfiskID"]]) in imaged_ids:
+            if stats is not None:
+                stats["listed"] += 1
+                stats["listed_new"] += 0 if has_image else 1
+            has_image = True
         rows.append((str(river), str(watershed), int(year), has_image, region))
     return rows
 
@@ -225,7 +270,9 @@ def aggregate(rows_1sw, rows_2sw, rb=None):
             "name": best_name,
             "watershedId": ws_entry["watershedId"],
             "region": best_region,
-            "byYear": ws_entry["byYear"],
+            # years in ascending order: the output is then identical from run to run
+            # (set iteration order is not), so the data files only change when the numbers do
+            "byYear": dict(sorted(ws_entry["byYear"].items(), key=lambda kv: int(kv[0]))),
             "totals": river_totals,
         })
 
@@ -274,19 +321,37 @@ def update_history(history_path, date_str, totals, regions):
 
 
 def main():
-    if len(sys.argv) < 3:
+    argv = sys.argv[1:]
+    imaged_list = None
+    if "--imaged-list" in argv:
+        i = argv.index("--imaged-list")
+        if i + 1 >= len(argv):
+            raise SystemExit("--imaged-list needs a path")
+        imaged_list = argv[i + 1]
+        del argv[i:i + 2]
+    if len(argv) < 2:
         print(__doc__)
         sys.exit(1)
-    path_1sw, path_2sw = sys.argv[1], sys.argv[2]
-    out_path = sys.argv[3] if len(sys.argv) > 3 else "data/summary.json"
+    path_1sw, path_2sw = argv[0], argv[1]
+    out_path = argv[2] if len(argv) > 2 else "data/summary.json"
     history_path = os.path.join(os.path.dirname(out_path) or ".", "history.json")
 
     rb_path = os.path.join(os.path.dirname(out_path) or ".", "rb_pictures.json")
 
-    rows_1sw = load_rows(path_1sw)
-    rows_2sw = load_rows(path_2sw)
+    imaged_ids = load_imaged_ids(imaged_list) if imaged_list else frozenset()
+    stats = Counter()
+    rows_1sw = load_rows(path_1sw, imaged_ids, stats)
+    rows_2sw = load_rows(path_2sw, imaged_ids, stats)
     rb = load_rb(rb_path)
     summary = aggregate(rows_1sw, rows_2sw, rb)
+    if imaged_list:
+        print(
+            f"Imaging list {os.path.basename(imaged_list)}: {len(imaged_ids)} fish with an operator, "
+            f"{stats['listed']} found in the workbooks, {stats['listed_new']} of them new images"
+            f" (not already counted from bilde / Bilde_skjell)"
+        )
+        if stats["listed"] != len(imaged_ids):
+            print(f"WARNING: {len(imaged_ids) - stats['listed']} fish with an operator are not in the workbooks and were not counted")
 
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(summary, f, ensure_ascii=False, indent=2)

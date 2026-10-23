@@ -1,5 +1,14 @@
 # Daily-refresh automation
 
+> **Status: not wired up, and not the route in use.** New imaging is recorded in the
+> `Skjell_lister` files (operators write their name in the `Operator` column), and the
+> dashboard is refreshed from them with `Rscript scripts/update_dashboard.R` — see the
+> README. The Apps Script below knows only the `bilde` / `Bilde_skjell` rule, so if this
+> route is ever used it must also treat a fish as imaged when its `EnkeltfiskID` has an
+> `Operator` in the merged list (`merged/scale_data_merged.xlsx`), which means getting
+> that file (or just the set of those ids) to the script as well. The `aggregate` function
+> below needs no change for that: only `hasImage` in `parseRows` does.
+
 Goal: keep `data/summary.json` (and `data/history.json`, the weekly-timeline
 log) in sync with the OneDrive spreadsheet every day, without an Azure app
 registration, without a paid Power Automate connector, and without ever
