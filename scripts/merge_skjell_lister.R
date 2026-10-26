@@ -84,8 +84,14 @@ read_list <- function(path) {
 
   df$Dato <- as.Date(df$Dato)
   for (col in names(df)[vapply(df, is.character, logical(1))]) df[[col]] <- blank_to_na(df[[col]])
+  # A row with nothing in it (someone cleared a fish's cells instead of deleting the row) is an
+  # Excel leftover, not data: skip it and say so. A row that has data but no EnkeltfiskID is
+  # something we can't place, so that still stops the merge.
+  blank <- rowSums(!is.na(df)) == 0
+  df <- df[!blank, ]
+  attr(df, "blank_rows") <- sum(blank)
   if (anyNA(df$EnkeltfiskID)) {
-    stop(sprintf("%s: %d row(s) without an EnkeltfiskID", basename(path), sum(is.na(df$EnkeltfiskID))), call. = FALSE)
+    stop(sprintf("%s: %d row(s) with data but without an EnkeltfiskID", basename(path), sum(is.na(df$EnkeltfiskID))), call. = FALSE)
   }
   df
 }
@@ -115,6 +121,8 @@ merge_skjell_lister <- function(folder = DEFAULT_FOLDER, output = NULL, include_
   say("Merging %d list file(s) from %s", length(files), folder)
   lists <- lapply(seq_along(files), function(i) {
     df <- read_list(files[i])
+    blank_rows <- attr(df, "blank_rows")
+    if (blank_rows > 0) say("  NOTE: %s: %d completely empty row(s) ignored", basename(files[i]), blank_rows)
     df$.file <- basename(files[i])
     df$.saved <- info$mtime[i]
     df
