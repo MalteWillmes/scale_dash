@@ -667,13 +667,13 @@
     // water with droplets, and a ripple on the surface.
     const sScale = W < 460 ? 0.8 : 1;
     const splash =
-      `<g transform="translate(${(left + 26 * sScale).toFixed(1)} ${baseY}) scale(${sScale})">` +
+      `<g transform="translate(${(left + 26 * sScale).toFixed(1)} ${baseY}) scale(${sScale})"><g class="mtn-splash-pulse">` +
       `<ellipse class="mtn-ripple" cx="0" cy="2" rx="24" ry="4.5"/>` +
       `<path class="mtn-splash" d="M-16,0 C-15,-7 -19,-11 -22,-12 C-18,-8 -12,-6 -9,-2 C-9,-9 -8,-16 -6,-20 ` +
       `C-4,-13 -2,-9 0,-8 C2,-9 4,-13 6,-20 C8,-16 9,-9 9,-2 C12,-6 18,-8 22,-12 C19,-11 15,-7 16,0 Z"/>` +
       [[-6, -25, 2], [6, -26, 2], [0, -29, 2.4], [-24, -17, 1.6], [24, -17, 1.6], [-14, -24, 1.3], [14, -24, 1.3]]
         .map(([x, y, r]) => `<circle class="mtn-splash" cx="${x}" cy="${y}" r="${r}"/>`).join("") +
-      `</g>`;
+      `</g></g>`;
 
     // The fish: a salmon on the left face at the altitude of the pictures taken, head up the slope.
     const face = leftFaceAt(imaged / p.required);
@@ -687,8 +687,13 @@
     const cx = Math.max(left + 46 * scale, fx + (dy / len) * lift); // keep the tail (and spray) clear of the axis labels
     const cy = fy - (dx / len) * lift;
     const angle = (Math.atan2(dy, dx) * 180) / Math.PI;
+    // The outer group places and tilts the fish and is the click target; the inner one is what wiggles
+    // (see wiggleFish), so the animation doesn't fight the placement.
     const fish =
-      `<g transform="translate(${cx.toFixed(1)} ${cy.toFixed(1)}) rotate(${angle.toFixed(1)}) scale(${scale})">` +
+      `<g class="mtn-fish-hit" transform="translate(${cx.toFixed(1)} ${cy.toFixed(1)}) rotate(${angle.toFixed(1)}) scale(${scale})" ` +
+      `tabindex="0" role="button" aria-label="The fish. Press to make it wiggle.">` +
+      `<title>Click the fish!</title><rect class="mtn-fish-hitarea" x="-46" y="-20" width="92" height="40" rx="10"/>` +
+      `<g class="mtn-fish-body">` +
       // spray behind the tail
       `<circle class="mtn-splash" cx="-44" cy="-7" r="1.7"/><circle class="mtn-splash" cx="-49" cy="1" r="1.2"/>` +
       `<circle class="mtn-splash" cx="-43" cy="8" r="1.5"/>` +
@@ -705,7 +710,7 @@
       [[20, -4.2], [14, -5.5], [8, -6.5], [1, -6.4], [-6, -5.4], [-12, -3.6], [6, 3], [-2, 3.5]]
         .map(([x, y]) => `<circle class="mtn-fish-spot" cx="${x}" cy="${y}" r="0.95"/>`).join("") +
       `<path class="mtn-fish-line" d="M20.5,-6.8 C23,-3 23,2 20.5,6.2"/><path class="mtn-fish-line" d="M34,0 L29.5,1.4"/>` +
-      `<circle class="mtn-fish-eye" cx="26" cy="-2.2" r="2.3"/><circle class="mtn-fish-pupil" cx="26.5" cy="-2.2" r="1.2"/></g>`;
+      `<circle class="mtn-fish-eye" cx="26" cy="-2.2" r="2.3"/><circle class="mtn-fish-pupil" cx="26.5" cy="-2.2" r="1.2"/></g></g>`;
 
     const label = fmt(imaged) + " m · " + pct + "%";
     const tagW = label.length * 6.9 + 16;
@@ -729,6 +734,47 @@
       grid +
       `<line class="mtn-ground" x1="${left}" x2="${left + plotW}" y1="${baseY}" y2="${baseY}"/>` +
       waves + splash + flag + fish + tag + `</svg>`;
+  }
+
+  // Click (or Enter / Space on the focused fish) and the salmon wiggles: it hops off the slope
+  // shaking from side to side, and the splash at the foot bounces. The fish keeps the tilt and
+  // position the drawing gave it: only the inner group animates. It is something the person asked
+  // for by clicking, so people whose system asks for less motion still get a wiggle, but a small,
+  // short one (no hop, no bouncing splash) instead of the full one.
+  function wiggleFish() {
+    const body = els.mountain.querySelector(".mtn-fish-body");
+    if (!body || !body.animate) return;
+    const gentle = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (body._wiggle) body._wiggle.cancel(); // a second click starts over
+    body._wiggle = body.animate(
+      gentle
+        ? [
+            { transform: "rotate(0deg)", offset: 0 },
+            { transform: "rotate(-5deg)", offset: 0.25 },
+            { transform: "rotate(4deg)", offset: 0.5 },
+            { transform: "rotate(-2deg)", offset: 0.75 },
+            { transform: "rotate(0deg)", offset: 1 },
+          ]
+        : [
+            { transform: "translate(0px, 0px) rotate(0deg)", offset: 0 },
+            { transform: "translate(0px, -8px) rotate(-17deg)", offset: 0.14 },
+            { transform: "translate(0px, -4px) rotate(15deg)", offset: 0.28 },
+            { transform: "translate(0px, -6px) rotate(-12deg)", offset: 0.42 },
+            { transform: "translate(0px, -2px) rotate(9deg)", offset: 0.56 },
+            { transform: "translate(0px, -3px) rotate(-5deg)", offset: 0.72 },
+            { transform: "translate(0px, 0px) rotate(2deg)", offset: 0.88 },
+            { transform: "translate(0px, 0px) rotate(0deg)", offset: 1 },
+          ],
+      { duration: gentle ? 500 : 900, easing: "ease-out" }
+    );
+    const pulse = els.mountain.querySelector(".mtn-splash-pulse");
+    if (pulse && !gentle) {
+      if (pulse._pulse) pulse._pulse.cancel();
+      pulse._pulse = pulse.animate(
+        [{ transform: "scale(1, 1)" }, { transform: "scale(1.25, 1.4)", offset: 0.3 }, { transform: "scale(1, 1)" }],
+        { duration: 650, easing: "ease-out" }
+      );
+    }
   }
 
   function renderYearChart(years, reqKeys, anKeys, exKeys) {
@@ -834,6 +880,16 @@
     els.tableBody.addEventListener("click", (e) => {
       const tr = e.target.closest("tr.river-row");
       if (tr) toggleRiverRow(tr);
+    });
+    // The mountain is redrawn (its markup replaced) on resize, so listen on its box, not on the fish.
+    els.mountain.addEventListener("click", (e) => {
+      if (e.target.closest(".mtn-fish-hit")) wiggleFish();
+    });
+    els.mountain.addEventListener("keydown", (e) => {
+      if ((e.key === "Enter" || e.key === " ") && e.target.closest(".mtn-fish-hit")) {
+        e.preventDefault();
+        wiggleFish();
+      }
     });
     els.regionToggle.addEventListener("click", (e) => {
       const btn = e.target.closest("button[data-region]");

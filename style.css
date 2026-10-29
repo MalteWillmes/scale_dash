@@ -353,6 +353,12 @@ tr.total-row td {
 .mtn-summit { fill: var(--text-secondary); font-size: 12px; font-weight: 600; }
 /* The salmon: a dark back with a silver belly (neutral on purpose: no region or data hue), and the
    foam of the splash, which uses the snow colour so it shows on any background. */
+/* The fish is a button: click or Enter/Space makes it wiggle (see wiggleFish in app.js). The animated
+   groups turn around their own origin, which is the fish's centre and the splash's centre. */
+.mtn-fish-hit { cursor: pointer; touch-action: manipulation; outline: none; -webkit-tap-highlight-color: transparent; }
+.mtn-fish-hitarea { fill: transparent; pointer-events: all; }
+.mtn-fish-hit:focus-visible .mtn-fish-hitarea { stroke: var(--text-primary); stroke-width: 1.5; stroke-dasharray: 3 3; }
+.mtn-fish-body, .mtn-splash-pulse { transform-origin: 0 0; }
 .mtn-fish-back { fill: var(--fish-back); stroke: var(--surface-1); stroke-width: 2.5; stroke-linejoin: round; paint-order: stroke; }
 .mtn-fish-belly { fill: var(--fish-belly); }
 .mtn-fish-fin { fill: var(--fish-back); }
