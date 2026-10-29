@@ -663,29 +663,56 @@
       waves += `<path class="mtn-wave" d="M${left},${baseY + dy} q6,-5 12,0${" t12,0".repeat(n * 2 - 1)}"/>`;
     }
 
-    // The fish: on the left face at the altitude of the pictures taken, head up the slope.
+    // The splash where the fish jumped out of the water, at the foot of the mountain: a crown of
+    // water with droplets, and a ripple on the surface.
+    const sScale = W < 460 ? 0.8 : 1;
+    const splash =
+      `<g transform="translate(${(left + 26 * sScale).toFixed(1)} ${baseY}) scale(${sScale})">` +
+      `<ellipse class="mtn-ripple" cx="0" cy="2" rx="24" ry="4.5"/>` +
+      `<path class="mtn-splash" d="M-16,0 C-15,-7 -19,-11 -22,-12 C-18,-8 -12,-6 -9,-2 C-9,-9 -8,-16 -6,-20 ` +
+      `C-4,-13 -2,-9 0,-8 C2,-9 4,-13 6,-20 C8,-16 9,-9 9,-2 C12,-6 18,-8 22,-12 C19,-11 15,-7 16,0 Z"/>` +
+      [[-6, -25, 2], [6, -26, 2], [0, -29, 2.4], [-24, -17, 1.6], [24, -17, 1.6], [-14, -24, 1.3], [14, -24, 1.3]]
+        .map(([x, y, r]) => `<circle class="mtn-splash" cx="${x}" cy="${y}" r="${r}"/>`).join("") +
+      `</g>`;
+
+    // The fish: a salmon on the left face at the altitude of the pictures taken, head up the slope.
     const face = leftFaceAt(imaged / p.required);
     const [fx, fy] = toPx(face.point);
     const [a, b] = [pts[face.segment], pts[face.segment + 1]];
     const dx = b[0] - a[0];
     const dy = b[1] - a[1];
     const len = Math.hypot(dx, dy) || 1;
-    const scale = W < 460 ? 1 : 1.35;
+    const scale = W < 460 ? 0.85 : 1.1;
     const lift = 12 * scale; // sit on the slope, not in it
-    const cx = Math.max(left + 14, fx + (dy / len) * lift);
+    const cx = Math.max(left + 46 * scale, fx + (dy / len) * lift); // keep the tail (and spray) clear of the axis labels
     const cy = fy - (dx / len) * lift;
     const angle = (Math.atan2(dy, dx) * 180) / Math.PI;
     const fish =
       `<g transform="translate(${cx.toFixed(1)} ${cy.toFixed(1)}) rotate(${angle.toFixed(1)}) scale(${scale})">` +
-      `<path class="mtn-fish" d="M22,0 C16,-9 4,-11 -8,-6 L-20,-12 L-16,0 L-20,12 L-8,6 C4,11 16,9 22,0 Z"/>` +
-      `<circle class="mtn-fish-eye" cx="13" cy="-2" r="1.9"/></g>`;
+      // spray behind the tail
+      `<circle class="mtn-splash" cx="-44" cy="-7" r="1.7"/><circle class="mtn-splash" cx="-49" cy="1" r="1.2"/>` +
+      `<circle class="mtn-splash" cx="-43" cy="8" r="1.5"/>` +
+      // fins on the back (dorsal and the small adipose fin)
+      `<path class="mtn-fish-fin" d="M9,-9.6 L3,-17 L-5,-10 Z"/><path class="mtn-fish-fin" d="M-13,-6.6 L-14.8,-10.5 L-17,-5.6 Z"/>` +
+      // body with the forked tail, then the silver belly
+      `<path class="mtn-fish-back" d="M34,0 C31,-4 25,-7.5 15,-9.5 C5,-11.5 -8,-9.5 -18,-5 L-24,-2.4 L-34,-10 L-30.5,0 L-34,10 L-24,2.4 L-18,5 ` +
+      `C-8,9.5 5,11.5 15,9.5 C25,7.5 31,4 34,0 Z"/>` +
+      `<path class="mtn-fish-belly" d="M34,0 C27,-0.5 14,0.2 2,1 C-6,1.6 -14,1.2 -22,0.4 L-24,2.4 L-18,5 C-8,9.5 5,11.5 15,9.5 C25,7.5 31,4 34,0 Z"/>` +
+      // fins on the belly (pectoral, pelvic, anal)
+      `<path class="mtn-fish-fin-light" d="M17,3 L8,9.5 L10,2.5 Z"/><path class="mtn-fish-fin-light" d="M2,10.6 L-3,16 L-6,10.2 Z"/>` +
+      `<path class="mtn-fish-fin-light" d="M-9,7.6 L-13,12.5 L-16.5,6.2 Z"/>` +
+      // spots above the lateral line, gill cover, mouth and eye
+      [[20, -4.2], [14, -5.5], [8, -6.5], [1, -6.4], [-6, -5.4], [-12, -3.6], [6, 3], [-2, 3.5]]
+        .map(([x, y]) => `<circle class="mtn-fish-spot" cx="${x}" cy="${y}" r="0.95"/>`).join("") +
+      `<path class="mtn-fish-line" d="M20.5,-6.8 C23,-3 23,2 20.5,6.2"/><path class="mtn-fish-line" d="M34,0 L29.5,1.4"/>` +
+      `<circle class="mtn-fish-eye" cx="26" cy="-2.2" r="2.3"/><circle class="mtn-fish-pupil" cx="26.5" cy="-2.2" r="1.2"/></g>`;
 
     const label = fmt(imaged) + " m · " + pct + "%";
     const tagW = label.length * 6.9 + 16;
     // Above the fish, but below it near the summit (where the flag is), and never over the axis labels.
     const nearTop = imaged / p.required > 0.85;
     const tagX = Math.min(W - tagW / 2 - 4, Math.max(left + tagW / 2 + 2, cx));
-    const tagY = nearTop ? cy + 28 * scale + 10 : cy - 24 * scale - 10;
+    const tagY = nearTop ? cy + 17 * scale + 22 : cy - 20 * scale - 14;
     const tag =
       `<rect class="mtn-tag-box" x="${(tagX - tagW / 2).toFixed(1)}" y="${(tagY - 14).toFixed(1)}" width="${tagW.toFixed(1)}" height="22" rx="6"/>` +
       `<text class="mtn-tag-text" x="${tagX.toFixed(1)}" y="${(tagY + 1).toFixed(1)}" text-anchor="middle">${label}</text>`;
@@ -701,7 +728,7 @@
       `<polygon class="mtn-snow" points="${poly(snow)}"/>` +
       grid +
       `<line class="mtn-ground" x1="${left}" x2="${left + plotW}" y1="${baseY}" y2="${baseY}"/>` +
-      waves + flag + fish + tag + `</svg>`;
+      waves + splash + flag + fish + tag + `</svg>`;
   }
 
   function renderYearChart(years, reqKeys, anKeys, exKeys) {

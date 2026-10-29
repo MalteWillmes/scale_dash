@@ -19,6 +19,9 @@
   --imaged-color: #a2215d;
   --excess-color: #26251f;
   --snow: #ffffff; /* the mountain's snow cap (The climb) */
+  --fish-back: #3f4a55;
+  --fish-belly: #dfe4e8;
+  --fish-spot: #1d242b;
   /* Map: one categorical colour per region (blue / orange / aqua / violet). The map is always
      white, so these are the light-mode values in BOTH themes (deliberately not overridden under
      dark): that four-colour set passes the palette validator for every pairing on white, which
@@ -48,6 +51,9 @@
     --imaged-color: #c7469f;
     --excess-color: #d9d8d0;
     --snow: #e8e7e2;
+    --fish-back: #9fa9b3;
+    --fish-belly: #e4e8eb;
+    --fish-spot: #232a30;
   }
 }
 
@@ -345,8 +351,18 @@ tr.total-row td {
 .mtn-flag { fill: var(--text-primary); }
 .mtn-name { fill: var(--text-primary); font-size: 15px; font-weight: 700; letter-spacing: 0.01em; }
 .mtn-summit { fill: var(--text-secondary); font-size: 12px; font-weight: 600; }
-.mtn-fish { fill: var(--text-primary); stroke: var(--surface-1); stroke-width: 2.5; stroke-linejoin: round; paint-order: stroke; }
-.mtn-fish-eye { fill: var(--surface-1); }
+/* The salmon: a dark back with a silver belly (neutral on purpose: no region or data hue), and the
+   foam of the splash, which uses the snow colour so it shows on any background. */
+.mtn-fish-back { fill: var(--fish-back); stroke: var(--surface-1); stroke-width: 2.5; stroke-linejoin: round; paint-order: stroke; }
+.mtn-fish-belly { fill: var(--fish-belly); }
+.mtn-fish-fin { fill: var(--fish-back); }
+.mtn-fish-fin-light { fill: var(--fish-belly); stroke: var(--fish-back); stroke-width: 0.7; stroke-linejoin: round; }
+.mtn-fish-spot { fill: var(--fish-spot); }
+.mtn-fish-line { fill: none; stroke: var(--fish-spot); stroke-width: 0.9; stroke-linecap: round; opacity: 0.7; }
+.mtn-fish-eye { fill: #ffffff; }
+.mtn-fish-pupil { fill: #101214; }
+.mtn-splash { fill: var(--snow); stroke: var(--baseline); stroke-width: 1; stroke-linejoin: round; }
+.mtn-ripple { fill: none; stroke: var(--baseline); stroke-width: 1.5; }
 .mtn-tag-box { fill: var(--surface-1); stroke: var(--baseline); stroke-width: 1; }
 .mtn-tag-text { fill: var(--text-primary); font-size: 12px; font-weight: 600; }
 
