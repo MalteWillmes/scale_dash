@@ -12,6 +12,7 @@ Shows how far the project has come in imaging salmon scales: for each river and 
 - **Images added per day:** new images each day since tracking began. The number already imaged at the start is stated above the chart rather than drawn.
 - **Map:** one circle per river. Colour is the region, size is the share imaged. Click a circle for its numbers. Positions are approximate, not sampling sites.
 - **Progress by region** and **Progress by river:** the same numbers in tables. Click a river to see it year by year.
+- **The climb** (very bottom): a mountain as high as the whole target, with one metre for every picture that has to be taken. A fish climbs it as pictures are taken. It ignores the filters.
 
 ## What the numbers mean
 

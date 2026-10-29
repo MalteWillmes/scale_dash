@@ -33,6 +33,9 @@
     timelineCaption: document.getElementById("timelineCaption"),
     mapEl: document.getElementById("riverMap"),
     mapLegend: document.getElementById("mapLegend"),
+    mountainPanel: document.getElementById("mountainPanel"),
+    mountainTitle: document.getElementById("mountainTitle"),
+    mountain: document.getElementById("mountain"),
   };
 
   let yearChart = null;
@@ -545,6 +548,162 @@
         : "");
   }
 
+  // ---- The climb: one mountain as high as the whole target, a fish at the pictures taken ----
+
+  // The summit is the whole target: every fish needed over the last 10 years (both age classes,
+  // NINA and RB together), one metre per picture. The fish's altitude is how many of those have
+  // been imaged. It deliberately ignores the filters: it is the overall goal.
+  function overallProgress() {
+    const years = state.data.years.slice(-10);
+    let required = 0;
+    let imaged = 0;
+    let excess = 0;
+    for (const river of state.data.rivers) {
+      for (const y of years) {
+        const e = river.byYear[String(y)];
+        if (!e) continue;
+        for (const c of ["sw1", "sw2"]) {
+          required += e[c + "Required"];
+          imaged += e[c + "Analyzed"];
+          excess += e[c + "Excess"];
+        }
+      }
+    }
+    return { required, imaged, excess, firstYear: years[0], lastYear: years[years.length - 1] };
+  }
+
+  // "skjell" is Norwegian for scale (the fish kind), "fjell" for mountain.
+  const MOUNTAIN_NAME = "Skjellfjellet";
+
+  // The mountain's outline as [position across, height as a fraction of the summit], left to right.
+  // The left face rises steadily (the fish climbs it); the right has a shoulder.
+  const RIDGE = [
+    [0, 0], [0.06, 0.05], [0.14, 0.12], [0.22, 0.22], [0.30, 0.33], [0.37, 0.48], [0.43, 0.63],
+    [0.48, 0.78], [0.52, 0.90], [0.555, 1], [0.60, 0.90], [0.64, 0.83], [0.69, 0.86], [0.74, 0.70],
+    [0.80, 0.52], [0.86, 0.38], [0.92, 0.20], [1, 0],
+  ];
+  const SUMMIT = 9; // index of the summit in RIDGE
+  const SNOW_LINE = 0.8; // height fraction above which the mountain has snow
+
+  // The point on the left face at a given height fraction, and the RIDGE segment it lies on.
+  function leftFaceAt(v) {
+    for (let i = 0; i < SUMMIT; i++) {
+      const a = RIDGE[i];
+      const b = RIDGE[i + 1];
+      if (v >= a[1] && v <= b[1]) {
+        const t = b[1] === a[1] ? 0 : (v - a[1]) / (b[1] - a[1]);
+        return { segment: i, point: [a[0] + t * (b[0] - a[0]), v] };
+      }
+    }
+    return { segment: SUMMIT - 1, point: RIDGE[SUMMIT] };
+  }
+
+  // Draws the mountain as SVG at the width of its box (so text stays a readable size on a phone).
+  // Colours come from CSS classes, so light and dark mode need no redraw.
+  function renderMountain() {
+    if (!els.mountain || !state.data) return;
+    const p = overallProgress();
+    els.mountainPanel.hidden = !p.required;
+    if (!p.required) return;
+
+    const imaged = Math.min(p.imaged, p.required);
+    const pct = Math.round((imaged / p.required) * 100);
+    const fmt = (n) => n.toLocaleString();
+    els.mountainTitle.textContent = "The climb to " + fmt(p.required) + " m";
+
+    const W = Math.max(280, Math.round(els.mountain.clientWidth || 600));
+    const left = 56;
+    const right = 12;
+    const top = 64; // room above the summit for the flag, the elevation and the name
+    const bottom = 32;
+    const plotW = W - left - right;
+    const plotH = Math.round(Math.min(340, Math.max(210, W * 0.42)));
+    const H = top + plotH + bottom;
+    const baseY = top + plotH;
+    const toPx = ([u, v]) => [left + u * plotW, baseY - v * plotH];
+    const pts = RIDGE.map(toPx);
+    const poly = (list) => list.map(([x, y]) => x.toFixed(1) + "," + y.toFixed(1)).join(" ");
+    const altitudeY = (m) => baseY - (m / p.required) * plotH;
+
+    // Snow cap: the ridge above the snow line, closed by a jagged lower edge.
+    const snowLeft = leftFaceAt(SNOW_LINE);
+    let j = SUMMIT + 1;
+    while (j < RIDGE.length && RIDGE[j][1] >= SNOW_LINE) j++;
+    const ra = RIDGE[j - 1];
+    const rb = RIDGE[j];
+    const tr = (ra[1] - SNOW_LINE) / (ra[1] - rb[1]);
+    const snowRight = [ra[0] + tr * (rb[0] - ra[0]), SNOW_LINE];
+    const teeth = 6;
+    const edge = [];
+    for (let k = teeth - 1; k >= 1; k--) {
+      edge.push([snowLeft.point[0] + (snowRight[0] - snowLeft.point[0]) * (k / teeth), k % 2 ? SNOW_LINE - 0.075 : SNOW_LINE - 0.015]);
+    }
+    const snow = [snowLeft.point, ...RIDGE.slice(snowLeft.segment + 1, j), snowRight, ...edge].map(toPx);
+
+    // Altitude gridlines every 1,000 m.
+    let grid = "";
+    for (let m = 0; m <= p.required; m += 1000) {
+      const y = altitudeY(m);
+      if (m > 0) grid += `<line class="mtn-grid" x1="${left}" x2="${left + plotW}" y1="${y.toFixed(1)}" y2="${y.toFixed(1)}"/>`;
+      grid += `<text class="mtn-axis" x="${left - 8}" y="${(y + 4).toFixed(1)}" text-anchor="end">${fmt(m)} m</text>`;
+    }
+
+    // Summit flag.
+    const [sx, sy] = pts[SUMMIT];
+    const flag =
+      `<line class="mtn-flag-pole" x1="${sx.toFixed(1)}" y1="${sy.toFixed(1)}" x2="${sx.toFixed(1)}" y2="${(sy - 26).toFixed(1)}"/>` +
+      `<polygon class="mtn-flag" points="${sx.toFixed(1)},${(sy - 26).toFixed(1)} ${(sx + 16).toFixed(1)},${(sy - 20).toFixed(1)} ${sx.toFixed(1)},${(sy - 14).toFixed(1)}"/>` +
+      `<text class="mtn-name" x="${sx.toFixed(1)}" y="${(sy - 51).toFixed(1)}" text-anchor="middle">${MOUNTAIN_NAME}</text>` +
+      `<text class="mtn-summit" x="${sx.toFixed(1)}" y="${(sy - 34).toFixed(1)}" text-anchor="middle">${fmt(p.required)} m</text>`;
+
+    // Water at the foot of the mountain.
+    let waves = "";
+    for (const dy of [9, 17]) {
+      const n = Math.ceil(plotW / 24);
+      waves += `<path class="mtn-wave" d="M${left},${baseY + dy} q6,-5 12,0${" t12,0".repeat(n * 2 - 1)}"/>`;
+    }
+
+    // The fish: on the left face at the altitude of the pictures taken, head up the slope.
+    const face = leftFaceAt(imaged / p.required);
+    const [fx, fy] = toPx(face.point);
+    const [a, b] = [pts[face.segment], pts[face.segment + 1]];
+    const dx = b[0] - a[0];
+    const dy = b[1] - a[1];
+    const len = Math.hypot(dx, dy) || 1;
+    const scale = W < 460 ? 1 : 1.35;
+    const lift = 12 * scale; // sit on the slope, not in it
+    const cx = Math.max(left + 14, fx + (dy / len) * lift);
+    const cy = fy - (dx / len) * lift;
+    const angle = (Math.atan2(dy, dx) * 180) / Math.PI;
+    const fish =
+      `<g transform="translate(${cx.toFixed(1)} ${cy.toFixed(1)}) rotate(${angle.toFixed(1)}) scale(${scale})">` +
+      `<path class="mtn-fish" d="M22,0 C16,-9 4,-11 -8,-6 L-20,-12 L-16,0 L-20,12 L-8,6 C4,11 16,9 22,0 Z"/>` +
+      `<circle class="mtn-fish-eye" cx="13" cy="-2" r="1.9"/></g>`;
+
+    const label = fmt(imaged) + " m · " + pct + "%";
+    const tagW = label.length * 6.9 + 16;
+    // Above the fish, but below it near the summit (where the flag is), and never over the axis labels.
+    const nearTop = imaged / p.required > 0.85;
+    const tagX = Math.min(W - tagW / 2 - 4, Math.max(left + tagW / 2 + 2, cx));
+    const tagY = nearTop ? cy + 28 * scale + 10 : cy - 24 * scale - 10;
+    const tag =
+      `<rect class="mtn-tag-box" x="${(tagX - tagW / 2).toFixed(1)}" y="${(tagY - 14).toFixed(1)}" width="${tagW.toFixed(1)}" height="22" rx="6"/>` +
+      `<text class="mtn-tag-text" x="${tagX.toFixed(1)}" y="${(tagY + 1).toFixed(1)}" text-anchor="middle">${label}</text>`;
+
+    const climbedY = altitudeY(imaged);
+    els.mountain.innerHTML =
+      `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" ` +
+      `aria-label="${MOUNTAIN_NAME}, a mountain ${fmt(p.required)} metres high: one metre for each picture that has to be taken. ` +
+      `A fish has climbed ${fmt(imaged)} metres of it, ${pct} percent.">` +
+      `<defs><clipPath id="mountainClip"><polygon points="${poly(pts)}"/></clipPath></defs>` +
+      `<polygon class="mtn-body" points="${poly(pts)}"/>` +
+      `<rect class="mtn-climbed" x="${left}" y="${climbedY.toFixed(1)}" width="${plotW}" height="${(baseY - climbedY).toFixed(1)}" clip-path="url(#mountainClip)"/>` +
+      `<polygon class="mtn-snow" points="${poly(snow)}"/>` +
+      grid +
+      `<line class="mtn-ground" x1="${left}" x2="${left + plotW}" y1="${baseY}" y2="${baseY}"/>` +
+      waves + flag + fish + tag + `</svg>`;
+  }
+
   function renderYearChart(years, reqKeys, anKeys, exKeys) {
     const required = [];
     const analyzed = [];
@@ -724,6 +883,19 @@
 
       buildRegionToggle();
       render();
+      renderMountain();
+      // The mountain is drawn at the width of its box, so redraw when that changes.
+      let drawnWidth = els.mountain.clientWidth;
+      let resizeTimer = null;
+      window.addEventListener("resize", () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          if (els.mountain.clientWidth !== drawnWidth) {
+            drawnWidth = els.mountain.clientWidth;
+            renderMountain();
+          }
+        }, 150);
+      });
     } catch (err) {
       els.updated.textContent = "Failed to load data";
       els.tableBody.innerHTML =

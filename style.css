@@ -18,6 +18,7 @@
   --required-bar: #898781;
   --imaged-color: #a2215d;
   --excess-color: #26251f;
+  --snow: #ffffff; /* the mountain's snow cap (The climb) */
   /* Map: one categorical colour per region (blue / orange / aqua / violet). The map is always
      white, so these are the light-mode values in BOTH themes (deliberately not overridden under
      dark): that four-colour set passes the palette validator for every pairing on white, which
@@ -46,6 +47,7 @@
     --required-bar: #6b6a64;
     --imaged-color: #c7469f;
     --excess-color: #d9d8d0;
+    --snow: #e8e7e2;
   }
 }
 
@@ -325,6 +327,28 @@ tr.total-row td {
   border-radius: 4px;
   font-size: 0.78rem;
 }
+
+/* The climb: one mountain as high as the whole target, a fish at the number of pictures taken.
+   Everything is SVG drawn by app.js; the colours follow the theme through these tokens. The
+   climbed part uses the Imaged colour (a hue the region colours don't use). */
+.mountain-panel { margin: 24px 0 0; }
+.mountain svg { display: block; max-width: 100%; }
+.mountain text { font-family: inherit; }
+.mtn-axis { fill: var(--text-muted); font-size: 11px; }
+.mtn-grid { stroke: var(--text-muted); stroke-width: 1; stroke-dasharray: 2 5; opacity: 0.35; }
+.mtn-body { fill: var(--track); stroke: var(--baseline); stroke-width: 1.5; stroke-linejoin: round; }
+.mtn-climbed { fill: var(--imaged-color); }
+.mtn-snow { fill: var(--snow); stroke: var(--baseline); stroke-width: 1; stroke-linejoin: round; }
+.mtn-ground { stroke: var(--baseline); stroke-width: 1.5; }
+.mtn-wave { fill: none; stroke: var(--baseline); stroke-width: 1.5; stroke-linecap: round; }
+.mtn-flag-pole { stroke: var(--text-primary); stroke-width: 2; stroke-linecap: round; }
+.mtn-flag { fill: var(--text-primary); }
+.mtn-name { fill: var(--text-primary); font-size: 15px; font-weight: 700; letter-spacing: 0.01em; }
+.mtn-summit { fill: var(--text-secondary); font-size: 12px; font-weight: 600; }
+.mtn-fish { fill: var(--text-primary); stroke: var(--surface-1); stroke-width: 2.5; stroke-linejoin: round; paint-order: stroke; }
+.mtn-fish-eye { fill: var(--surface-1); }
+.mtn-tag-box { fill: var(--surface-1); stroke: var(--baseline); stroke-width: 1; }
+.mtn-tag-text { fill: var(--text-primary); font-size: 12px; font-weight: 600; }
 
 /* Year-by-year detail: a river row opens to show its years. */
 .river-row { cursor: pointer; }
