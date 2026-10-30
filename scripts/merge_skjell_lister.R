@@ -2,7 +2,7 @@
 # Merges the imaging lists in the Skjell_lister folder into ONE file, one row per fish.
 #
 # Usage (from anywhere):
-#   Rscript scripts/merge_skjell_lister.R [input_folder] [output_file] [--include-backup] [--allow-decrease]
+#   Rscript scripts/merge_skjell_lister.R [input_folder] [output_file] [--exclude-backup] [--allow-decrease]
 #
 # Defaults: the project's Skjell_lister folder, and
 #   <input_folder>/merged/scale_data_merged.xlsx
@@ -25,12 +25,15 @@
 #     next to the output so someone can check it;
 #   * a Comments value is never dropped: if the kept row has none, the comment from
 #     another copy of the fish is used.
-# Every file in the folder is read each time, so nothing is carried over between
-# runs: keep all files in the folder (files in the "backup" sub-folder are ignored
-# unless --include-backup is given). To make sure that moving a file away doesn't
-# silently drop images, the script compares with the previous merged file and, when
-# fish that were marked before are not marked now, stops without writing anything
-# unless --allow-decrease is given.
+# Every file in the folder AND in its "backup" sub-folder is read each time, so nothing
+# is carried over between runs. The backup folder is where finished lists go when a new
+# master list is made (a re-selection): the images marked in them still count, so they
+# are read too (--exclude-backup leaves them out). The lists of an older master hold
+# fish that the new master doesn't have; that is fine, the merge simply has all of them
+# (a fish marked in any file stays marked). To make sure that moving or deleting a file
+# can't silently drop images, the script compares with the previous merged file and, when
+# fish that were marked before are not marked now, stops without writing anything unless
+# --allow-decrease is given.
 #
 # It also stops, writing nothing, if a file can't be read or lacks one of the 18 columns.
 
@@ -105,7 +108,7 @@ list_files <- function(folder, include_backup, exclude) {
   files
 }
 
-merge_skjell_lister <- function(folder = DEFAULT_FOLDER, output = NULL, include_backup = FALSE,
+merge_skjell_lister <- function(folder = DEFAULT_FOLDER, output = NULL, include_backup = TRUE,
                                 allow_decrease = FALSE) {
   say <- function(...) cat(sprintf(...), "\n", sep = "")
   folder <- normalizePath(folder, winslash = "/", mustWork = TRUE)
@@ -262,7 +265,7 @@ if (sys.nframe() == 0L) {
     merge_skjell_lister(
       folder = if (length(positional) >= 1) positional[1] else DEFAULT_FOLDER,
       output = if (length(positional) >= 2) positional[2] else NULL,
-      include_backup = "--include-backup" %in% flags,
+      include_backup = !("--exclude-backup" %in% flags),
       allow_decrease = "--allow-decrease" %in% flags
     ),
     error = function(e) {

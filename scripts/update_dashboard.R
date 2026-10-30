@@ -2,7 +2,7 @@
 # Updates the live dashboard from the imaging lists (Skjell_lister) in one go.
 #
 # Usage (from anywhere):
-#   Rscript scripts/update_dashboard.R [input_folder] [--no-push] [--allow-decrease] [--include-backup]
+#   Rscript scripts/update_dashboard.R [input_folder] [--no-push] [--allow-decrease] [--exclude-backup]
 #
 #   1. merges all list files into one (scripts/merge_skjell_lister.R) --
 #      <input_folder>/merged/scale_data_merged.xlsx, one row per fish, duplicates removed;
@@ -21,7 +21,8 @@
 #   --no-push          do steps 1-2 only (nothing is committed or pushed)
 #   --allow-decrease   accept a merged list with FEWER imaged fish than the last one
 #                      (otherwise the merge refuses -- see merge_skjell_lister.R)
-#   --include-backup   also read the lists in the "backup" sub-folder
+#   --exclude-backup   don't read the lists in the "backup" sub-folder (they are read by default:
+#                      finished lists of an older master go there, and their images still count)
 #
 # Only counts per river, year and age class are published. The merged list itself holds
 # fish-level records and stays in the Skjell_lister folder; the GitHub repo is public.
@@ -59,7 +60,7 @@ source(file.path(script_dir, "merge_skjell_lister.R"), local = TRUE)
 folder <- if (length(positional) >= 1) positional[1] else DEFAULT_FOLDER
 merged <- tryCatch(
   merge_skjell_lister(
-    folder, include_backup = "--include-backup" %in% flags, allow_decrease = "--allow-decrease" %in% flags
+    folder, include_backup = !("--exclude-backup" %in% flags), allow_decrease = "--allow-decrease" %in% flags
   ),
   error = function(e) fail("%s", conditionMessage(e))
 )

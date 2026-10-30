@@ -12,8 +12,10 @@ column of every fish they image). Each fish with an Operator counts as imaged, i
 addition to the fish already imaged according to `bilde` / `Bilde_skjell`; a fish
 counts once. The list is matched to the two workbooks by EnkeltfiskID. A fish an
 operator imaged stays imaged even if a later selection dropped it from the workbooks
-(keep_dropped_fish: it is added to its own river-year and age class, which must still
-exist in the workbooks, using its row in the list). Nothing from
+(keep_dropped_fish: it is a different fish from the ones now selected, but it counts
+towards the goal all the same; it is added to its own river-year and age class, using
+its row in the list, and that river-year is created if the workbooks no longer have
+it). Nothing from
 the list is written to the output except through counts: the totals above, and
 data/imaging_log.json, the number of NEW images (fish not already imaged in the
 workbooks) operators imaged per day, region and age class, dated by the date they
@@ -231,14 +233,19 @@ def keep_dropped_fish(rows_by_class, imaged_ids, seen, lregnr_map, stats, op_log
     keeps the fish that `bilde` says are imaged, but doesn't know about the operators' marks).
 
     Each such fish (marked in `imaged_ids`, not in `seen`) is added to the rows of its own river-year
-    and age class as an imaged fish, provided that river-year still has candidates in the workbooks
-    (so no river-year is created from a single stray fish). It also goes into the imaging log on the
-    day it was imaged. The fish's river, year, age class and region come from its row in the imaging
-    list; the watershed id from the workbooks' Lregnr. Returns ({(river, year, class): n} kept,
-    [reasons for fish that could not be kept])."""
+    and age class as an imaged fish. They are different fish from the ones now selected there, but
+    they were imaged, so they count towards the goal all the same (on 2026-10-30 the goal document
+    changed again and 59 imaged fish were no longer in it). If the river-year itself is no longer in
+    the workbooks it is created from its imaged fish (Required = how many, as for any pool). It also
+    goes into the imaging log on the day it was imaged. The fish's river, year, age class and region
+    come from its row in the imaging list; the watershed id from the workbooks' Lregnr.
+    Returns ({(river, year, class): n} kept, [reasons for fish that could not be kept],
+    {(river, year, class): n} of those kept in a river-year that had to be created)."""
     groups = {c: {(ws, year) for _, ws, year, _, _ in rows} for c, rows in rows_by_class.items()}
     kept = Counter()
     skipped = Counter()
+    created = Counter()
+    this_year = datetime.now(timezone.utc).year
     for fid, m in imaged_ids.items():
         if fid in seen:
             continue
@@ -252,17 +259,20 @@ def keep_dropped_fish(rows_by_class, imaged_ids, seen, lregnr_map, stats, op_log
             continue
         watershed, river = place.most_common(1)[0][0]
         year = int(m.year)
-        if (watershed, year) not in groups[sw_key]:
-            skipped["its river-year is no longer in the workbooks"] += 1
+        if not (1900 <= year <= this_year):
+            skipped["its year is not a real year"] += 1
             continue
+        if (watershed, year) not in groups[sw_key]:
+            created[(river, year, sw_key)] += 1  # the river-year is made from its imaged fish
         rows_by_class[sw_key].append((river, watershed, year, True, m.region))
+        groups[sw_key].add((watershed, year))
         kept[(river, year, sw_key)] += 1
         stats["kept"] += 1
         if m.date is None:
             stats["new_undated"] += 1
         elif op_log is not None:
             op_log[(m.date.isoformat(), m.region, sw_key)] += 1
-    return kept, skipped
+    return kept, skipped, created
 
 
 # Every river-year is computed three ways so the dashboard can filter by
@@ -500,7 +510,9 @@ def main():
     lregnr_map = {}  # Lregnr -> Counter of (watershed id, river name)
     rows_1sw = load_rows(path_1sw, imaged_ids, stats, "sw1", op_log, seen, lregnr_map)
     rows_2sw = load_rows(path_2sw, imaged_ids, stats, "sw2", op_log, seen, lregnr_map)
-    kept, kept_skipped = keep_dropped_fish({"sw1": rows_1sw, "sw2": rows_2sw}, imaged_ids, seen, lregnr_map, stats, op_log)
+    kept, kept_skipped, kept_created = keep_dropped_fish(
+        {"sw1": rows_1sw, "sw2": rows_2sw}, imaged_ids, seen, lregnr_map, stats, op_log
+    )
     rb = load_rb(rb_path)
     summary = aggregate(rows_1sw, rows_2sw, rb)
     if imaged_list:
@@ -518,6 +530,11 @@ def main():
             print(
                 "Kept operator-imaged fish that the workbooks no longer list (a re-selection dropped them): "
                 + "; ".join(f"{river} {year} ({', '.join(parts)})" for (river, year), parts in by_group.items())
+            )
+        if kept_created:
+            print(
+                "NOTE: these river-years are not in the workbooks at all, so they were created from their imaged fish: "
+                + "; ".join(f"{river} {year} {sw_key[2]}SW ({n})" for (river, year, sw_key), n in sorted(kept_created.items()))
             )
         for reason, n in kept_skipped.items():
             print(f"WARNING: {n} fish with an operator are not in the workbooks and were not counted: {reason}")
