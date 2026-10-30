@@ -115,6 +115,12 @@ REQUIRED_COLUMNS = ["EnkeltfiskID", "Objektnavn", "Vassdragsnr_hovedvassdrag", "
 # lead: 10 for both age classes.
 PER_YEAR_TARGET = {"sw1": 10, "sw2": 10}
 
+# Field years that have no goal: the selection for the current field year is not complete, so
+# those river-years are left out altogether (no Required, not in any chart or table). The build
+# reports how many fish that is and warns if any of them is already imaged. Removed 2026-10-30
+# on request ("remove all 2026 goals"); none of the 185 fish of 2026 had an image.
+EXCLUDED_GOAL_YEARS = frozenset({2026})
+
 
 def fish_key(value):
     """EnkeltfiskID as a comparable string (Excel hands back 2594921 or 2594921.0 depending on the cell)."""
@@ -179,7 +185,8 @@ def load_imaged_ids(path, today=None):
     return imaged
 
 
-def load_rows(path, imaged_ids=frozenset(), stats=None, sw_key=None, op_log=None, seen=None, lregnr_map=None):
+def load_rows(path, imaged_ids=frozenset(), stats=None, sw_key=None, op_log=None, seen=None, lregnr_map=None,
+              exclude_years=frozenset()):
     """One tuple per fish: (river, watershed id, year, imaged?, region).
 
     A fish is imaged when `bilde` is 1, a `Bilde_skjell` filename is filled in, or its
@@ -191,7 +198,9 @@ def load_rows(path, imaged_ids=frozenset(), stats=None, sw_key=None, op_log=None
     are given, every new image with a date is added to it as (date, region, sw_key) -- the
     imaging log, one count per day the operators imaged fish. `seen` (a set) collects the
     EnkeltfiskID of every marked fish found, and `lregnr_map` (a dict) learns which watershed
-    id and river name each Lregnr belongs to, for keep_dropped_fish()."""
+    id and river name each Lregnr belongs to, for keep_dropped_fish(). Fish of a year in
+    `exclude_years` are skipped (no goal for that year); `stats` counts them as `excluded_fish`
+    and, of those, the ones that are already imaged or marked as `excluded_imaged`."""
     wb = openpyxl.load_workbook(path, data_only=True, read_only=True)
     ws = wb[wb.sheetnames[0]]
     header_row = next(ws.iter_rows(min_row=1, max_row=1, values_only=True))
@@ -208,6 +217,12 @@ def load_rows(path, imaged_ids=frozenset(), stats=None, sw_key=None, op_log=None
         has_image = r[idx["bilde"]] == 1 or r[idx["Bilde_skjell"]] not in (None, "")
         region = str(r[idx["region"]]).strip() if r[idx["region"]] is not None else ""
         if river is None or year is None or watershed is None or str(watershed).strip() == "":
+            continue
+        if int(year) in exclude_years:
+            if stats is not None:
+                stats["excluded_fish"] += 1
+                marked_here = bool(imaged_ids) and r[idx["EnkeltfiskID"]] is not None and fish_key(r[idx["EnkeltfiskID"]]) in imaged_ids
+                stats["excluded_imaged"] += 1 if (has_image or marked_here) else 0
             continue
         if lregnr_map is not None and "Lregnr" in idx and r[idx["Lregnr"]] is not None:
             lregnr_map.setdefault(fish_key(r[idx["Lregnr"]]), Counter())[(str(watershed), str(river))] += 1
@@ -227,7 +242,7 @@ def load_rows(path, imaged_ids=frozenset(), stats=None, sw_key=None, op_log=None
     return rows
 
 
-def keep_dropped_fish(rows_by_class, imaged_ids, seen, lregnr_map, stats, op_log):
+def keep_dropped_fish(rows_by_class, imaged_ids, seen, lregnr_map, stats, op_log, exclude_years=frozenset()):
     """Fish an operator has imaged stay imaged, even if a later selection dropped them from the
     top-15 workbooks (as happened on 2026-10-23 for 11 fish in Numedalslagen 2023: the selection
     keeps the fish that `bilde` says are imaged, but doesn't know about the operators' marks).
@@ -261,6 +276,9 @@ def keep_dropped_fish(rows_by_class, imaged_ids, seen, lregnr_map, stats, op_log
         year = int(m.year)
         if not (1900 <= year <= this_year):
             skipped["its year is not a real year"] += 1
+            continue
+        if year in exclude_years:
+            skipped["its year has no goal (see EXCLUDED_GOAL_YEARS)"] += 1
             continue
         if (watershed, year) not in groups[sw_key]:
             created[(river, year, sw_key)] += 1  # the river-year is made from its imaged fish
@@ -508,11 +526,16 @@ def main():
     op_log = Counter()  # (date, region, sw_key) -> new images the operators imaged that day
     seen = set()  # marked fish found in the workbooks
     lregnr_map = {}  # Lregnr -> Counter of (watershed id, river name)
-    rows_1sw = load_rows(path_1sw, imaged_ids, stats, "sw1", op_log, seen, lregnr_map)
-    rows_2sw = load_rows(path_2sw, imaged_ids, stats, "sw2", op_log, seen, lregnr_map)
+    rows_1sw = load_rows(path_1sw, imaged_ids, stats, "sw1", op_log, seen, lregnr_map, EXCLUDED_GOAL_YEARS)
+    rows_2sw = load_rows(path_2sw, imaged_ids, stats, "sw2", op_log, seen, lregnr_map, EXCLUDED_GOAL_YEARS)
     kept, kept_skipped, kept_created = keep_dropped_fish(
-        {"sw1": rows_1sw, "sw2": rows_2sw}, imaged_ids, seen, lregnr_map, stats, op_log
+        {"sw1": rows_1sw, "sw2": rows_2sw}, imaged_ids, seen, lregnr_map, stats, op_log, EXCLUDED_GOAL_YEARS
     )
+    if EXCLUDED_GOAL_YEARS:
+        years_text = ", ".join(str(y) for y in sorted(EXCLUDED_GOAL_YEARS))
+        print(f"NOTE: no goals for {years_text}: {stats['excluded_fish']} fish left out of the workbooks' pool")
+        if stats["excluded_imaged"]:
+            print(f"WARNING: {stats['excluded_imaged']} of them are already imaged or marked and are NOT counted anywhere")
     rb = load_rb(rb_path)
     summary = aggregate(rows_1sw, rows_2sw, rb)
     if imaged_list:
