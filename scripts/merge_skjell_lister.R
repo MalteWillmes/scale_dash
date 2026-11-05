@@ -35,7 +35,10 @@
 # fish that were marked before are not marked now, stops without writing anything unless
 # --allow-decrease is given.
 #
-# It also stops, writing nothing, if a file can't be read or lacks one of the 18 columns.
+# It also stops, writing nothing, if a file can't be read, lacks one of the 18 columns, or has
+# a row with fish data but no EnkeltfiskID. (A row whose only entry is an Operator/Comments
+# text and that has no fish, e.g. a name filled down over an empty spacer row, is ignored
+# with a NOTE.)
 
 suppressPackageStartupMessages({
   library(readxl)
@@ -88,11 +91,20 @@ read_list <- function(path) {
   df$Dato <- as.Date(df$Dato)
   for (col in names(df)[vapply(df, is.character, logical(1))]) df[[col]] <- blank_to_na(df[[col]])
   # A row with nothing in it (someone cleared a fish's cells instead of deleting the row) is an
-  # Excel leftover, not data: skip it and say so. A row that has data but no EnkeltfiskID is
-  # something we can't place, so that still stops the merge.
+  # Excel leftover, not data: skip it and say so. So is a row whose only entry is an Operator or
+  # Comments text and that has no fish (a name filled down over an empty spacer row): it can't
+  # belong to any fish, so skip it too, and say where it is. A row with any other data but no
+  # EnkeltfiskID is something we can't place, so that still stops the merge.
+  sheet_row <- seq_len(nrow(df)) + 1L # the header is row 1
   blank <- rowSums(!is.na(df)) == 0
-  df <- df[!blank, ]
+  fish_cells <- rowSums(!is.na(df[setdiff(names(df), c("Operator", "Comments"))]))
+  stray <- !blank & is.na(df$EnkeltfiskID) & fish_cells == 0
+  attr_stray <- data.frame(
+    row = sheet_row[stray], Operator = df$Operator[stray], Comments = df$Comments[stray], stringsAsFactors = FALSE
+  )
+  df <- df[!blank & !stray, ]
   attr(df, "blank_rows") <- sum(blank)
+  attr(df, "stray_rows") <- attr_stray
   if (anyNA(df$EnkeltfiskID)) {
     stop(sprintf("%s: %d row(s) with data but without an EnkeltfiskID", basename(path), sum(is.na(df$EnkeltfiskID))), call. = FALSE)
   }
@@ -126,6 +138,11 @@ merge_skjell_lister <- function(folder = DEFAULT_FOLDER, output = NULL, include_
     df <- read_list(files[i])
     blank_rows <- attr(df, "blank_rows")
     if (blank_rows > 0) say("  NOTE: %s: %d completely empty row(s) ignored", basename(files[i]), blank_rows)
+    stray <- attr(df, "stray_rows")
+    for (k in seq_len(nrow(stray))) {
+      say("  NOTE: %s: sheet row %d has no fish but the text '%s' (ignored: it can't be counted for any fish)",
+          basename(files[i]), stray$row[k], paste(stats::na.omit(c(stray$Operator[k], stray$Comments[k])), collapse = " / "))
+    }
     df$.file <- basename(files[i])
     df$.saved <- info$mtime[i]
     df
