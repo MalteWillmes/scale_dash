@@ -575,6 +575,11 @@
   // "skjell" is Norwegian for scale (the fish kind), "fjell" for mountain.
   const MOUNTAIN_NAME = "Skjellfjellet";
 
+  // Pictures taken (= metres climbed) at which a flag is planted on the way up. The ice zone starts
+  // at the last one: the snow cap is drawn from that altitude.
+  const ICE_ZONE_FROM = 5500;
+  const MILESTONES = [{ at: 1500 }, { at: 3000 }, { at: 4500 }, { at: ICE_ZONE_FROM, name: "ice zone" }];
+
   // The mountain's outline as [position across, height as a fraction of the summit], left to right.
   // The left face rises steadily (the fish climbs it); the right has a shoulder.
   const RIDGE = [
@@ -583,7 +588,7 @@
     [0.80, 0.52], [0.86, 0.38], [0.92, 0.20], [1, 0],
   ];
   const SUMMIT = 9; // index of the summit in RIDGE
-  const SNOW_LINE = 0.8; // height fraction above which the mountain has snow
+  const SNOW_LINE = 0.8; // height fraction above which the mountain has snow, if the ice zone can't be placed
 
   // The point on the left face at a given height fraction, and the RIDGE segment it lies on.
   function leftFaceAt(v) {
@@ -625,18 +630,19 @@
     const poly = (list) => list.map(([x, y]) => x.toFixed(1) + "," + y.toFixed(1)).join(" ");
     const altitudeY = (m) => baseY - (m / p.required) * plotH;
 
-    // Snow cap: the ridge above the snow line, closed by a jagged lower edge.
-    const snowLeft = leftFaceAt(SNOW_LINE);
+    // Snow cap: the ridge above the snow line (where the ice zone starts), closed by a jagged lower edge.
+    const snowLine = p.required > ICE_ZONE_FROM ? ICE_ZONE_FROM / p.required : SNOW_LINE;
+    const snowLeft = leftFaceAt(snowLine);
     let j = SUMMIT + 1;
-    while (j < RIDGE.length && RIDGE[j][1] >= SNOW_LINE) j++;
+    while (j < RIDGE.length && RIDGE[j][1] >= snowLine) j++;
     const ra = RIDGE[j - 1];
     const rb = RIDGE[j];
-    const tr = (ra[1] - SNOW_LINE) / (ra[1] - rb[1]);
-    const snowRight = [ra[0] + tr * (rb[0] - ra[0]), SNOW_LINE];
+    const tr = (ra[1] - snowLine) / (ra[1] - rb[1]);
+    const snowRight = [ra[0] + tr * (rb[0] - ra[0]), snowLine];
     const teeth = 6;
     const edge = [];
     for (let k = teeth - 1; k >= 1; k--) {
-      edge.push([snowLeft.point[0] + (snowRight[0] - snowLeft.point[0]) * (k / teeth), k % 2 ? SNOW_LINE - 0.075 : SNOW_LINE - 0.015]);
+      edge.push([snowLeft.point[0] + (snowRight[0] - snowLeft.point[0]) * (k / teeth), k % 2 ? snowLine - 0.075 : snowLine - 0.015]);
     }
     const snow = [snowLeft.point, ...RIDGE.slice(snowLeft.segment + 1, j), snowRight, ...edge].map(toPx);
 
@@ -656,24 +662,42 @@
       `<text class="mtn-name" x="${sx.toFixed(1)}" y="${(sy - 51).toFixed(1)}" text-anchor="middle">${MOUNTAIN_NAME}</text>` +
       `<text class="mtn-summit" x="${sx.toFixed(1)}" y="${(sy - 34).toFixed(1)}" text-anchor="middle">${fmt(p.required)} m</text>`;
 
+    // Milestone flags planted on the left face, flying out over the sky with the number to their
+    // left: filled once the fish has passed them, an outline until then. `milestoneBoxes` are the
+    // areas they cover, so the fish's tag can keep clear of them.
+    const textWidth = (s) => s.length * 6.4;
+    const milestoneBoxes = [];
+    let milestones = "";
+    for (const { at: m, name } of MILESTONES) {
+      if (m >= p.required) continue;
+      const reached = imaged >= m;
+      const [mx, my] = toPx(leftFaceAt(m / p.required).point);
+      // "1,500 images" ("5,500 images · ice zone") where there is room between the axis and the
+      // mountain, else shorter, down to just the number; a name that doesn't fit beside the number
+      // goes on a second line.
+      const fits = (s) => textWidth(s) <= mx - left - 18;
+      const oneLine = name && [fmt(m) + " images · " + name, fmt(m) + " · " + name].find(fits);
+      const text = oneLine || [fmt(m) + " images", fmt(m)].find(fits) || fmt(m);
+      const second = name && !oneLine ? name : "";
+      const tx = mx - 14;
+      milestoneBoxes.push({
+        x0: tx - Math.max(textWidth(text), textWidth(second)), x1: mx + 1, y0: my - 21, y1: my + (second ? 7 : 2),
+      });
+      const state = reached ? " is-reached" : "";
+      milestones +=
+        `<g class="mtn-ms${state}"><title>${fmt(m)} images${name ? " (" + name + ")" : ""}${reached ? ": reached" : ": not yet"}</title>` +
+        `<line class="mtn-ms-pole" x1="${mx.toFixed(1)}" y1="${my.toFixed(1)}" x2="${mx.toFixed(1)}" y2="${(my - 17).toFixed(1)}"/>` +
+        `<polygon class="mtn-ms-flag" points="${mx.toFixed(1)},${(my - 17).toFixed(1)} ${(mx - 11).toFixed(1)},${(my - 13).toFixed(1)} ${mx.toFixed(1)},${(my - 9).toFixed(1)}"/>` +
+        `<text class="mtn-ms-label" x="${tx.toFixed(1)}" y="${(my - 9).toFixed(1)}" text-anchor="end">${text}</text>` +
+        (second ? `<text class="mtn-ms-label" x="${tx.toFixed(1)}" y="${(my + 3).toFixed(1)}" text-anchor="end">${second}</text>` : "") + `</g>`;
+    }
+
     // Water at the foot of the mountain.
     let waves = "";
     for (const dy of [9, 17]) {
       const n = Math.ceil(plotW / 24);
       waves += `<path class="mtn-wave" d="M${left},${baseY + dy} q6,-5 12,0${" t12,0".repeat(n * 2 - 1)}"/>`;
     }
-
-    // The splash where the fish jumped out of the water, at the foot of the mountain: a crown of
-    // water with droplets, and a ripple on the surface.
-    const sScale = W < 460 ? 0.8 : 1;
-    const splash =
-      `<g transform="translate(${(left + 26 * sScale).toFixed(1)} ${baseY}) scale(${sScale})"><g class="mtn-splash-pulse">` +
-      `<ellipse class="mtn-ripple" cx="0" cy="2" rx="24" ry="4.5"/>` +
-      `<path class="mtn-splash" d="M-16,0 C-15,-7 -19,-11 -22,-12 C-18,-8 -12,-6 -9,-2 C-9,-9 -8,-16 -6,-20 ` +
-      `C-4,-13 -2,-9 0,-8 C2,-9 4,-13 6,-20 C8,-16 9,-9 9,-2 C12,-6 18,-8 22,-12 C19,-11 15,-7 16,0 Z"/>` +
-      [[-6, -25, 2], [6, -26, 2], [0, -29, 2.4], [-24, -17, 1.6], [24, -17, 1.6], [-14, -24, 1.3], [14, -24, 1.3]]
-        .map(([x, y, r]) => `<circle class="mtn-splash" cx="${x}" cy="${y}" r="${r}"/>`).join("") +
-      `</g></g>`;
 
     // The fish: a salmon on the left face at the altitude of the pictures taken, head up the slope.
     const face = leftFaceAt(imaged / p.required);
@@ -714,10 +738,16 @@
 
     const label = fmt(imaged) + " m · " + pct + "%";
     const tagW = label.length * 6.9 + 16;
-    // Above the fish, but below it near the summit (where the flag is), and never over the axis labels.
+    // Above the fish, but below it near the summit (where the flag is), never over the axis labels,
+    // and if that would cover a milestone flag, on the other side of the fish or beside it.
     const nearTop = imaged / p.required > 0.85;
-    const tagX = Math.min(W - tagW / 2 - 4, Math.max(left + tagW / 2 + 2, cx));
-    const tagY = nearTop ? cy + 17 * scale + 22 : cy - 20 * scale - 14;
+    const above = { x: Math.min(W - tagW / 2 - 4, Math.max(left + tagW / 2 + 2, cx)), y: cy - 20 * scale - 14 };
+    const below = { x: above.x, y: cy + 17 * scale + 22 };
+    const beside = { x: Math.min(W - tagW / 2 - 4, cx + 34 * scale + tagW / 2), y: cy + 3 };
+    const covers = (c) => milestoneBoxes.some((b) =>
+      c.x - tagW / 2 < b.x1 + 3 && c.x + tagW / 2 > b.x0 - 3 && c.y - 14 < b.y1 + 3 && c.y + 8 > b.y0 - 3);
+    const choices = nearTop ? [below, beside, above] : [above, below, beside];
+    const { x: tagX, y: tagY } = choices.find((c) => !covers(c)) || choices[0];
     const tag =
       `<rect class="mtn-tag-box" x="${(tagX - tagW / 2).toFixed(1)}" y="${(tagY - 14).toFixed(1)}" width="${tagW.toFixed(1)}" height="22" rx="6"/>` +
       `<text class="mtn-tag-text" x="${tagX.toFixed(1)}" y="${(tagY + 1).toFixed(1)}" text-anchor="middle">${label}</text>`;
@@ -726,21 +756,21 @@
     els.mountain.innerHTML =
       `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" ` +
       `aria-label="${MOUNTAIN_NAME}, a mountain ${fmt(p.required)} metres high: one metre for each picture that has to be taken. ` +
-      `A fish has climbed ${fmt(imaged)} metres of it, ${pct} percent.">` +
+      `A fish has climbed ${fmt(imaged)} metres of it, ${pct} percent. ` +
+      `Flags mark ${MILESTONES.filter((s) => s.at < p.required).map((s) => fmt(s.at)).join(", ")} pictures; the ice zone starts at ${fmt(ICE_ZONE_FROM)}.">` +
       `<defs><clipPath id="mountainClip"><polygon points="${poly(pts)}"/></clipPath></defs>` +
       `<polygon class="mtn-body" points="${poly(pts)}"/>` +
       `<rect class="mtn-climbed" x="${left}" y="${climbedY.toFixed(1)}" width="${plotW}" height="${(baseY - climbedY).toFixed(1)}" clip-path="url(#mountainClip)"/>` +
       `<polygon class="mtn-snow" points="${poly(snow)}"/>` +
       grid +
       `<line class="mtn-ground" x1="${left}" x2="${left + plotW}" y1="${baseY}" y2="${baseY}"/>` +
-      waves + splash + flag + fish + tag + `</svg>`;
+      waves + flag + fish + milestones + tag + `</svg>`;
   }
 
   // Click (or Enter / Space on the focused fish) and the salmon wiggles: it hops off the slope
-  // shaking from side to side, and the splash at the foot bounces. The fish keeps the tilt and
-  // position the drawing gave it: only the inner group animates. It is something the person asked
-  // for by clicking, so people whose system asks for less motion still get a wiggle, but a small,
-  // short one (no hop, no bouncing splash) instead of the full one.
+  // shaking from side to side. The fish keeps the tilt and position the drawing gave it: only the
+  // inner group animates. It is something the person asked for by clicking, so people whose system
+  // asks for less motion still get a wiggle, but a small, short one (no hop) instead of the full one.
   function wiggleFish() {
     const body = els.mountain.querySelector(".mtn-fish-body");
     if (!body || !body.animate) return;
@@ -767,14 +797,6 @@
           ],
       { duration: gentle ? 500 : 900, easing: "ease-out" }
     );
-    const pulse = els.mountain.querySelector(".mtn-splash-pulse");
-    if (pulse && !gentle) {
-      if (pulse._pulse) pulse._pulse.cancel();
-      pulse._pulse = pulse.animate(
-        [{ transform: "scale(1, 1)" }, { transform: "scale(1.25, 1.4)", offset: 0.3 }, { transform: "scale(1, 1)" }],
-        { duration: 650, easing: "ease-out" }
-      );
-    }
   }
 
   function renderYearChart(years, reqKeys, anKeys, exKeys) {

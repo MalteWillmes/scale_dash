@@ -352,13 +352,13 @@ tr.total-row td {
 .mtn-name { fill: var(--text-primary); font-size: 15px; font-weight: 700; letter-spacing: 0.01em; }
 .mtn-summit { fill: var(--text-secondary); font-size: 12px; font-weight: 600; }
 /* The salmon: a dark back with a silver belly (neutral on purpose: no region or data hue), and the
-   foam of the splash, which uses the snow colour so it shows on any background. */
+   spray behind its tail, which uses the snow colour so it shows on any background. */
 /* The fish is a button: click or Enter/Space makes it wiggle (see wiggleFish in app.js). The animated
-   groups turn around their own origin, which is the fish's centre and the splash's centre. */
+   group turns around its own origin, which is the fish's centre. */
 .mtn-fish-hit { cursor: pointer; touch-action: manipulation; outline: none; -webkit-tap-highlight-color: transparent; }
 .mtn-fish-hitarea { fill: transparent; pointer-events: all; }
 .mtn-fish-hit:focus-visible .mtn-fish-hitarea { stroke: var(--text-primary); stroke-width: 1.5; stroke-dasharray: 3 3; }
-.mtn-fish-body, .mtn-splash-pulse { transform-origin: 0 0; }
+.mtn-fish-body { transform-origin: 0 0; }
 .mtn-fish-back { fill: var(--fish-back); stroke: var(--surface-1); stroke-width: 2.5; stroke-linejoin: round; paint-order: stroke; }
 .mtn-fish-belly { fill: var(--fish-belly); }
 .mtn-fish-fin { fill: var(--fish-back); }
@@ -368,7 +368,13 @@ tr.total-row td {
 .mtn-fish-eye { fill: #ffffff; }
 .mtn-fish-pupil { fill: #101214; }
 .mtn-splash { fill: var(--snow); stroke: var(--baseline); stroke-width: 1; stroke-linejoin: round; }
-.mtn-ripple { fill: none; stroke: var(--baseline); stroke-width: 1.5; }
+.mtn-ms-pole { stroke: var(--text-muted); stroke-width: 1.5; stroke-linecap: round; }
+.mtn-ms-flag { fill: var(--surface-1); stroke: var(--text-muted); stroke-width: 1.5; stroke-linejoin: round; }
+.mtn-ms-label { fill: var(--text-muted); font-size: 11px; font-weight: 600; pointer-events: none;
+  stroke: var(--surface-1); stroke-width: 3px; stroke-linejoin: round; paint-order: stroke; }
+.mtn-ms.is-reached .mtn-ms-pole { stroke: var(--imaged-color); }
+.mtn-ms.is-reached .mtn-ms-flag { fill: var(--imaged-color); stroke: var(--imaged-color); }
+.mtn-ms.is-reached .mtn-ms-label { fill: var(--text-primary); }
 .mtn-tag-box { fill: var(--surface-1); stroke: var(--baseline); stroke-width: 1; }
 .mtn-tag-text { fill: var(--text-primary); font-size: 12px; font-weight: 600; }
 
