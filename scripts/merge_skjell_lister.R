@@ -38,7 +38,8 @@
 # It also stops, writing nothing, if a file can't be read, lacks one of the 18 columns, or has
 # a row with fish data but no EnkeltfiskID. (A row whose only entry is an Operator/Comments
 # text and that has no fish, e.g. a name filled down over an empty spacer row, is ignored
-# with a NOTE.)
+# with a NOTE. So is text typed in a column to the right of the 18: it is ignored with a NOTE,
+# and a WARNING if it looks like an operator mark, which is then not counted.)
 
 suppressPackageStartupMessages({
   library(readxl)
@@ -85,8 +86,30 @@ read_list <- function(path) {
     stop(sprintf("%s: missing column(s): %s", basename(path), paste(missing, collapse = ", ")), call. = FALSE)
   }
   types <- ifelse(header %in% names(LIST_COLUMNS), LIST_COLUMNS[header], "text")
-  df <- read_excel(path, col_types = unname(types), .name_repair = "minimal")
+  # Text typed to the right of the table (in a column with no name) makes the sheet wider than its
+  # header, which readxl refuses. Read the table without it, and keep what is there to report it.
+  n_extra <- 0L
+  df <- tryCatch(
+    read_excel(path, col_types = unname(types), .name_repair = "minimal"),
+    error = function(e) {
+      wider <- regmatches(conditionMessage(e), regexec("has ([0-9]+) columns, but `col_types` has length", conditionMessage(e)))[[1]]
+      if (length(wider) != 2 || as.integer(wider[2]) <= length(types)) stop(e)
+      n_extra <<- as.integer(wider[2]) - length(types)
+      read_excel(path, col_types = c(unname(types), rep("skip", n_extra)), .name_repair = "minimal")
+    }
+  )
   df <- as_tibble(df)
+  extra <- data.frame(row = integer(), column = character(), text = character(), stringsAsFactors = FALSE)
+  if (n_extra > 0) {
+    cells <- read_excel(path, col_types = c(rep("skip", length(types)), rep("text", n_extra)), .name_repair = "minimal")
+    for (k in seq_len(n_extra)) {
+      text <- blank_to_na(cells[[k]])
+      at <- which(!is.na(text))
+      n <- length(types) + k
+      letter <- if (n <= 26) LETTERS[n] else paste0(LETTERS[(n - 1) %/% 26], LETTERS[(n - 1) %% 26 + 1])
+      extra <- rbind(extra, data.frame(row = at + 1L, column = rep(letter, length(at)), text = text[at], stringsAsFactors = FALSE))
+    }
+  }
 
   df$Dato <- as.Date(df$Dato)
   for (col in names(df)[vapply(df, is.character, logical(1))]) df[[col]] <- blank_to_na(df[[col]])
@@ -105,6 +128,7 @@ read_list <- function(path) {
   df <- df[!blank & !stray, ]
   attr(df, "blank_rows") <- sum(blank)
   attr(df, "stray_rows") <- attr_stray
+  attr(df, "extra_cells") <- extra
   if (anyNA(df$EnkeltfiskID)) {
     stop(sprintf("%s: %d row(s) with data but without an EnkeltfiskID", basename(path), sum(is.na(df$EnkeltfiskID))), call. = FALSE)
   }
@@ -142,6 +166,17 @@ merge_skjell_lister <- function(folder = DEFAULT_FOLDER, output = NULL, include_
     for (k in seq_len(nrow(stray))) {
       say("  NOTE: %s: sheet row %d has no fish but the text '%s' (ignored: it can't be counted for any fish)",
           basename(files[i]), stray$row[k], paste(stats::na.omit(c(stray$Operator[k], stray$Comments[k])), collapse = " / "))
+    }
+    extra <- attr(df, "extra_cells")
+    if (nrow(extra)) {
+      say("  NOTE: %s: %d cell(s) in column %s, to the right of the table, are ignored (e.g. row %d: '%s')",
+          basename(files[i]), nrow(extra), paste(unique(extra$column), collapse = "/"), extra$row[1], extra$text[1])
+      # a name and date there is an operator mark typed in the wrong column: it is not counted
+      markish <- grepl("[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{2,4}\\s*$", extra$text)
+      if (any(markish)) {
+        say("  WARNING: %s: %d of them look like operator marks (e.g. '%s', row %d) typed outside the Operator column: those fish are NOT counted as imaged",
+            basename(files[i]), sum(markish), extra$text[markish][1], extra$row[markish][1])
+      }
     }
     df$.file <- basename(files[i])
     df$.saved <- info$mtime[i]
