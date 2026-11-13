@@ -245,8 +245,8 @@
     "sw2RbRequired": 2488,
     "sw2RbAnalyzed": 240,
     "sw2RbExcess": 183,
-    "sw1OperatorNew": 17,
-    "sw2OperatorNew": 42,
+    "sw1OperatorNew": 25,
+    "sw2OperatorNew": 43,
     "regions": {
       "Midt": {
         "sw1Required": 3372,
@@ -311,8 +311,8 @@
         "sw2RbRequired": 702,
         "sw2RbAnalyzed": 0,
         "sw2RbExcess": 0,
-        "sw1OperatorNew": 17,
-        "sw2OperatorNew": 42
+        "sw1OperatorNew": 25,
+        "sw2OperatorNew": 43
       },
       "Vest": {
         "sw1Required": 2872,
@@ -358,8 +358,8 @@
     "sw2RbRequired": 2488,
     "sw2RbAnalyzed": 240,
     "sw2RbExcess": 183,
-    "sw1OperatorNew": 39,
-    "sw2OperatorNew": 68,
+    "sw1OperatorNew": 48,
+    "sw2OperatorNew": 69,
     "regions": {
       "Midt": {
         "sw1Required": 3372,
@@ -424,8 +424,8 @@
         "sw2RbRequired": 702,
         "sw2RbAnalyzed": 0,
         "sw2RbExcess": 0,
-        "sw1OperatorNew": 39,
-        "sw2OperatorNew": 68
+        "sw1OperatorNew": 48,
+        "sw2OperatorNew": 69
       },
       "Vest": {
         "sw1Required": 2872,
@@ -471,8 +471,8 @@
     "sw2RbRequired": 2488,
     "sw2RbAnalyzed": 240,
     "sw2RbExcess": 183,
-    "sw1OperatorNew": 43,
-    "sw2OperatorNew": 85,
+    "sw1OperatorNew": 52,
+    "sw2OperatorNew": 86,
     "regions": {
       "Midt": {
         "sw1Required": 3372,
@@ -537,8 +537,8 @@
         "sw2RbRequired": 702,
         "sw2RbAnalyzed": 0,
         "sw2RbExcess": 0,
-        "sw1OperatorNew": 43,
-        "sw2OperatorNew": 85
+        "sw1OperatorNew": 52,
+        "sw2OperatorNew": 86
       },
       "Vest": {
         "sw1Required": 2872,
@@ -584,8 +584,8 @@
     "sw2RbRequired": 2488,
     "sw2RbAnalyzed": 240,
     "sw2RbExcess": 183,
-    "sw1OperatorNew": 46,
-    "sw2OperatorNew": 96,
+    "sw1OperatorNew": 55,
+    "sw2OperatorNew": 97,
     "regions": {
       "Midt": {
         "sw1Required": 3372,
@@ -650,8 +650,8 @@
         "sw2RbRequired": 702,
         "sw2RbAnalyzed": 0,
         "sw2RbExcess": 0,
-        "sw1OperatorNew": 46,
-        "sw2OperatorNew": 96
+        "sw1OperatorNew": 55,
+        "sw2OperatorNew": 97
       },
       "Vest": {
         "sw1Required": 2872,
@@ -697,8 +697,8 @@
     "sw2RbRequired": 2488,
     "sw2RbAnalyzed": 240,
     "sw2RbExcess": 183,
-    "sw1OperatorNew": 46,
-    "sw2OperatorNew": 97,
+    "sw1OperatorNew": 55,
+    "sw2OperatorNew": 99,
     "regions": {
       "Midt": {
         "sw1Required": 3362,
@@ -763,8 +763,8 @@
         "sw2RbRequired": 702,
         "sw2RbAnalyzed": 0,
         "sw2RbExcess": 0,
-        "sw1OperatorNew": 46,
-        "sw2OperatorNew": 97
+        "sw1OperatorNew": 55,
+        "sw2OperatorNew": 99
       },
       "Vest": {
         "sw1Required": 2862,
@@ -810,8 +810,8 @@
     "sw2RbRequired": 2488,
     "sw2RbAnalyzed": 240,
     "sw2RbExcess": 183,
-    "sw1OperatorNew": 97,
-    "sw2OperatorNew": 159,
+    "sw1OperatorNew": 120,
+    "sw2OperatorNew": 181,
     "regions": {
       "Midt": {
         "sw1Required": 3362,
@@ -876,8 +876,8 @@
         "sw2RbRequired": 702,
         "sw2RbAnalyzed": 0,
         "sw2RbExcess": 0,
-        "sw1OperatorNew": 47,
-        "sw2OperatorNew": 97
+        "sw1OperatorNew": 70,
+        "sw2OperatorNew": 119
       },
       "Vest": {
         "sw1Required": 2862,
@@ -923,8 +923,8 @@
     "sw2RbRequired": 2488,
     "sw2RbAnalyzed": 240,
     "sw2RbExcess": 183,
-    "sw1OperatorNew": 104,
-    "sw2OperatorNew": 172,
+    "sw1OperatorNew": 127,
+    "sw2OperatorNew": 194,
     "regions": {
       "Midt": {
         "sw1Required": 3362,
@@ -989,8 +989,8 @@
         "sw2RbRequired": 702,
         "sw2RbAnalyzed": 0,
         "sw2RbExcess": 0,
-        "sw1OperatorNew": 54,
-        "sw2OperatorNew": 110
+        "sw1OperatorNew": 77,
+        "sw2OperatorNew": 132
       },
       "Vest": {
         "sw1Required": 2862,
@@ -1036,8 +1036,8 @@
     "sw2RbRequired": 2488,
     "sw2RbAnalyzed": 240,
     "sw2RbExcess": 183,
-    "sw1OperatorNew": 140,
-    "sw2OperatorNew": 200,
+    "sw1OperatorNew": 163,
+    "sw2OperatorNew": 222,
     "regions": {
       "Midt": {
         "sw1Required": 3362,
@@ -1102,8 +1102,8 @@
         "sw2RbRequired": 702,
         "sw2RbAnalyzed": 0,
         "sw2RbExcess": 0,
-        "sw1OperatorNew": 68,
-        "sw2OperatorNew": 125
+        "sw1OperatorNew": 91,
+        "sw2OperatorNew": 147
       },
       "Vest": {
         "sw1Required": 2862,
@@ -1132,16 +1132,16 @@
   {
     "date": "2026-11-13",
     "sw1Required": 12051,
-    "sw1Analyzed": 2183,
+    "sw1Analyzed": 2192,
     "sw1Excess": 1104,
     "sw2Required": 11630,
-    "sw2Analyzed": 1858,
+    "sw2Analyzed": 1866,
     "sw2Excess": 847,
     "sw1NinaRequired": 9644,
-    "sw1NinaAnalyzed": 1844,
+    "sw1NinaAnalyzed": 1853,
     "sw1NinaExcess": 766,
     "sw2NinaRequired": 9162,
-    "sw2NinaAnalyzed": 1618,
+    "sw2NinaAnalyzed": 1626,
     "sw2NinaExcess": 664,
     "sw1RbRequired": 2427,
     "sw1RbAnalyzed": 339,
@@ -1149,8 +1149,8 @@
     "sw2RbRequired": 2488,
     "sw2RbAnalyzed": 240,
     "sw2RbExcess": 183,
-    "sw1OperatorNew": 179,
-    "sw2OperatorNew": 235,
+    "sw1OperatorNew": 201,
+    "sw2OperatorNew": 255,
     "regions": {
       "Midt": {
         "sw1Required": 3362,
@@ -1176,16 +1176,16 @@
       },
       "Nord": {
         "sw1Required": 3336,
-        "sw1Analyzed": 739,
+        "sw1Analyzed": 748,
         "sw1Excess": 327,
         "sw2Required": 3004,
-        "sw2Analyzed": 429,
+        "sw2Analyzed": 437,
         "sw2Excess": 182,
         "sw1NinaRequired": 3336,
-        "sw1NinaAnalyzed": 739,
+        "sw1NinaAnalyzed": 748,
         "sw1NinaExcess": 327,
         "sw2NinaRequired": 3004,
-        "sw2NinaAnalyzed": 429,
+        "sw2NinaAnalyzed": 437,
         "sw2NinaExcess": 182,
         "sw1RbRequired": 0,
         "sw1RbAnalyzed": 0,
@@ -1193,8 +1193,8 @@
         "sw2RbRequired": 0,
         "sw2RbAnalyzed": 0,
         "sw2RbExcess": 0,
-        "sw1OperatorNew": 0,
-        "sw2OperatorNew": 0
+        "sw1OperatorNew": 9,
+        "sw2OperatorNew": 8
       },
       "Sor": {
         "sw1Required": 2491,
@@ -1215,8 +1215,8 @@
         "sw2RbRequired": 702,
         "sw2RbAnalyzed": 0,
         "sw2RbExcess": 0,
-        "sw1OperatorNew": 97,
-        "sw2OperatorNew": 150
+        "sw1OperatorNew": 110,
+        "sw2OperatorNew": 162
       },
       "Vest": {
         "sw1Required": 2862,
