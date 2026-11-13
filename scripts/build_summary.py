@@ -5,6 +5,7 @@ Builds data/summary.json from the two NASCO scale-sample source files
 
 Usage:
     python scripts/build_summary.py <path_to_1SW.xlsx> <path_to_2SW.xlsx> [output_path] [--imaged-list <merged.xlsx>]
+                                    [--image-scan <nasco_images_scan.csv>]
 
 --imaged-list is the merged imaging list made by scripts/merge_skjell_lister.R (the
 Skjell_lister files, one row per fish, operators write their name in the Operator
@@ -22,6 +23,13 @@ workbooks) operators imaged per day, region and age class, dated by the date the
 wrote after their name ("Gunnel_23.10.26"). The daily timeline plots those on the
 day they were imaged; history entries record how many operator images they contain
 (`sw1OperatorNew`, `sw2OperatorNew`) so that nothing is counted twice.
+
+--image-scan is the list of fish that have image files in the operators' image folder
+(P:/.../images/NINA_nasco), made by scripts/scan_nasco_images.py. A fish with image files
+counts as imaged even if no operator has marked it in the lists (forgotten marks), and is
+dated by the day its first file was saved. A marked fish whose Operator entry has no usable
+date gets that date too. An operator's own date (or UNDATED_OPERATOR_DATES) always wins over
+the file date. The fish's river, year and age class come from its row in --imaged-list.
 
 Rivers are grouped by Vassdragsnr_hovedvassdrag (the canonical watershed id),
 not by the free-text Objektnavn -- a couple of watersheds are recorded under
@@ -97,6 +105,7 @@ project-wide totals.) The dashboard turns that log into a daily timeline
 itself -- nothing here is pre-aggregated by day, so that logic only has to live
 in one place.
 """
+import csv
 import json
 import os
 import re
@@ -157,15 +166,31 @@ def parse_operator_date(text, today):
 Marked = namedtuple("Marked", "date river year sea region lregnr")
 
 
-def load_imaged_ids(path, today=None, dated_by_rule=None):
+def load_image_scan(path):
+    """{EnkeltfiskID: the date its first image file was saved} from the CSV that
+    scripts/scan_nasco_images.py makes of the operators' image folder."""
+    with open(path, newline="", encoding="utf-8") as f:
+        return {row["EnkeltfiskID"].strip(): date.fromisoformat(row["first_saved"]) for row in csv.DictReader(f)}
+
+
+def load_imaged_ids(path, today=None, dated_by_rule=None, file_dates=None, sources=None):
     """{EnkeltfiskID: Marked(date, river, year, sea, region, lregnr)} for every fish with a name in
-    the Operator column of the merged imaging list (made by scripts/merge_skjell_lister.R): those
+    the Operator column of the merged imaging list (made by scripts/merge_skjell_lister.R), and every
+    fish in `file_dates` ({id: date its first image file was saved}, see load_image_scan): those
     fish have been imaged in the NASCO imaging. `date` is the day the operator imaged it (None if the
     Operator entry has no usable date, unless UNDATED_OPERATOR_DATES gives one: those are counted in
-    `dated_by_rule`, a Counter, if given); the rest is the fish's own row in the list (Objektnavn,
-    Feltaar, Sjoalder, region, Lregnr; None where the list has no such column), which is what lets
-    a fish that a later selection dropped from the top-15 workbooks be counted anyway."""
+    `dated_by_rule`, a Counter, if given, or the fish's image files carry a date); a fish with image
+    files but no Operator entry gets the date of its files. The rest is the fish's own row in the list
+    (Objektnavn, Feltaar, Sjoalder, region, Lregnr; None where the list has no such column), which is
+    what lets a fish that a later selection dropped from the top-15 workbooks be counted anyway.
+    `sources` (a Counter) gets: operator (fish with an Operator entry), marked_with_files (of those, the
+    ones that also have image files), marked_dated_from_files (of those, the ones whose Operator entry
+    had no usable date), files_only (fish with image files and no Operator entry) and files_unknown
+    (fish in `file_dates` that the list doesn't have, which can't be counted)."""
     today = today or datetime.now(timezone.utc).date()
+    file_dates = file_dates or {}
+    sources = Counter() if sources is None else sources
+    found_in_files = set()
     wb = openpyxl.load_workbook(path, data_only=True, read_only=True)
     ws = wb[wb.sheetnames[0]]
     header_row = next(ws.iter_rows(min_row=1, max_row=1, values_only=True))
@@ -179,21 +204,38 @@ def load_imaged_ids(path, today=None, dated_by_rule=None):
 
     imaged = {}
     for r in ws.iter_rows(min_row=2, values_only=True):
+        if r[idx["EnkeltfiskID"]] is None:
+            continue
+        key = fish_key(r[idx["EnkeltfiskID"]])
         operator = r[idx["Operator"]]
-        if r[idx["EnkeltfiskID"]] is not None and operator is not None and str(operator).strip() != "":
+        marked = operator is not None and str(operator).strip() != ""
+        if not marked and key not in file_dates:
+            continue
+        if marked:
             operator_date = parse_operator_date(operator, today)
             if operator_date is None and str(operator).strip().lower() in UNDATED_OPERATOR_DATES:
                 operator_date = UNDATED_OPERATOR_DATES[str(operator).strip().lower()]
                 if dated_by_rule is not None:
                     dated_by_rule[str(operator).strip()] += 1
-            imaged[fish_key(r[idx["EnkeltfiskID"]])] = Marked(
-                operator_date,
-                cell(r, "Objektnavn"),
-                cell(r, "Feltaar"),
-                cell(r, "Sjoalder"),
-                str(cell(r, "region")).strip() if cell(r, "region") is not None else "",
-                fish_key(cell(r, "Lregnr")) if cell(r, "Lregnr") is not None else None,
-            )
+            if operator_date is None and key in file_dates:
+                operator_date = file_dates[key]
+                sources["marked_dated_from_files"] += 1
+            sources["operator"] += 1
+            sources["marked_with_files"] += 1 if key in file_dates else 0
+        else:
+            operator_date = file_dates[key]
+            sources["files_only"] += 1
+        if key in file_dates:
+            found_in_files.add(key)
+        imaged[key] = Marked(
+            operator_date,
+            cell(r, "Objektnavn"),
+            cell(r, "Feltaar"),
+            cell(r, "Sjoalder"),
+            str(cell(r, "region")).strip() if cell(r, "region") is not None else "",
+            fish_key(cell(r, "Lregnr")) if cell(r, "Lregnr") is not None else None,
+        )
+    sources["files_unknown"] = len(set(file_dates) - found_in_files)
     return imaged
 
 
@@ -503,8 +545,9 @@ def write_imaging_log(path, op_log):
     doc = {
         "about": (
             "New images added by operators (fish not already imaged in the source workbooks), by the day the "
-            "operator imaged them (the date in the Operator column of the imaging lists), region and age class. "
-            "Counts only. Regenerated by scripts/build_summary.py --imaged-list."
+            "operator imaged them (the date in the Operator column of the imaging lists, or, where there is none, "
+            "the day the fish's first image file was saved), region and age class. "
+            "Counts only. Regenerated by scripts/build_summary.py --imaged-list --image-scan."
         ),
         "days": days,
     }
@@ -521,6 +564,15 @@ def main():
             raise SystemExit("--imaged-list needs a path")
         imaged_list = argv[i + 1]
         del argv[i:i + 2]
+    image_scan = None
+    if "--image-scan" in argv:
+        i = argv.index("--image-scan")
+        if i + 1 >= len(argv):
+            raise SystemExit("--image-scan needs a path")
+        image_scan = argv[i + 1]
+        del argv[i:i + 2]
+        if not imaged_list:
+            raise SystemExit("--image-scan needs --imaged-list (the fish's river, year and age class come from it)")
     if len(argv) < 2:
         print(__doc__)
         sys.exit(1)
@@ -534,7 +586,12 @@ def main():
 
     sys.stdout.reconfigure(errors="replace")  # river names with å/ø must not break a run with an ASCII console
     dated_by_rule = Counter()  # operator entries with no date that UNDATED_OPERATOR_DATES dated
-    imaged_ids = load_imaged_ids(imaged_list, dated_by_rule=dated_by_rule) if imaged_list else {}
+    file_dates = load_image_scan(image_scan) if image_scan else {}
+    sources = Counter()
+    imaged_ids = (
+        load_imaged_ids(imaged_list, dated_by_rule=dated_by_rule, file_dates=file_dates, sources=sources)
+        if imaged_list else {}
+    )
     for name, n in sorted(dated_by_rule.items()):
         print(f"NOTE: {n} operator entr{'y' if n == 1 else 'ies'} '{name}' without a date counted as "
               f"{UNDATED_OPERATOR_DATES[name.lower()].isoformat()} (UNDATED_OPERATOR_DATES)")
@@ -557,11 +614,22 @@ def main():
     if imaged_list:
         counted = stats["listed"] + stats["kept"]
         print(
-            f"Imaging list {os.path.basename(imaged_list)}: {len(imaged_ids)} fish with an operator, "
+            f"Imaging list {os.path.basename(imaged_list)}: {sources['operator']} fish with an operator, "
             f"{counted} counted ({stats['listed']} found in the workbooks, {stats['kept']} kept although the "
             f"workbooks no longer contain them), {stats['listed_new'] + stats['kept']} of them new images"
             f" (not already counted from bilde / Bilde_skjell)"
         )
+        if image_scan:
+            saved = datetime.fromtimestamp(os.path.getmtime(image_scan)).strftime("%Y-%m-%d %H:%M")
+            print(
+                f"Image scan {os.path.basename(image_scan)} (saved {saved}): {len(file_dates)} fish with image files, "
+                f"{sources['marked_with_files']} of them also marked by an operator, {sources['files_only']} counted "
+                f"from the image files only"
+                + (f"; {sources['marked_dated_from_files']} marked fish without a usable date got the date their "
+                   f"images were saved" if sources["marked_dated_from_files"] else "")
+            )
+            if sources["files_unknown"]:
+                print(f"WARNING: {sources['files_unknown']} fish with image files are not in the imaging list and were not counted")
         if kept:
             by_group = {}
             for (river, year, sw_key), n in sorted(kept.items()):

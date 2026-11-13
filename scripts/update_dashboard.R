@@ -6,18 +6,27 @@
 #
 #   1. merges all list files into one (scripts/merge_skjell_lister.R) --
 #      <input_folder>/merged/scale_data_merged.xlsx, one row per fish, duplicates removed;
+#      and scans the operators' image folder (scripts/scan_nasco_images.py) for the fish that
+#      have image files: <input_folder>/merged/nasco_images_scan.csv;
 #   2. rebuilds data/summary.json, data/history.json and data/imaging_log.json from the two
 #      top-15 workbooks in data/ plus the merged list (scripts/build_summary.py
-#      --imaged-list ...): every fish with a name in the Operator column counts as imaged,
-#      and the log records on which day (the date after the operator's name) it was imaged;
+#      --imaged-list ... --image-scan ...): every fish with a name in the Operator column or with
+#      image files counts as imaged, and the log records on which day it was imaged (the date after
+#      the operator's name, else the day its first image file was saved);
 #   3. if the numbers (or the log) changed, commits those files and pushes them to GitHub,
 #      and the dashboard at https://maltewillmes.github.io/scale_dash/ updates within a
 #      minute or two.
+#
+#   If the image drive can't be reached, the last scan is used (with a WARNING), so the
+#   numbers don't drop because the drive is away.
 #
 #   --workbooks-dir=<folder>
 #                      where d_1SW_top15.xlsx and d_2SW_top15.xlsx are (default: this repo's
 #                      data/ folder). The scheduled update runs from its own clone of the repo,
 #                      where those git-ignored workbooks don't exist, and points here.
+#   --image-dir=<folder>
+#                      the operators' image folder (default: P:/132453_digital_skjell/images/NINA_nasco)
+#   --no-images        don't count fish by their image files, only by the marks in the lists
 #   --no-push          do steps 1-2 only (nothing is committed or pushed)
 #   --allow-decrease   accept a merged list with FEWER imaged fish than the last one
 #                      (otherwise the merge refuses -- see merge_skjell_lister.R)
@@ -57,6 +66,7 @@ run <- function(cmd, cmd_args, what) {
 
 # ---- 1. merge the lists -----------------------------------------------------------------
 source(file.path(script_dir, "merge_skjell_lister.R"), local = TRUE)
+DEFAULT_IMAGE_DIR <- "P:/132453_digital_skjell/images/NINA_nasco" # where the operators save their images
 folder <- if (length(positional) >= 1) positional[1] else DEFAULT_FOLDER
 merged <- tryCatch(
   merge_skjell_lister(
@@ -91,15 +101,43 @@ head_summary <- committed_copy(rel[1])
 head_log <- committed_copy(rel[3])
 
 Sys.setenv(PYTHONIOENCODING = "utf-8") # river names with å/ø must reach R intact
+
+# Fish that have image files in the operators' image folder count as imaged even if nobody has
+# marked them in the lists. The scan is kept next to the merged list (fish-level, not in the repo);
+# if the image drive can't be reached, the last scan is used, so the numbers never drop just
+# because the drive is away.
+scan_csv <- NULL
+if (!("--no-images" %in% flags)) {
+  image_dir_flag <- sub("^--image-dir=", "", flags[startsWith(flags, "--image-dir=")])
+  image_dir <- if (length(image_dir_flag)) image_dir_flag[1] else DEFAULT_IMAGE_DIR
+  scan_csv <- file.path(dirname(merged$output), "nasco_images_scan.csv")
+  say("")
+  scan_out <- suppressWarnings(system2(
+    python, shQuote(c(file.path(script_dir, "scan_nasco_images.py"), image_dir, scan_csv), type = "cmd"),
+    stdout = TRUE, stderr = TRUE
+  ))
+  scan_status <- attr(scan_out, "status")
+  if (is.null(scan_status) || scan_status == 0L) {
+    for (line in scan_out) say("%s", line)
+  } else if (file.exists(scan_csv)) {
+    say("WARNING: %s", paste(scan_out, collapse = " "))
+    say("WARNING: using the image scan from %s instead", format(file.mtime(scan_csv), "%Y-%m-%d %H:%M"))
+  } else {
+    say("WARNING: %s", paste(scan_out, collapse = " "))
+    say("WARNING: there is no earlier image scan either, so only the fish marked in the lists are counted this time")
+    scan_csv <- NULL
+  }
+}
+
 say("")
 say("Rebuilding %s ...", "data/summary.json, data/history.json and data/imaging_log.json")
 out <- run(
   python,
   c(file.path(repo, "scripts", "build_summary.py"), workbooks, file.path(data_dir, "summary.json"),
-    "--imaged-list", merged$output),
+    "--imaged-list", merged$output, if (!is.null(scan_csv)) c("--image-scan", scan_csv)),
   "build_summary.py"
 )
-for (line in grep("^(Imaging list|WARNING)", out, value = TRUE)) say("%s", line)
+for (line in grep("^(Imaging list|Image scan|WARNING)", out, value = TRUE)) say("%s", line)
 # The number of operator-imaged fish that count (build_summary.py reports it; a fish that can't
 # be placed in any river-year is not counted): that is the number that matters for the dashboard.
 counted <- suppressWarnings(as.integer(sub(".*[0-9]+ fish with an operator, ([0-9]+) counted.*", "\\1", grep(" counted \\(", out, value = TRUE)[1])))
@@ -115,7 +153,7 @@ same_as_published <- !is.null(head_summary) && !is.null(head_log) &&
 if (same_as_published) {
   run("git", c("-C", repo, "checkout", "--", rel), "git checkout") # drop the timestamp-only change
   say("")
-  say("No change in the numbers since the published version (%d fish imaged by operators): nothing to publish.", counted)
+  say("No change in the numbers since the published version (%d fish imaged): nothing to publish.", counted)
   quit(status = 0)
 }
 
@@ -133,7 +171,7 @@ branch <- trimws(git("rev-parse", "--abbrev-ref", "HEAD"))
 if (branch != "master") fail("The repo is on branch '%s'; the dashboard is published from 'master'. Check out master first.", branch)
 
 invisible(git("add", "--", rel))
-message_text <- sprintf("Update imaging data: %d fish imaged by operators (%s)", counted, format(Sys.time(), "%Y-%m-%d %H:%M"))
+message_text <- sprintf("Update imaging data: %d fish imaged by operators or with image files (%s)", counted, format(Sys.time(), "%Y-%m-%d %H:%M"))
 invisible(git("commit", "-m", message_text, "--", rel)) # only these data files, whatever else is staged
 invisible(tryCatch(git("push"), error = function(e) fail("%s\nIf the remote has newer commits: git pull --rebase, then run this again.", conditionMessage(e))))
 say("")
