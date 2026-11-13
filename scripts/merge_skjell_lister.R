@@ -21,7 +21,8 @@
 #   * if several files mark the same fish with the SAME operator and date, they are
 #     duplicates: the one from the most recently saved file is kept;
 #   * if they mark it with DIFFERENT operators, the latest operator date wins (ties:
-#     the most recently saved file) and the fish is listed in merge_conflicts.csv
+#     the most recently saved file; a date in the future counts as no date) and the fish
+#     is listed in merge_conflicts.csv
 #     next to the output so someone can check it;
 #   * a Comments value is never dropped: if the kept row has none, the comment from
 #     another copy of the fish is used.
@@ -187,6 +188,10 @@ merge_skjell_lister <- function(folder = DEFAULT_FOLDER, output = NULL, include_
   all$.has_operator <- !is.na(all$Operator)
   all$.has_comment <- !is.na(all$Comments)
   all$.operator_date <- parse_operator_date(all$Operator)
+  # A date in the future can't be the day a fish was imaged (it is a typo, e.g. Excel filling
+  # "Gitte 02.11.2026" down as 02.11.2027, 02.11.2028, ...), so it must not win "the latest date"
+  # over a real one from another copy of the list.
+  all$.operator_date[!is.na(all$.operator_date) & all$.operator_date > Sys.Date()] <- NA
 
   per_file <- all |>
     group_by(.file) |>
