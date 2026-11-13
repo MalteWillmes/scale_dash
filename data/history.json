@@ -1149,8 +1149,8 @@
     "sw2RbRequired": 2488,
     "sw2RbAnalyzed": 240,
     "sw2RbExcess": 183,
-    "sw1OperatorNew": 169,
-    "sw2OperatorNew": 225,
+    "sw1OperatorNew": 179,
+    "sw2OperatorNew": 235,
     "regions": {
       "Midt": {
         "sw1Required": 3362,
@@ -1215,8 +1215,8 @@
         "sw2RbRequired": 702,
         "sw2RbAnalyzed": 0,
         "sw2RbExcess": 0,
-        "sw1OperatorNew": 87,
-        "sw2OperatorNew": 140
+        "sw1OperatorNew": 97,
+        "sw2OperatorNew": 150
       },
       "Vest": {
         "sw1Required": 2862,
