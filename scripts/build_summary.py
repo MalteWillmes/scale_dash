@@ -121,6 +121,12 @@ PER_YEAR_TARGET = {"sw1": 10, "sw2": 10}
 # on request ("remove all 2026 goals"); none of the 185 fish of 2026 had an image.
 EXCLUDED_GOAL_YEARS = frozenset({2026})
 
+# An Operator entry that is only a name, with no date, gets the date here when the person has said
+# when those images were taken. 2026-11-13, on request: Gitte's undated images (Skienselva 2016,
+# entered in her list of 30 Oct as "Gitte" / "Gll") are dated 10 Nov. Any later undated entry with
+# the same name gets the same date, so the build says how many it dated.
+UNDATED_OPERATOR_DATES = {"gitte": date(2026, 11, 10), "gll": date(2026, 11, 10)}
+
 
 def fish_key(value):
     """EnkeltfiskID as a comparable string (Excel hands back 2594921 or 2594921.0 depending on the cell)."""
@@ -151,11 +157,12 @@ def parse_operator_date(text, today):
 Marked = namedtuple("Marked", "date river year sea region lregnr")
 
 
-def load_imaged_ids(path, today=None):
+def load_imaged_ids(path, today=None, dated_by_rule=None):
     """{EnkeltfiskID: Marked(date, river, year, sea, region, lregnr)} for every fish with a name in
     the Operator column of the merged imaging list (made by scripts/merge_skjell_lister.R): those
     fish have been imaged in the NASCO imaging. `date` is the day the operator imaged it (None if the
-    Operator entry has no usable date); the rest is the fish's own row in the list (Objektnavn,
+    Operator entry has no usable date, unless UNDATED_OPERATOR_DATES gives one: those are counted in
+    `dated_by_rule`, a Counter, if given); the rest is the fish's own row in the list (Objektnavn,
     Feltaar, Sjoalder, region, Lregnr; None where the list has no such column), which is what lets
     a fish that a later selection dropped from the top-15 workbooks be counted anyway."""
     today = today or datetime.now(timezone.utc).date()
@@ -174,8 +181,13 @@ def load_imaged_ids(path, today=None):
     for r in ws.iter_rows(min_row=2, values_only=True):
         operator = r[idx["Operator"]]
         if r[idx["EnkeltfiskID"]] is not None and operator is not None and str(operator).strip() != "":
+            operator_date = parse_operator_date(operator, today)
+            if operator_date is None and str(operator).strip().lower() in UNDATED_OPERATOR_DATES:
+                operator_date = UNDATED_OPERATOR_DATES[str(operator).strip().lower()]
+                if dated_by_rule is not None:
+                    dated_by_rule[str(operator).strip()] += 1
             imaged[fish_key(r[idx["EnkeltfiskID"]])] = Marked(
-                parse_operator_date(operator, today),
+                operator_date,
                 cell(r, "Objektnavn"),
                 cell(r, "Feltaar"),
                 cell(r, "Sjoalder"),
@@ -521,7 +533,11 @@ def main():
     log_path = os.path.join(os.path.dirname(out_path) or ".", "imaging_log.json")
 
     sys.stdout.reconfigure(errors="replace")  # river names with å/ø must not break a run with an ASCII console
-    imaged_ids = load_imaged_ids(imaged_list) if imaged_list else {}
+    dated_by_rule = Counter()  # operator entries with no date that UNDATED_OPERATOR_DATES dated
+    imaged_ids = load_imaged_ids(imaged_list, dated_by_rule=dated_by_rule) if imaged_list else {}
+    for name, n in sorted(dated_by_rule.items()):
+        print(f"NOTE: {n} operator entr{'y' if n == 1 else 'ies'} '{name}' without a date counted as "
+              f"{UNDATED_OPERATOR_DATES[name.lower()].isoformat()} (UNDATED_OPERATOR_DATES)")
     stats = Counter()
     op_log = Counter()  # (date, region, sw_key) -> new images the operators imaged that day
     seen = set()  # marked fish found in the workbooks

@@ -39,8 +39,8 @@
 # It also stops, writing nothing, if a file can't be read, lacks one of the 18 columns, or has
 # a row with fish data but no EnkeltfiskID. (A row whose only entry is an Operator/Comments
 # text and that has no fish, e.g. a name filled down over an empty spacer row, is ignored
-# with a NOTE. So is text typed in a column to the right of the 18: it is ignored with a NOTE,
-# and a WARNING if it looks like an operator mark, which is then not counted.)
+# with a NOTE. Text typed in a column to the right of the 18 is ignored with a NOTE, except a
+# name and date ("Enghild_12.11.26"): that is taken as the fish's Operator mark, with a NOTE.)
 
 suppressPackageStartupMessages({
   library(readxl)
@@ -114,6 +114,17 @@ read_list <- function(path) {
 
   df$Dato <- as.Date(df$Dato)
   for (col in names(df)[vapply(df, is.character, logical(1))]) df[[col]] <- blank_to_na(df[[col]])
+  # A name and date typed in such a column ("Enghild_12.11.26", one column too far right) is the
+  # operator's mark, so it counts as the Operator of that fish, unless the fish already has one.
+  extra$moved <- rep(FALSE, nrow(extra))
+  if (nrow(extra)) {
+    at <- extra$row - 1L # the header is sheet row 1
+    markish <- grepl("^[[:alpha:]].*[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{2,4}\\s*$", extra$text)
+    ok <- markish & at >= 1L & at <= nrow(df)
+    ok[ok] <- !is.na(df$EnkeltfiskID[at[ok]]) & is.na(df$Operator[at[ok]])
+    df$Operator[at[ok]] <- extra$text[ok]
+    extra$moved <- ok
+  }
   # A row with nothing in it (someone cleared a fish's cells instead of deleting the row) is an
   # Excel leftover, not data: skip it and say so. So is a row whose only entry is an Operator or
   # Comments text and that has no fish (a name filled down over an empty spacer row): it can't
@@ -169,15 +180,15 @@ merge_skjell_lister <- function(folder = DEFAULT_FOLDER, output = NULL, include_
           basename(files[i]), stray$row[k], paste(stats::na.omit(c(stray$Operator[k], stray$Comments[k])), collapse = " / "))
     }
     extra <- attr(df, "extra_cells")
-    if (nrow(extra)) {
-      say("  NOTE: %s: %d cell(s) in column %s, to the right of the table, are ignored (e.g. row %d: '%s')",
-          basename(files[i]), nrow(extra), paste(unique(extra$column), collapse = "/"), extra$row[1], extra$text[1])
-      # a name and date there is an operator mark typed in the wrong column: it is not counted
-      markish <- grepl("[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{2,4}\\s*$", extra$text)
-      if (any(markish)) {
-        say("  WARNING: %s: %d of them look like operator marks (e.g. '%s', row %d) typed outside the Operator column: those fish are NOT counted as imaged",
-            basename(files[i]), sum(markish), extra$text[markish][1], extra$row[markish][1])
-      }
+    if (any(extra$moved)) {
+      say("  NOTE: %s: %d operator mark(s) typed in column %s, outside the Operator column, counted as Operator marks (e.g. '%s', row %d)",
+          basename(files[i]), sum(extra$moved), paste(unique(extra$column[extra$moved]), collapse = "/"),
+          extra$text[extra$moved][1], extra$row[extra$moved][1])
+    }
+    left <- extra[!extra$moved, ]
+    if (nrow(left)) {
+      say("  NOTE: %s: %d other cell(s) in column %s, to the right of the table, are ignored (e.g. row %d: '%s')",
+          basename(files[i]), nrow(left), paste(unique(left$column), collapse = "/"), left$row[1], left$text[1])
     }
     df$.file <- basename(files[i])
     df$.saved <- info$mtime[i]
