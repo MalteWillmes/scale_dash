@@ -30,6 +30,7 @@ counts as imaged even if no operator has marked it in the lists (forgotten marks
 dated by the day its first file was saved. A marked fish whose Operator entry has no usable
 date gets that date too. An operator's own date (or UNDATED_OPERATOR_DATES) always wins over
 the file date. The fish's river, year and age class come from its row in --imaged-list.
+Conversely, a marked fish with NO image file is not counted (MARKS_NEED_IMAGE_FILES).
 
 Rivers are grouped by Vassdragsnr_hovedvassdrag (the canonical watershed id),
 not by the free-text Objektnavn -- a couple of watersheds are recorded under
@@ -136,6 +137,12 @@ EXCLUDED_GOAL_YEARS = frozenset({2026})
 # the same name gets the same date, so the build says how many it dated.
 UNDATED_OPERATOR_DATES = {"gitte": date(2026, 11, 10), "gll": date(2026, 11, 10)}
 
+# When there is an image scan (--image-scan), a fish only counts as imaged if an image file exists for
+# it: a name in the Operator column is not enough (2026-11-16, on request: "only count the images that
+# exist"; 50 fish were marked, mostly by filling a name down over a stretch of the list, but have no
+# file anywhere). Without a scan, e.g. when the image drive has never been reachable, the marks count.
+MARKS_NEED_IMAGE_FILES = True
+
 
 def fish_key(value):
     """EnkeltfiskID as a comparable string (Excel hands back 2594921 or 2594921.0 depending on the cell)."""
@@ -185,8 +192,9 @@ def load_imaged_ids(path, today=None, dated_by_rule=None, file_dates=None, sourc
     what lets a fish that a later selection dropped from the top-15 workbooks be counted anyway.
     `sources` (a Counter) gets: operator (fish with an Operator entry), marked_with_files (of those, the
     ones that also have image files), marked_dated_from_files (of those, the ones whose Operator entry
-    had no usable date), files_only (fish with image files and no Operator entry) and files_unknown
-    (fish in `file_dates` that the list doesn't have, which can't be counted)."""
+    had no usable date), marked_without_files (marked fish with no image file, which are left out while
+    MARKS_NEED_IMAGE_FILES is on and there is a scan), files_only (fish with image files and no Operator
+    entry) and files_unknown (fish in `file_dates` that the list doesn't have, which can't be counted)."""
     today = today or datetime.now(timezone.utc).date()
     file_dates = file_dates or {}
     sources = Counter() if sources is None else sources
@@ -210,6 +218,10 @@ def load_imaged_ids(path, today=None, dated_by_rule=None, file_dates=None, sourc
         operator = r[idx["Operator"]]
         marked = operator is not None and str(operator).strip() != ""
         if not marked and key not in file_dates:
+            continue
+        if marked and MARKS_NEED_IMAGE_FILES and file_dates and key not in file_dates:
+            sources["operator"] += 1
+            sources["marked_without_files"] += 1
             continue
         if marked:
             operator_date = parse_operator_date(operator, today)
@@ -627,6 +639,8 @@ def main():
                 f"from the image files only"
                 + (f"; {sources['marked_dated_from_files']} marked fish without a usable date got the date their "
                    f"images were saved" if sources["marked_dated_from_files"] else "")
+                + (f"; {sources['marked_without_files']} marked fish have no image file and are NOT counted"
+                   if sources["marked_without_files"] else "")
             )
             if sources["files_unknown"]:
                 print(f"WARNING: {sources['files_unknown']} fish with image files are not in the imaging list and were not counted")
