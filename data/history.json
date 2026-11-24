@@ -1923,13 +1923,13 @@
   {
     "date": "2026-11-24",
     "sw1Required": 12051,
-    "sw1Analyzed": 2517,
+    "sw1Analyzed": 2522,
     "sw1Excess": 1094,
     "sw2Required": 11630,
     "sw2Analyzed": 2169,
     "sw2Excess": 837,
     "sw1NinaRequired": 9644,
-    "sw1NinaAnalyzed": 2178,
+    "sw1NinaAnalyzed": 2183,
     "sw1NinaExcess": 756,
     "sw2NinaRequired": 9162,
     "sw2NinaAnalyzed": 1929,
@@ -1940,7 +1940,7 @@
     "sw2RbRequired": 2488,
     "sw2RbAnalyzed": 240,
     "sw2RbExcess": 183,
-    "sw1OperatorNew": 525,
+    "sw1OperatorNew": 530,
     "sw2OperatorNew": 556,
     "regions": {
       "Midt": {
@@ -1989,13 +1989,13 @@
       },
       "Sor": {
         "sw1Required": 2491,
-        "sw1Analyzed": 496,
+        "sw1Analyzed": 501,
         "sw1Excess": 131,
         "sw2Required": 2601,
         "sw2Analyzed": 561,
         "sw2Excess": 155,
         "sw1NinaRequired": 1844,
-        "sw1NinaAnalyzed": 496,
+        "sw1NinaAnalyzed": 501,
         "sw1NinaExcess": 131,
         "sw2NinaRequired": 1899,
         "sw2NinaAnalyzed": 561,
@@ -2006,7 +2006,7 @@
         "sw2RbRequired": 702,
         "sw2RbAnalyzed": 0,
         "sw2RbExcess": 0,
-        "sw1OperatorNew": 206,
+        "sw1OperatorNew": 211,
         "sw2OperatorNew": 262
       },
       "Vest": {
